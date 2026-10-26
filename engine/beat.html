@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#192622">
+  <meta name="description" content="大きな点火ボタンでエンジンを動かせ！ 燃焼の力で車をゴールへ運ぶCAR LABのエンジンゲーム。">
+  <title>CAR LAB｜ENGINE BEAT</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23192622'/%3E%3Cpath d='M44 19H25L16 32l9 13h19' fill='none' stroke='%23d5f56b' stroke-width='8'/%3E%3C/svg%3E">
+  <style>
+@charset "UTF-8";
+:root{font:17px "Segoe UI","Yu Gothic UI",Meiryo,sans-serif;color:#edf3e4;background:#f3f4ee;--dark:#1c2e29;--lime:#d5f56b;--phase:#7bd4d5;font-synthesis:none}*{box-sizing:border-box}body{margin:0}h1,h2,p{margin:0}button,a,input{font:inherit;-webkit-tap-highlight-color:transparent}button{cursor:pointer;touch-action:manipulation;border:0;color:inherit;user-select:none}button:disabled{cursor:default}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #89d5d0;outline-offset:5px}[hidden]{display:none!important}body:has(dialog[open]){overflow:hidden}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.game-header{height:64px;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;background:#192622;gap:15px}.brand{font-size:25px;letter-spacing:-.8px;text-decoration:none;font-weight:850;display:flex;align-items:center;gap:6px;white-space:nowrap}.brand b{color:var(--lime)}.brand small{font:11px Consolas,monospace;letter-spacing:.06em;color:#8aa38e;margin-left:16px}.game-header nav{display:flex;gap:12px;align-items:center}.game-header nav>a,.game-header button{min-height:48px;min-width:48px;padding:8px;text-decoration:none;background:transparent;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#b7ccae}.game-header button{font-size:25px;color:#e4eddb}.game-header button:hover{background:#2b4135}
+.play-lab{height:calc(100dvh - 84px);min-height:460px;max-height:960px;max-width:1260px;margin:10px auto;background:var(--dark);border-radius:16px;padding:18px 28px;display:grid;grid-template-rows:80px minmax(0,1fr) 70px;gap:10px}.scorebar{display:flex;justify-content:space-between;align-items:center;padding:0 14px}.scorebar>div:first-child{display:grid;grid-template-columns:auto auto;column-gap:15px;align-items:baseline}.score-label{font-size:13px;color:#9cb392;grid-column:1;letter-spacing:.08em}.scorebar #scoreValue{font:600 64px/.95 Bahnschrift,Arial,sans-serif;letter-spacing:-2px;grid-column:1}.best-score{font:13px Consolas,"Yu Gothic UI",sans-serif;letter-spacing:.03em;color:#8ba681;grid-column:2;grid-row:2}.combo-readout{display:flex;align-items:baseline;gap:8px;color:var(--lime)}.combo-readout strong{font:500 73px/1 Bahnschrift,Arial,sans-serif;letter-spacing:-2px;display:block}.combo-readout span{font-size:15px;color:#9fb887}.is-ready .combo-readout{opacity:.28}
+.ignition-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.85fr);min-height:0;gap:20px}.engine-display{position:relative;min-height:0;display:flex;flex-direction:column;overflow:hidden;border-radius:12px;transition:box-shadow .15s}.engine-heading{height:40px;display:flex;align-items:center;gap:12px;padding-left:24px;flex-shrink:0}.engine-heading h2{color:var(--phase);font-size:30px;letter-spacing:.05em}.engine-heading>span:last-child{font-size:14px;color:#809c79}.engine-display canvas{display:block;width:100%;height:0;min-height:0;flex:1;touch-action:pan-y}.rig-label{height:20px;flex-shrink:0;text-align:center;font:13px "Yu Gothic UI",Meiryo,sans-serif;letter-spacing:.02em;color:#77926e}.engine-display.fire-glow{box-shadow:inset 0 0 0 2px #efb27e55}.action-deck{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-height:0;gap:14px}.action-deck h1{font-size:clamp(21px,2.4vw,29px);font-weight:650;letter-spacing:.04em;color:#c8d9ba;text-align:center;line-height:1.5}.beat-ring{--turn:-180deg;width:min(270px,36dvh);aspect-ratio:1;position:relative;display:grid;place-items:center;isolation:isolate;border-radius:50%;background:conic-gradient(from 180deg,#3e5f53 0deg 90deg,#55576b 90deg var(--zone,142.5deg),#b1ce64 var(--zone,142.5deg) 180deg,#655242 180deg 270deg,#4e5344 270deg 360deg);padding:13px;flex-shrink:0}.beat-ring:before{content:"";position:absolute;inset:7px;background:var(--dark);border-radius:50%;z-index:-1}.orbit-dot{position:absolute;inset:0;transform:rotate(var(--turn));pointer-events:none}.orbit-dot:after{content:"";position:absolute;top:0;left:50%;width:12px;height:12px;border-radius:50%;background:#f0f5e3;transform:translate(-50%,-20%);box-shadow:0 0 0 4px #1c2e29}.beat-ring:not(.running) .orbit-dot{opacity:0}.beat-ring.lit{box-shadow:0 0 0 6px #d5f56b12}.ignite-button{width:100%;height:100%;border-radius:50%;background:#2d4336;color:#8ea77b;border:1px solid #48623f;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px;padding:14px;transition:background .09s,color .09s,box-shadow .09s}.ignite-button>span{font:78px/.95 Arial,sans-serif;height:78px;display:flex;align-items:center;justify-content:center}.ignite-button strong{font-size:27px;letter-spacing:.03em;font-weight:750}.ignite-button small{font-size:13px;line-height:1.5;color:inherit;opacity:.75;margin-top:6px;white-space:nowrap}.ignite-button.start,.ignite-button.ready{background:var(--lime);border-color:var(--lime);color:#243b26;box-shadow:0 6px 0 #8faa46}.ignite-button.armed{background:#37533b;color:#c8e79b;border-color:#779755}.ignite-button:active:not(:disabled){transform:scale(.96)}.ignite-button.ready{box-shadow:0 6px 0 #8faa46,0 0 30px #d5f56b14}.game-feedback{font-size:25px;font-weight:700;letter-spacing:.04em;line-height:1.5;min-height:38px;color:#a4bc8a;text-align:center}.game-feedback[data-tone=success],.game-feedback[data-tone=ready]{color:var(--lime)}.game-feedback[data-tone=retry]{font-size:19px;color:#c8a68a}.round-hint{font-size:14px;min-height:22px;line-height:1.6;color:#829e74;text-align:center}.score-pop{position:absolute;top:27%;right:4%;opacity:0;font:600 36px Bahnschrift,Arial,sans-serif;color:var(--lime);pointer-events:none}.is-won .scorebar #scoreValue{color:var(--lime)}.is-won .action-deck h1{color:#dfedcd}
+.reward-road{min-width:0;padding:0 14px}.road-heading{display:flex;align-items:center;justify-content:space-between;height:20px;color:#7e9b71;font:13px Consolas,monospace}.power-pips{display:flex;gap:6px}.power-pips i{display:block;width:23px;height:5px;background:#3c5741;border-radius:3px}.power-pips i.filled{background:var(--lime)}.road-lane{position:relative;height:42px;margin-right:4px;border-bottom:2px dashed #4a6448;padding-right:50px}.road-progress{position:relative;height:40px;margin-right:64px}.hatch-car{position:absolute;left:0;bottom:0;display:block;width:76px}.hatch-car svg{display:block;width:100%;height:auto}.hatch-car.powered{filter:drop-shadow(-6px 0 4px #d5f56b55)}.goal-flag{position:absolute;right:0;bottom:0;font-size:30px;color:#9ab27f}
+dialog{border:1px solid #c7d4b5;border-radius:15px;padding:24px;background:#f3f5ec;color:#263d2c;width:min(560px,calc(100% - 24px));max-height:90dvh;overflow:auto;box-shadow:0 30px 90px #10241955}dialog::backdrop{background:#10231cda}.dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}.dialog-heading h2{font-size:25px}.dialog-heading>button{min-width:48px;min-height:48px;border-radius:50%;background:#e3ebd7;font-size:27px}.menu-list{display:grid;gap:8px;grid-template-columns:1fr 1fr}.menu-list button,.menu-list a{display:flex;align-items:center;justify-content:center;min-height:58px;border:1px solid #d1dec0;border-radius:8px;background:#e8efdc;color:#536f38;padding:12px;text-decoration:none;font-size:17px}.menu-list button:disabled{opacity:.4}.menu-list button[aria-pressed=true]{background:#d6e9b3;border-color:#a3be79}.model-note{font-size:14px;line-height:1.9;color:#7c9068;margin-top:20px}.level-cards{display:grid;gap:12px}.level-cards button{display:grid;grid-template-columns:35px 1fr auto;gap:6px 10px;padding:17px;text-align:left;background:#e9f0dc;border:1px solid #c4d6ac;border-radius:9px;color:#516e38}.level-cards button>span{grid-row:1/span 2;font-size:25px;color:#839d60}.level-cards strong{font-size:21px}.level-cards p{font-size:15px;grid-column:2;color:#7b9063}.level-cards small{grid-column:3;grid-row:1/span 2;align-self:center;font-size:18px;letter-spacing:2px}.level-cards button:disabled{opacity:.45}.dialog-copy{font-size:16px;line-height:1.9;margin-top:18px;color:#6b8158}.win-emblem{display:none}#winTitle{font-size:30px;text-align:center}.win-stars{font-size:35px;color:#7b9736;text-align:center;margin:14px;letter-spacing:10px}.win-message{text-align:center;font-size:19px}.win-discovery{font-size:18px;text-align:center;line-height:1.9;margin:20px 0}.start-game,.large-secondary{min-height:55px;width:100%;display:flex;align-items:center;justify-content:center;padding:12px;border-radius:8px;background:#d5f56b;color:#2c4425;font-size:19px;font-weight:650;text-decoration:none;margin-top:12px}.large-secondary{background:#e6edda;font-size:17px}.help-steps{padding-left:24px;font-size:19px;line-height:1.8}.help-steps li{margin:15px 0}.help-steps p{font-size:16px;color:#71855d}.sound-settings{padding:16px;background:#e5edd8;border-radius:8px;margin:20px 0}.sound-settings label{display:flex;align-items:center;gap:16px;font-size:18px}.sound-settings input{flex:1;min-width:80px;height:48px;accent-color:#77954b}.sound-settings button{font-size:17px;min-height:48px;background:#f4f7ec;color:#58783c;width:100%;border-radius:7px}summary{font-size:17px;padding:12px 0;min-height:48px;cursor:pointer}
+@media(max-height:650px) and (min-width:700px){.play-lab{grid-template-rows:62px minmax(0,1fr) 60px;padding:12px 24px;gap:4px;min-height:410px}.scorebar #scoreValue{font-size:50px}.combo-readout strong{font-size:58px}.engine-heading{height:30px}.engine-heading h2{font-size:25px}.rig-label{display:none}.action-deck{gap:8px}.action-deck h1{font-size:22px}.beat-ring{width:min(220px,34dvh)}.ignite-button>span{font-size:58px;height:58px}.ignite-button strong{font-size:24px}.ignite-button small{font-size:12px;margin-top:2px}.game-feedback{font-size:21px;min-height:30px}.round-hint{font-size:12px;min-height:18px}.road-lane{height:35px}.road-progress{height:33px}.hatch-car{width:67px}}
+@media(max-width:950px){.play-lab{margin:10px;padding:16px 18px}.ignition-layout{gap:10px;grid-template-columns:minmax(0,1fr) minmax(230px,.9fr)}.game-header{padding:8px 18px}.brand small{font-size:10px;margin-left:12px}.beat-ring{width:min(250px,35dvh)}.action-deck h1{font-size:24px}.ignite-button small{font-size:12px}.engine-heading{padding-left:8px}}
+@media(max-width:620px){.game-header{padding:8px 14px}.brand{font-size:23px}.brand small{display:none}.game-header nav{gap:6px}.play-lab{height:auto;min-height:calc(100dvh - 84px);grid-template-rows:65px auto 60px;padding:14px 16px;gap:10px}.scorebar{padding:0 4px}.scorebar #scoreValue{font-size:53px}.score-label{font-size:12px}.combo-readout strong{font-size:58px}.best-score{font-size:12px}.ignition-layout{grid-template-columns:1fr;grid-template-rows:210px auto;gap:4px}.engine-heading{position:absolute;top:6px;left:4px;height:auto;flex-direction:column;align-items:flex-start;gap:4px;z-index:1}.engine-heading h2{font-size:27px}.engine-heading>span:last-child{font-size:13px}.engine-display canvas{height:210px;flex:none}.rig-label{display:none}.action-deck{gap:10px;padding:0 0 8px}.action-deck h1{font-size:23px}.beat-ring{width:206px}.ignite-button>span{font-size:60px;height:60px}.ignite-button strong{font-size:25px}.ignite-button small{font-size:12px}.game-feedback{font-size:23px;min-height:32px}.round-hint{font-size:13px;min-height:20px}.score-pop{right:12%;top:29%;font-size:32px}.reward-road{padding:0 4px}.road-lane{height:34px}.road-progress{height:32px}.hatch-car{width:65px}.menu-list button,.menu-list a{font-size:16px}.level-cards strong{font-size:18px}.level-cards p{font-size:14px}.level-cards small{font-size:15px}dialog{padding:20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.game-header #soundButton.sound-chip{font-size:0;position:relative;width:48px;min-width:48px;padding:5px}.sound-chip:after{content:"♪ ×";font:21px Arial,sans-serif;color:#829d73}.sound-chip[aria-pressed=true]:after{content:"♪";font-size:26px;color:#d5f56b}
+
+</style>
+</head>
+<body>
+<header class="game-header"><a class="brand" href="../index.html">CAR <b>LAB</b><small>02 / ENGINE BEAT</small></a><nav aria-label="ゲームと設定"><a href="../index.html">↗ ギア</a><button class="sound-chip" id="soundButton" title="音のON・OFF" aria-pressed="false">♪ 音 OFF</button><button id="menuButton" aria-label="メニュー・音と設定">☰</button></nav></header>
+<main class="play-lab" id="beatLab">
+  <div class="scorebar"><div><span class="score-label">スコア</span><strong id="scoreValue">0</strong><small class="best-score" id="bestLabel">BEST 0</small></div><div class="combo-readout"><strong id="comboValue">0</strong><span>連続</span></div></div>
+  <div class="ignition-layout">
+    <section class="engine-display" aria-label="エンジンの動き"><div class="engine-heading"><span id="stageCount" class="visually-hidden">1 / 4</span><h2 id="stageWord">すう</h2><span id="stageName">吸気</span></div><canvas id="gameCanvas" width="560" height="660" role="img" aria-label="ピストンとクランクが連動するエンジンの断面図"></canvas><p class="rig-label">回転はモーターがお手伝い</p></section>
+    <section class="action-deck" aria-label="点火ボタン"><h1 id="beatPrompt">光ったら、タップ。</h1><div class="beat-ring" id="beatRing"><i class="orbit-dot" aria-hidden="true"></i><button id="igniteButton" class="ignite-button" aria-label="点火ゲームをはじめる"><span id="igniteIcon" aria-hidden="true">▶</span><strong id="igniteLabel">はじめる</strong><small id="igniteSub">6回つないで、ゴール</small></button></div><p id="gameFeedback" class="game-feedback" role="status" aria-live="polite"></p><span id="scorePop" class="score-pop" aria-hidden="true"></span><p id="roundHint" class="round-hint">最初は、押すまで待つよ。</p></section>
+  </div>
+  <section class="reward-road" aria-label="ゴールまでの進み具合"><div class="road-heading"><div id="powerPips" class="power-pips" role="img" aria-label="燃焼の力 0回、目標6回"></div><span id="powerCount">0 / 6</span></div><div class="road-lane"><div id="roadProgress" class="road-progress" role="progressbar" aria-label="ゴールまでの進み具合" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span class="hatch-car" id="rewardCar"><svg viewBox="0 0 160 65" aria-hidden="true"><path d="M12 39 L20 15 Q22 10 34 10 H86 Q98 10 111 30 L142 35 Q149 36 151 49 H9Z" fill="#dce5df" stroke="#91aaa0" stroke-width="2"/><path d="M28 16 H52 V30 H23Z M58 16 H83 Q92 16 103 30 H58Z" fill="#284e48"/><path d="M18 35 H141 M56 34 V48 M109 35 V48" fill="none" stroke="#839f96" stroke-width="2"/><path d="M132 38 H146 V44 H132Z" fill="#e8f6b0"/><circle cx="37" cy="50" r="13" fill="#14241f"/><circle cx="37" cy="50" r="7" fill="#a9bbb0"/><circle cx="123" cy="50" r="13" fill="#14241f"/><circle cx="123" cy="50" r="7" fill="#a9bbb0"/></svg></span></div><span class="goal-flag" aria-hidden="true">⚑</span></div></section>
+</main>
+<dialog id="settingsDialog" aria-labelledby="settingsTitle"><div class="dialog-heading"><h2 id="settingsTitle">メニュー</h2><button data-close="settingsDialog" aria-label="メニューを閉じる">×</button></div><div class="menu-list"><button id="pauseGameButton" disabled>Ⅱ とめる</button><button id="slowGameButton" aria-pressed="false">ゆっくり</button><button id="restartGameButton">↺ やり直す</button><button id="beatModeButton">ϟ BEATであそぶ</button><button id="levelMenuButton">ゆっくり練習する →</button><a href="index.html">4つの工程を調べる →</a><button id="helpButton">あそび方・音量 →</button></div><p class="model-note">燃焼の仕事を、スコアと車の動きに置き換えています。点火・幾何計算・バルブの順番は研究モードと共通です。</p></dialog>
+  <dialog id="levelDialog" aria-labelledby="levelTitle"><div class="dialog-heading"><h2 id="levelTitle">ゆっくり練習する</h2><button data-close="levelDialog" aria-label="コース選択を閉じる">×</button></div><div class="level-cards"><button data-level="0"><span>01</span><strong>はじめの火花</strong><p>待ってくれるから、安心。</p><small data-level-stars="0">☆☆☆</small></button><button data-level="1"><span>02</span><strong>リズムにのろう</strong><p>4つの動きをつなごう。</p><small data-level-stars="1">☆☆☆</small></button><button data-level="2"><span>03</span><strong>点火マスター</strong><p>少し速いエンジンに挑戦。</p><small data-level-stars="2">☆☆☆</small></button></div><p class="dialog-copy">タイミングが難しいときは「ゆっくり」。2回うまくいかないと、エンジンが待ってくれるよ。</p></dialog>
+  <dialog id="winDialog" aria-labelledby="winTitle"><div class="dialog-heading"><span class="eyebrow">ENGINE STARTED</span><button data-close="winDialog" aria-label="結果を閉じる">×</button></div><div class="win-emblem" aria-hidden="true">ϟ</div><h2 id="winTitle">エンジン、始動！</h2><p id="winStars" class="win-stars">★★★</p><p id="winMessage" class="win-message"></p><p class="win-discovery">ピストンは4回動く。<br><strong>燃えて押すのは、そのうち1回！</strong></p><button id="nextLevelButton" class="start-game">次のコースへ →</button><button id="retryGameButton" class="large-secondary">もう一度あそぶ</button><a class="large-secondary" href="lab.html">断面図で、しくみを調べる →</a><p id="saveStatus" class="model-note"></p></dialog>
+  <dialog id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-heading"><h2 id="helpTitle">あそび方</h2><button data-close="helpDialog" aria-label="あそび方を閉じる">×</button></div><ol class="help-steps"><li><strong>大きなボタンを押す。</strong></li><li><strong>すう → ぎゅっ、を見よう。</strong><p>空気とガソリンを吸って、小さく縮める。</p></li><li><strong>ボタンが光ったら、1回押す！</strong><p>火花を予約。燃えると、ピストンを押してパワーになる。</p></li></ol><p class="dialog-copy">BEATは6回の燃焼で1ラウンド。最初の1回と、2回続けて失敗したときは待ってくれるよ。音がなくても、光と文字で遊べます。スペースキーでも点火、Pで一時停止。</p><div class="sound-settings"><label for="volumeInput">音量<input id="volumeInput" type="range" min="0" max="100" step="5" value="30"></label><button id="testSoundButton">♪ 音をためす</button></div><details><summary>本物のエンジンとのちがい</summary><p class="dialog-copy">実車の点火は電気の装置が自動で行います。このゲームでは圧縮の終わりにボタンを押すと、次の上死点360°で火花を出します。押せる時間の幅と待ってくれる機能は学習用です。実車では回転数などに合わせ、上死点より少し前に点火することがあります。</p><p class="dialog-copy">バルブの開閉は理想化しています。ピストンと棒の長さ、クランクの位置は観察モードと同じ計算です。圧力・車速は計算せず、燃焼工程で得た仕事を車の進み方に置き換えています。実際の動きよりゆっくり表示し、燃焼がなくても補助モーターで回し続けます。</p></details><a class="large-secondary" href="lab.html">角度を変えて、くわしく観察 →</a></dialog>
+<script>
+/* CAR LAB 02: geometric slider-crank, ideal four-stroke valve timing.
+   Units: mm, degrees. This is a prescribed-speed observation rig, not a
+   torque/thermodynamics solver. No external dependencies or network access. */
+(function (root) {
+  'use strict';
+  const P = Object.freeze({ radius:40, rod:140, bore:80, compression:10, valveLift:6 });
+  const STAGES = Object.freeze([
+    Object.freeze({name:'吸気',reading:'きゅうき',english:'INTAKE',color:'#7bd4d5',direction:'下がる',text:'ピストンが下がると中の圧力が下がり、開いた吸気バルブから空気とガソリンの混合気が入るよ。'}),
+    Object.freeze({name:'圧縮',reading:'あっしゅく',english:'COMPRESSION',color:'#c6b7ee',direction:'上がる',text:'2つのバルブを閉じて、ピストンが上がる。閉じこめた混合気の体積が小さくなり、圧力と温度が上がるよ。'}),
+    Object.freeze({name:'燃焼・膨張',reading:'ねんしょう・ぼうちょう',english:'POWER',color:'#f2ac73',direction:'下がる',text:'上まで縮めた混合気に火花で点火。燃えて高温・高圧になったガスがピストンを押し下げ、クランクを回す仕事をするよ。'}),
+    Object.freeze({name:'排気',reading:'はいき',english:'EXHAUST',color:'#d5b8a4',direction:'上がる',text:'排気バルブが開き、上がるピストンが燃えたあとのガスを押し出す。次の吸気の準備だよ。'})
+  ]);
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  const wrap = (x,n) => ((x%n)+n)%n;
+  const rad = x => x*Math.PI/180;
+  // 0° is TDC at the start of intake. 360° is compression TDC.
+  function geometry(angle) {
+    const t=rad(angle), x=P.radius*Math.sin(t), crankY=-P.radius*Math.cos(t);
+    const reach=Math.sqrt(P.rod*P.rod-x*x), pinY=crankY-reach;
+    const travel=P.radius+P.rod+pinY;
+    return {x,crankY,pinY,travel};
+  }
+  function lift(angle,which) {
+    const a=wrap(angle,720), start=which==='intake'?0:540;
+    if(a<=start||a>=start+180) return 0;
+    return Math.pow(Math.sin(rad(a-start)),2);
+  }
+  // Radial cam with an ideal point follower. Its intersection along the
+  // fixed downward follower axis exactly gives lift(crankAngle), at 1:2 speed.
+  function camRadius(localAngle,which,base=22,amplitude=9.6) {
+    return base+amplitude*lift(180-2*localAngle,which);
+  }
+  function sample(angle,options={}) {
+    const a=clamp(angle,0,720), g=geometry(a), stage=Math.min(3,Math.floor(a/180));
+    const intake=lift(a,'intake'), exhaust=options.exhaustStuck?0.7:lift(a,'exhaust');
+    const sealed=intake<1e-8 && exhaust<1e-8;
+    const hasSpark=options.sparkEnabled!==false;
+    const ignition=hasSpark&&a>=360&&a<370;
+    const fired=hasSpark&&!options.exhaustStuck&&stage===2;
+    const clearance=2*P.radius/(P.compression-1);
+    const volume=Math.PI*P.bore*P.bore/4*(clearance+g.travel)/1000;
+    const volumeFraction=(clearance+g.travel)/(clearance+2*P.radius);
+    const moving=Math.abs(Math.sin(rad(a)))>1e-7;
+    return {angle:a,stage,progress:(a-stage*180)/180,geometry:g,intake,exhaust,sealed,
+      ignition,fired,hasSpark,leaking:!!options.exhaustStuck,camAngle:a/2,
+      volume,volumeFraction,travel:g.travel,
+      direction:moving?(stage%2===0?'down':'up'):'still',
+      // Not a pressure or torque prediction: brightness indicates the power stroke.
+      power:fired&&a>360&&a<540?Math.sin(rad(a-360)):0};
+  }
+  function advance(angle,seconds,rpm,rate) {
+    const delta=clamp(seconds,0,.1)*clamp(rpm,600,3600)*6*clamp(rate,.001,.1);
+    const total=angle+delta;
+    return {angle:total>720?wrap(total,720):total,delta};
+  }
+  function phaseStep(angle,direction) {
+    const a=clamp(angle,0,720);
+    if(direction>0) return a>=720?0:Math.min(720,(Math.floor((a+1e-7)/180)+1)*180);
+    return a<=0?720:Math.max(0,(Math.ceil((a-1e-7)/180)-1)*180);
+  }
+  const API=Object.freeze({P,STAGES,clamp,wrap,geometry,lift,camRadius,sample,advance,phaseStep});
+  if(typeof module==='object'&&module.exports) module.exports=API;
+  else root.EngineLab=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Canvas engineering cutaway. All dimensions come from the same linkage model. */
+(function(root){
+  'use strict';
+  function create(canvas){
+    const ctx=canvas.getContext('2d',{alpha:false}), M=root.EngineLab;
+    const cx=440,cy=545,scaleMM=2,roof=161-160/9;
+    let transform={scale:1,x:0,y:0}, lastState;
+    const color={ink:'#c5d4b8',muted:'#7e9c80',metal:'#a6b8ac',edge:'#d4dfd2',dark:'#233b30',lime:'#d5f56b'};
+    function line(x1,y1,x2,y2,stroke,width=1){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}
+    function circle(x,y,r,fill,stroke,width=1){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    function rect(x,y,w,h,fill,stroke,width=1){if(fill){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.strokeRect(x,y,w,h);}}
+    function text(value,x,y,size=15,fill=color.ink,align='left',weight=400){ctx.font=weight+' '+size+'px "Segoe UI","Yu Gothic UI",Meiryo,sans-serif';ctx.fillStyle=fill;ctx.textAlign=align;ctx.fillText(value,x,y);}
+    function arrow(x1,y1,x2,y2,stroke,width=3,head=9){const a=Math.atan2(y2-y1,x2-x1);line(x1,y1,x2,y2,stroke,width);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-head*Math.cos(a-.55),y2-head*Math.sin(a-.55));ctx.lineTo(x2-head*Math.cos(a+.55),y2-head*Math.sin(a+.55));ctx.closePath();ctx.fillStyle=stroke;ctx.fill();}
+    function label(value,x,y,tx,ty,side='left'){const start=side==='left'?x+138:x-10;line(start,y-5,side==='left'?tx-25:tx+25,y-5,'#6f8a6b75',1);line(side==='left'?tx-25:tx+25,y-5,tx,ty,'#6f8a6b75',1);circle(tx,ty,2,color.lime);text(value,x,y,15,color.ink);}
+    function spring(x,top,bottom){ctx.beginPath();ctx.moveTo(x-11,top);for(let i=0;i<=12;i++)ctx.lineTo(x+(i%2?10:-10),top+(bottom-top)*i/12);ctx.strokeStyle='#859c82';ctx.lineWidth=2;ctx.stroke();}
+    function gear(x,y,r,teeth,angle,accent){ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();for(let i=0;i<teeth*4;i++){const a=i*Math.PI*2/(teeth*4),rr=i%4===1||i%4===2?r+3:r;const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;if(!i)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#314b3a';ctx.fill();ctx.strokeStyle='#8da27a';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,r-7,'#213a2c','#607953',1);for(let i=0;i<3;i++){const t=i*Math.PI*2/3;line(5*Math.cos(t),5*Math.sin(t),(r-8)*Math.cos(t),(r-8)*Math.sin(t),'#77916b',3);}circle(0,0,5,'#afc0a0');circle(0,-r+9,3.5,accent);ctx.restore();}
+    function belt(s){
+      // Open belt: external tangents between 40/20-tooth pulleys. Equal pitch,
+      // hence Rcam=2*Rcrank and both shafts turn in the same direction.
+      const x=800,y1=50,y2=545,r1=44,r2=22,dy=y2-y1;
+      const ny=(r1-r2)/dy,nx=Math.sqrt(1-ny*ny);
+      const ax=x-r1*nx,ay=y1+r1*ny,bx=x-r2*nx,by=y2+r2*ny;
+      const dx=x+r2*nx,ey=y2+r2*ny,ex=x+r1*nx,fy=y1+r1*ny;
+      const a=Math.atan2(ny,nx),left=Math.atan2(ny,-nx);
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.arc(x,y2,r2,left,a,true);ctx.lineTo(ex,fy);ctx.arc(x,y1,r1,a,left,true);ctx.closePath();ctx.strokeStyle='#769266';ctx.lineWidth=8;ctx.stroke();
+      ctx.setLineDash([3,6]);ctx.lineDashOffset=s.angle*Math.PI/180*r2;
+      ctx.strokeStyle='#b6c795';ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);ctx.lineDashOffset=0;
+      line(493,50,752,50,'#6c875966',3);line(450,545,772,545,'#6c875966',3);
+      gear(x,y1,r1,40,s.angle*Math.PI/360,color.lime);gear(x,y2,r2,20,s.angle*Math.PI/180,color.lime);
+      text('カム',864,48,16);text('40歯',864,70,12,color.muted);text('クランク',848,543,16);text('20歯',848,566,12,color.muted);
+      rect(760,271,80,58,'#283f2f','#5d774d',1);text('2 : 1',800,307,27,color.lime,'center',600);
+      text('タイミング',800,363,13,color.muted,'center');text('ベルト',800,384,13,color.muted,'center');
+      text('クランク2回転 → カム1回転',800,617,14,'#b2c59a','center');
+    }
+    function cam(x,s,which){const rotation=s.angle*Math.PI/360;ctx.save();ctx.translate(x,50);ctx.rotate(rotation);ctx.beginPath();for(let deg=0;deg<=360;deg+=2){const a=deg*Math.PI/180,r=M.camRadius(deg,which,22,12);const xx=r*Math.cos(a),yy=r*Math.sin(a);if(!deg)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#9baa90';ctx.fill();ctx.strokeStyle='#d3dfc0';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,7,'#334a32','#6f8563');line(0,0,0,-14,color.lime,2);ctx.restore();}
+    function valve(x,lift,kind,s){const liftPx=lift*12,stroke=kind==='intake'?'#7bc7c5':'#bd9c88';
+      // A point follower touches the radial cam. A stuck-open valve deliberately
+      // leaves a gap to the cam when its closing spring cannot return it.
+      ctx.beginPath();ctx.moveTo(x,72+liftPx);ctx.lineTo(x-5,82+liftPx);ctx.lineTo(x+5,82+liftPx);ctx.closePath();ctx.fillStyle='#b8c7b1';ctx.fill();
+      rect(x-2.5,80+liftPx,5,roof-80,'#a9bca5');
+      rect(x-12,85+liftPx,24,3,'#a0b196');spring(x,90+liftPx,128);rect(x-13,129,26,5,'#61765b');
+      line(x-16,roof-1,x-11,roof+3,'#8fa48b',3);line(x+11,roof+3,x+16,roof-1,'#8fa48b',3);
+      ctx.beginPath();ctx.moveTo(x-15,roof+liftPx);ctx.lineTo(x-11,roof+5+liftPx);ctx.lineTo(x+11,roof+5+liftPx);ctx.lineTo(x+15,roof+liftPx);ctx.closePath();ctx.fillStyle=lift>0.01?stroke:'#9dad9f';ctx.fill();ctx.strokeStyle='#d7dfd1';ctx.lineWidth=1;ctx.stroke();
+      if(kind==='exhaust'&&s.leaking){text('閉じない',x+27,roof+liftPx+9,12,'#efab88');}
+    }
+    function flows(s,emphasis=false){
+      if(s.intake>.03){ctx.beginPath();ctx.moveTo(282,120);ctx.bezierCurveTo(325,120,365,113,398,155);ctx.strokeStyle='#7bd4d577';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1),x=285+112*t,y=120+35*Math.pow(t,3);circle(x,y,2.5,'#7bd4d5');}arrow(305,120,338,120,'#7bd4d5',3,8);if(!emphasis)text('空気 ＋ ガソリン',245,91,12,'#93c9bc');}
+      if(s.stage===3&&s.exhaust>.03||s.leaking&&(s.stage===1||s.stage===2)){
+        const flowColor=s.leaking?'#b6a4d8':'#d5b8a4';ctx.beginPath();ctx.moveTo(480,159);ctx.bezierCurveTo(499,120,535,120,591,120);ctx.strokeStyle=flowColor+'7a';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1);circle(482+110*t,120+39*Math.pow(1-t,3),2.5,flowColor);}arrow(544,120,580,120,flowColor,3,8);if(!emphasis)text(s.leaking?'気体がにげる':'燃えたあとのガス',556,145,12,flowColor);
+      }
+      if(emphasis){
+        if(s.intake>.02){arrow(272,120,390,143,'#9ce8e1',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(274+122*u,120+26*u*u*u,4.5,'#b7f2eb');}}
+        if(s.stage===3&&s.exhaust>.02){arrow(488,145,606,120,'#f0c59d',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(488+118*u,120+25*Math.pow(1-u,3),4.5,'#f0c59d');}}
+        if(s.ignition){circle(442,145,28,'#ffe6a335','#ffe6a3',3);line(428,132,454,158,'#ffe6a3',3);line(428,158,454,132,'#ffe6a3',3);}
+      }
+    }
+    function drawGas(s,crown){const isHot=s.stage===2&&s.fired,spent=s.stage===3&&s.hasSpark&&!s.leaking;
+      const gas=isHot?'#ed9b60':spent?'#b59379':s.stage===1||s.stage===2?'#b6a4d8':'#66c0c3';
+      ctx.save();ctx.beginPath();ctx.rect(360,roof,160,Math.max(0,crown-roof));ctx.clip();
+      const grad=ctx.createLinearGradient(0,roof,0,crown);grad.addColorStop(0,gas+(isHot?'bd':'65'));grad.addColorStop(1,gas+(isHot?'5c':'25'));ctx.fillStyle=grad;ctx.fillRect(360,roof,160,crown-roof);
+      const count=s.stage===0||s.stage===3?Math.max(3,Math.round(42*s.volumeFraction)):42;
+      for(let i=0;i<count;i++){const xx=365+M.wrap(i*0.61803398875,1)*150,yy=roof+3+M.wrap(i*.41421356,1)*Math.max(0,crown-roof-6);circle(xx,yy,i%6===0?2:2.7,isHot?'#ffc487':spent?'#c5a58b':i%6===0?'#d5f56b':gas);}
+      if(isHot&&s.angle<425){const reach=Math.min(90,(s.angle-360)*1.6+10),y=roof+3;ctx.beginPath();ctx.moveTo(cx,y);ctx.lineTo(cx-reach,y+reach*.6);ctx.lineTo(cx-reach*.6,y+reach);ctx.lineTo(cx,y+reach*.8);ctx.lineTo(cx+reach*.65,y+reach);ctx.lineTo(cx+reach,y+reach*.4);ctx.closePath();ctx.fillStyle='#ffd79c60';ctx.fill();}
+      ctx.restore();
+    }
+    function draw(s,opts={}){
+      lastState=s;const box=canvas.getBoundingClientRect(),w=Math.max(1,box.width),h=Math.max(1,box.height),dpr=Math.min(root.devicePixelRatio||1,1.5);
+      const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+      ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#1c2e29';ctx.fillRect(0,0,w,h);
+      const k=Math.min(w/(opts.game?440:1000),h/660)*(opts.zoom?1.75:1),tx=opts.game?w/2-440*k:opts.zoom?w/2-440*k:(w-1000*k)/2,ty=opts.zoom?h/2-200*k:(h-660*k)/2;transform={scale:k,x:tx,y:ty};ctx.translate(tx,ty);ctx.scale(k,k);
+      ctx.lineCap='round';ctx.lineJoin='round';
+      for(let x=0;x<=1000;x+=25)line(x,0,x,660,'#8da78a08');for(let y=0;y<=660;y+=25)line(0,y,1000,y,'#8da78a08');
+      ctx.setLineDash([4,7]);line(cx,115,cx,647,'#89a47755');ctx.setLineDash([]);
+      // Crankcase cutaway and cylinder liner.
+      ctx.beginPath();ctx.moveTo(337,370);ctx.lineTo(317,564);ctx.quadraticCurveTo(316,648,400,649);ctx.lineTo(484,649);ctx.quadraticCurveTo(565,647,563,564);ctx.lineTo(542,370);ctx.closePath();ctx.fillStyle='#283e33';ctx.fill();ctx.strokeStyle='#617a59';ctx.lineWidth=2;ctx.stroke();
+      const t=s.angle*Math.PI/180, gx=s.geometry.x*scaleMM+cx,gy=s.geometry.crankY*scaleMM+cy,pin=s.geometry.pinY*scaleMM+cy,crown=pin-24;
+      // Flywheel: energy store in a real engine; the observation motor here holds rpm.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);circle(0,0,91,'#243a2e','#657d55',4);circle(0,0,82,null,'#405c3b',9);for(let i=0;i<6;i++){const a=i*Math.PI/3;line(53*Math.cos(a),53*Math.sin(a),72*Math.cos(a),72*Math.sin(a),'#7e945f',3);}circle(0,-83,4,color.lime);ctx.restore();
+      // Crank arm and counterweight.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);ctx.beginPath();ctx.moveTo(-17,-8);ctx.lineTo(-48,38);ctx.quadraticCurveTo(0,78,48,38);ctx.lineTo(17,-8);ctx.closePath();ctx.fillStyle='#71876c';ctx.fill();ctx.strokeStyle='#92a58b';ctx.lineWidth=2;ctx.stroke();line(0,0,0,-80,'#829c7f',25);line(0,0,0,-80,'#b9c8b2',13);ctx.restore();
+      // Connecting rod has a fixed length of exactly 140 mm (280 canvas units).
+      line(gx,gy,cx,pin,'#687f6b',24);line(gx,gy,cx,pin,'#b9c9bc',13);line(gx,gy,cx,pin,'#6e8870',3);
+      circle(gx,gy,17,'#a3b5a3','#d3ddcb',2);circle(gx,gy,9,'#3f5b43','#637e5d',1);circle(cx,cy,21,'#3a553d','#bacba6',3);circle(cx,cy,8,'#abbf94');
+      rect(337,137,23,255,'#5a715e','#8aa18a');rect(520,137,23,255,'#5a715e','#8aa18a');rect(356,roof,4,250,'#c2cfc0');rect(520,roof,4,250,'#c2cfc0');
+      // Cooling/casting hatching, outside the liner.
+      for(let y=152;y<385;y+=15){line(337,y,355,y+13,'#9db2983d');line(525,y,543,y+13,'#9db2983d');}
+      drawGas(s,crown);
+      // Piston, ring pack, skirt and gudgeon pin.
+      const metal=ctx.createLinearGradient(361,0,519,0);metal.addColorStop(0,'#9babaa');metal.addColorStop(.32,'#dce2d8');metal.addColorStop(.7,'#c4d0c5');metal.addColorStop(1,'#8da094');
+      rect(361,crown,158,52,metal,'#e3e8db',1);rect(365,crown+34,150,16,'#849b89');for(const n of [7,12,18])line(363,crown+n,517,crown+n,'#455f51',2.5);
+      rect(410,crown+36,60,16,'#334e3b');circle(cx,pin,12,'#8ca28c','#e1e8d8',2);circle(cx,pin,5,'#3a563c');
+      // Head, open port passages, and valve seats.
+      rect(336,101,208,42,'#556d58','#9aaf90',1);rect(351,133,178,10,'#6d836a');
+      ctx.beginPath();ctx.moveTo(282,120);ctx.lineTo(369,120);ctx.quadraticCurveTo(391,120,400,144);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(480,144);ctx.quadraticCurveTo(489,120,511,120);ctx.lineTo(594,120);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      line(282,108,364,108,'#607b65',2);line(282,132,373,132,'#607b65',2);line(516,108,594,108,'#607b65',2);line(508,132,594,132,'#607b65',2);
+      // Spark plug fixed to head, with electrodes at the combustion chamber.
+      rect(434,84,12,20,'#d9ddc7','#f0eedc');for(let y=88;y<104;y+=4)line(433,y,447,y,'#a1aa8a',1);rect(431,105,18,17,'#91a388','#c5d1b8');rect(435,122,10,13,'#c1cbb7');line(440,134,440,141,'#d3dabc',2);line(446,133,446,142,'#bdcaaa',2);line(446,142,443,142,'#bdcaaa',2);
+      if(s.ignition){ctx.beginPath();ctx.moveTo(440,141);ctx.lineTo(436,148);ctx.lineTo(444,147);ctx.lineTo(439,155);ctx.strokeStyle='#ffe9a3';ctx.lineWidth=3;ctx.stroke();circle(441,145,13,'#ffe6a326');text('点火！',448,171,13,'#ffe9a3', 'left',700);}
+      cam(400,s,'intake');cam(480,s,'exhaust');valve(400,s.intake,'intake',s);valve(480,s.exhaust,'exhaust',s);flows(s,opts.emphasis);belt(s);
+      // Piston movement and gas work are different arrows: all four strokes
+      // move the piston, but only the power stroke gets combustion energy.
+      const stage=M.STAGES[s.stage];if(s.direction!=='still'){const ya=crown+12,yb=crown+45;arrow(578,s.direction==='down'?ya:yb,578,s.direction==='down'?yb:ya,stage.color,3,9);}
+      if(s.power>.01){const forceEnd=Math.max(roof+6,crown-6);arrow(440,roof+4,440,forceEnd,'#ffc184',5,Math.min(12,(forceEnd-roof-4)*.6));line(cx,pin+18,gx,gy-20,'#eeb47995',4);ctx.beginPath();ctx.arc(cx,cy,102,-1,.7);ctx.strokeStyle='#f1b678';ctx.lineWidth=3;ctx.stroke();arrow(cx+102*Math.cos(.65),cy+102*Math.sin(.65),cx+102*Math.cos(.85),cy+102*Math.sin(.85),'#f1b678',3,9);text('ガスが押す → 回す力へ',440,419,14,'#efb27e','center',600);}
+      if(opts.labels!==false){label('カムシャフト',34,48,378,50);label('吸気バルブ',34,153,388,roof+4+s.intake*12);label('ピストン',34,279,361,crown+21);label('コンロッド',34,407,(cx+gx)/2,(pin+gy)/2);label('クランクシャフト',34,550,350,545);label('点火プラグ',556,86,445,109,'right');label('排気バルブ',556,200,493,roof+4+s.exhaust*12,'right');text('フライホイール',300,641,12,color.muted);text('カムは同じ軸の2断面を表示',418,16,11,color.muted,'center');}
+      if(!opts.emphasis){text('TDC',305,166,10,'#a0b291');text('BDC',305,326,10,'#a0b291');line(332,161,356,161,'#a0b291',1);line(332,321,356,321,'#a0b291',1);}
+      if(!opts.game){text('0°／360°／720°：いちばん上',34,606,12,'#73916d');text('180°／540°：いちばん下',34,627,12,'#73916d');}
+    }
+    function hitTest(clientX,clientY){const b=canvas.getBoundingClientRect(),x=(clientX-b.left-transform.x)/transform.scale,y=(clientY-b.top-transform.y)/transform.scale;if(!lastState)return null;
+      const pin=cy+lastState.geometry.pinY*scaleMM,crankX=cx+lastState.geometry.x*scaleMM,crankY=cy+lastState.geometry.crankY*scaleMM;
+      if(y<86&&x>365&&x<517)return 'cam';if(x>425&&x<456&&y>82&&y<153)return 'spark';if(x>380&&x<420&&y>80&&y<175)return 'intake';if(x>460&&x<500&&y>80&&y<175)return 'exhaust';if(x>360&&x<520&&y>pin-24&&y<pin+30)return 'piston';if(Math.hypot(x-cx,y-cy)<100)return 'crank';
+      const vx=crankX-cx,vy=crankY-pin,t=M.clamp(((x-cx)*vx+(y-pin)*vy)/(vx*vx+vy*vy),0,1);if(Math.hypot(x-cx-t*vx,y-pin-t*vy)<24)return 'rod';return null;
+    }
+    return {draw,hitTest};
+  }
+  root.EngineView=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Offline Web Audio effects. No recordings, downloads or network access.
+   Starts silent. Only an explicit user gesture enables sound. */
+(function(root){
+  'use strict';
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  function create(options={}){
+    let ctx=null,master=null,motorGain=null,motors=[],enabled=false,volume=.3,generation=0;
+    let exhaustFilter=null,intakeGain=null,noiseSource=null;
+    let lastDrive=[900,0,false,{}],lastEffect=-Infinity,voices=new Set();
+    const button=options.button,slider=options.volume;
+    function update(){if(button){button.textContent=enabled?'♪ 音 ON':'♪ 音 OFF';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'効果音をOFFにする':'効果音をONにする');}if(slider)slider.value=String(Math.round(volume*100));}
+    function ensure(){if(ctx)return;const C=root.AudioContext||root.webkitAudioContext;if(!C)throw Error('音を使えないブラウザです。音なしで遊べます。');ctx=new C();master=ctx.createGain();master.gain.value=volume;master.connect(ctx.destination);}
+    function stopEffects(){for(const v of voices){try{v.stop();}catch{}try{v.disconnect();}catch{}}voices.clear();}
+    function quiet(){if(ctx&&motorGain){motorGain.gain.cancelScheduledValues(ctx.currentTime);motorGain.gain.setValueAtTime(0,ctx.currentTime);}stopEffects();if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}
+    async function setEnabled(value){const request=++generation;if(!value){enabled=false;quiet();if(master)master.gain.setValueAtTime(0,ctx.currentTime);if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});update();return false;}
+      try{ensure();await ctx.resume();if(request!==generation)return enabled;enabled=true;master.gain.setValueAtTime(volume,ctx.currentTime);update();drive(...lastDrive);effect('tap');return true;}
+      catch(e){enabled=false;quiet();update();if(options.onError)options.onError(e.message||'音を再生できません。音なしでも遊べます。');return false;}}
+    function setVolume(value){volume=clamp(value,0,1);if(master)master.gain.setTargetAtTime(enabled?volume:0,ctx.currentTime,.02);update();}
+    function tone(freq,duration,gain,offset=0,type='sine'){
+      if(!enabled||!ctx)return;const start=ctx.currentTime+offset,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(gain,start+.004);g.gain.exponentialRampToValueAtTime(.0001,start+duration);o.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();g.disconnect();};o.start(start);o.stop(start+duration+.01);
+    }
+    function effect(name){if(!enabled||!ctx)return;if(ctx.state==='suspended')ctx.resume().catch(()=>{});const time=ctx.currentTime;if(name==='tap'&&time-lastEffect<.04)return;lastEffect=time;
+      if(name==='gear'){tone(160,.07,.07,0,'triangle');tone(85,.05,.035,.025,'sine');}
+      else if(name==='spark'){tone(1600,.025,.045,0,'triangle');tone(85,.13,.07,.01,'sine');}
+      else if(name==='sparkOnly'){tone(1600,.025,.045,0,'triangle');}
+      else if(name==='perfect'){tone(1500,.025,.035,0,'triangle');tone(85,.12,.06,.01);tone(988,.09,.035,.045);}
+      else if(/^combo[1-6]$/.test(name)){const notes=[330,392,440,494,587,659],index=+name.slice(-1)-1;tone(notes[index],.1,.04,0,'triangle');if(index>=3)tone(notes[index]*1.5,.11,.025,.035);}
+      else if(name==='valve'){tone(410,.035,.035,0,'triangle');}
+      else if(name==='win'){[392,494,587].forEach((n,i)=>tone(n,.19,.065,i*.12));}
+      else if(name==='discover'){tone(523,.12,.055);tone(659,.17,.055,.09);}
+      else if(name==='retry'){tone(240,.09,.035);}
+      else tone(620,.045,.04);
+    }
+    function drive(rpm,throttle,active,conditions={}){
+      lastDrive=[rpm,throttle,active,conditions];if(!enabled||!ctx)return;
+      if(!active){if(motorGain)motorGain.gain.setTargetAtTime(0,ctx.currentTime,.035);return;}
+      if(!motorGain){
+        motorGain=ctx.createGain();motorGain.gain.value=0;motorGain.connect(master);
+        exhaustFilter=ctx.createBiquadFilter();exhaustFilter.type='lowpass';exhaustFilter.frequency.value=700;if(exhaustFilter.Q)exhaustFilter.Q.value=.65;exhaustFilter.connect(motorGain);
+        let wave=null;
+        if(ctx.createPeriodicWave){const real=new Float32Array(49),imag=new Float32Array(49);for(let n=1;n<49;n++){const pulse=Math.sin(Math.PI*n*.15)/(Math.PI*n*.15);real[n]=pulse*Math.exp(-n/18);imag[n]=real[n]*.12;}wave=ctx.createPeriodicWave(real,imag);}
+        motors=[1,2].map(h=>{const o=ctx.createOscillator(),g=ctx.createGain();if(wave&&o.setPeriodicWave)o.setPeriodicWave(wave);else o.type='sawtooth';g.gain.value=h===1?.62:.10;o.connect(g);g.connect(exhaustFilter);o.start();return o;});
+        if(ctx.createBuffer&&ctx.createBufferSource){
+          const buffer=ctx.createBuffer(1,Math.round(ctx.sampleRate*2),ctx.sampleRate),data=buffer.getChannelData(0);let seed=71237;
+          for(let i=0;i<data.length;i++){seed=(1664525*seed+1013904223)>>>0;data[i]=(seed/4294967296*2-1);}
+          noiseSource=ctx.createBufferSource();noiseSource.buffer=buffer;noiseSource.loop=true;const band=ctx.createBiquadFilter();band.type='bandpass';band.frequency.value=1300;if(band.Q)band.Q.value=.6;intakeGain=ctx.createGain();intakeGain.gain.value=0;noiseSource.connect(band);band.connect(intakeGain);intakeGain.connect(motorGain);noiseSource.start();
+        }
+      }
+      if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+      // Four cylinders, one combustion per cylinder per two crank turns:
+      // 2 firing pulses per revolution = rpm / 30 Hz. Pitch follows rpm only.
+      const firing=clamp(rpm,700,7000)/30,gas=clamp(throttle,0,1),load=clamp(conditions.load??gas,0,1),cut=conditions.shifting?.32:1;
+      motors.forEach((o,i)=>o.frequency.setTargetAtTime(firing*(i+1),ctx.currentTime,conditions.shifting?.035:.065));
+      exhaustFilter.frequency.setTargetAtTime(430+gas*1800+load*1100,ctx.currentTime,.08);
+      motorGain.gain.setTargetAtTime((.055+.10*gas+.055*load)*cut,ctx.currentTime,.045);
+      if(intakeGain)intakeGain.gain.setTargetAtTime(.005+gas*.045+load*.025,ctx.currentTime,.07);
+    }
+    if(button)button.addEventListener('click',()=>setEnabled(!enabled));
+    if(slider)slider.addEventListener('input',()=>setVolume(+slider.value/100));
+    if(options.testButton)options.testButton.addEventListener('click',()=>{if(enabled)effect('gear');else setEnabled(true).then(on=>{if(on)effect('gear');});});
+    update();return Object.freeze({setEnabled,setVolume,effect,drive,quiet,isEnabled:()=>enabled,getVolume:()=>volume});
+  }
+  root.CarLabAudio=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Timing trainer. Button input is a reservation; the model always sparks at
+   compression TDC (360°). Road progress is a reward, not vehicle dynamics. */
+(function(root){
+  'use strict';
+  const LEVELS=Object.freeze([
+    Object.freeze({id:0,name:'はじめの火花',goal:3,seconds:6,window:300,hold:true,tip:'光ったら押す。はじめは、待ってくれるよ。'}),
+    Object.freeze({id:1,name:'リズムにのろう',goal:4,seconds:6,window:285,hold:false,tip:'「ぎゅっ」の終わりで、点火を予約！'}),
+    Object.freeze({id:2,name:'点火マスター',goal:5,seconds:4.8,window:300,hold:false,tip:'4つの動きから、次の火花を予想しよう。'})
+  ]);
+  const FLOW=Object.freeze({id:'flow',name:'ENGINE BEAT',goal:6,seconds:3.8,window:285,hold:false,tip:'光ったら、タップ。'});
+  function create(level=0){
+    const l=LEVELS.find(x=>x.id===level)||LEVELS[0];
+    return {level:l.id,status:'ready',angle:0,cycle:0,hits:0,misses:0,streak:0,bestStreak:0,perfect:0,armed:false,attempted:false,fired:false,waiting:false,help:false,missStreak:0,slow:false,lastTiming:null};
+  }
+  function createFlow(){return {...create(1),kind:'flow',score:0,cycleSeconds:FLOW.seconds,assisted:false,manualTiming:false,firePerfect:false};}
+  const level=s=>s.kind==='flow'?FLOW:LEVELS[s.level];
+  const inWindow=s=>s.angle>=level(s).window&&s.angle<=360;
+  const progress=s=>Math.min(1,(s.hits+(s.fired&&s.angle<540?(1-Math.cos(Math.PI*Math.max(0,s.angle-360)/180))/2:0))/level(s).goal);
+  function miss(s,reason){s.attempted=true;s.misses++;s.streak=0;s.missStreak++;if(s.missStreak>=2)s.help=true;return {type:'miss',reason};}
+  function press(s){
+    if(s.status!=='running'||s.attempted)return [];
+    if(!inWindow(s))return [miss(s,s.angle<level(s).window?'early':'late')];
+    if(s.kind==='flow'){s.manualTiming=!s.waiting;if(s.waiting&&s.hits>0)s.assisted=true;}
+    s.armed=true;s.attempted=true;s.waiting=false;s.lastTiming=s.angle;
+    return [{type:'armed'}];
+  }
+  function advance(s,seconds){
+    const events=[];if(s.status!=='running')return events;
+    const dt=Math.max(0,Math.min(.1,Number.isFinite(seconds)?seconds:0));
+    if(s.waiting)return events;
+    let next=s.angle+dt*720/(s.kind==='flow'?s.cycleSeconds:level(s).seconds)*(s.slow?.5:1);
+    if((level(s).hold||s.help||(s.kind==='flow'&&s.hits===0))&&!s.attempted&&s.angle<=330&&next>=330){s.angle=330;s.waiting=true;events.push({type:'wait'});return events;}
+    if(s.angle<360&&next>=360){
+      if(s.armed){s.fired=true;s.streak++;s.bestStreak=Math.max(s.bestStreak,s.streak);s.missStreak=0;const perfect=s.lastTiming>=330&&(s.kind!=='flow'||s.manualTiming);if(perfect)s.perfect++;s.firePerfect=perfect;events.push({type:'fire',perfect});}
+      else if(!s.attempted)events.push(miss(s,'missed'));
+    }
+    if(s.angle<540&&next>=540&&s.fired){s.hits++;s.fired=false;let points=0;if(s.kind==='flow'){points=20+Math.min(5,s.streak-1)*5+(s.firePerfect?10:0);s.score+=points;}events.push({type:'power',points,perfect:s.firePerfect});if(s.hits>=level(s).goal){s.angle=540;s.status='won';events.push({type:'win'});return events;}}
+    if(next>=720){next-=720;s.cycle++;s.armed=false;s.attempted=false;s.fired=false;s.waiting=false;if(s.kind==='flow')s.cycleSeconds=Math.max(2.8,FLOW.seconds-s.streak*.12);events.push({type:'cycle'});}
+    s.angle=next;return events;
+  }
+  function start(s){if(s.status==='ready'||s.status==='paused')s.status='running';}
+  function pause(s){if(s.status==='running')s.status='paused';}
+  function stars(s){return s.status!=='won'?0:s.misses===0?3:s.misses<=2?2:1;}
+  const API=Object.freeze({LEVELS,FLOW,create,createFlow,level,inWindow,progress,press,advance,start,pause,stars});
+  if(typeof module==='object'&&module.exports)module.exports=API;else root.EngineGame=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const G=EngineGame,M=EngineLab,$=id=>document.getElementById(id),all=sel=>[...document.querySelectorAll(sel)];
+  const STAR_KEY='car-lab.engine.game.v1',BEAT_KEY='car-lab.engine.beat.v1',NOTES='car-lab.engine.progress.v1';
+  let storage;try{storage=window.localStorage;}catch{}
+  const safeInt=(v,max=10000)=>Number.isInteger(v)&&v>=0&&v<=max?v:0;
+  let stars=[0,0,0],record={version:1,best:0,bestAssist:0,combo:0,plays:0};
+  try{const p=JSON.parse(storage?.getItem(STAR_KEY)||'null');if(p?.version===1&&Array.isArray(p.stars))stars=stars.map((_,i)=>safeInt(p.stars[i],3));}catch{}
+  try{const p=JSON.parse(storage?.getItem(BEAT_KEY)||'null');if(p?.version===1)record={version:1,best:safeInt(p.best),bestAssist:safeInt(p.bestAssist),combo:safeInt(p.combo,6),plays:safeInt(p.plays,1000000)};}catch{}
+  let state=G.createFlow(),raf=false,last=0,lastPaint=-Infinity,dirty=true,fireUntil=0,timeNow=0,result=null;
+  const view=EngineView.create($('gameCanvas')),animations=new Map();
+  const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sound=CarLabAudio.create({button:$('soundButton'),volume:$('volumeInput'),testButton:$('testSoundButton'),onError:message=>feedback(message,'retry')});
+  const words=['すう','ぎゅっ','ドン！','だす'];
+  function set(id,value){const el=$(id);if(el.textContent!==String(value))el.textContent=String(value);}
+  function feedback(text,tone=''){set('gameFeedback',text);$('gameFeedback').setAttribute('data-tone',tone);}
+  function pulse(id,frames,duration=220){const el=$(id);if(reduced||typeof el.animate!=='function')return;animations.get(id)?.cancel();animations.set(id,el.animate(frames,{duration,easing:'cubic-bezier(.2,.8,.3,1)'}));}
+  function schedule(){dirty=true;if(!raf){raf=true;requestAnimationFrame(frame);}}
+  function renderLevels(){all('[data-level]').forEach(b=>{const n=+b.dataset.level;b.disabled=n>0&&!stars[n-1];b.setAttribute('aria-label',G.LEVELS[n].name+(b.disabled?'・前の練習をクリアすると遊べる':'・'+stars[n]+'つ星'));});all('[data-level-stars]').forEach(el=>{const n=+el.dataset.levelStars;el.textContent='★'.repeat(stars[n])+'☆'.repeat(3-stars[n]);});}
+  function reset(level='flow'){
+    sound.quiet();const slow=state.slow;state=level==='flow'?G.createFlow():G.create(level);state.slow=slow;if(state.kind==='flow'&&slow)state.assisted=true;
+    last=0;fireUntil=0;result=null;feedback('');
+    $('powerPips').replaceChildren(...Array.from({length:G.level(state).goal},()=>document.createElement('i')));renderLevels();render();schedule();
+  }
+  function pause(){G.pause(state);sound.quiet();last=0;render();schedule();}
+  function start(){G.start(state);last=0;sound.effect('tap');render();schedule();}
+  function openDialog(id){pause();all('dialog').forEach(d=>{if(d.id!==id&&d.open)d.close();});if(!$(id).open)$(id).showModal();}
+  function note(text){
+    try{if(!storage)return false;const raw=storage.getItem(NOTES),p=raw?JSON.parse(raw):{version:1,missions:[],repairs:[],notes:[],observations:[0,0,0]};
+      if(p?.version!==1||!Array.isArray(p.notes))return false;if(!p.notes.some(n=>n?.text===text))p.notes=[...p.notes,{kind:'mission',text}].slice(-30);storage.setItem(NOTES,JSON.stringify(p));return true;
+    }catch{return false;}
+  }
+  function won(){
+    sound.effect('win');
+    if(state.kind==='flow'){
+      const key=state.assisted?'bestAssist':'best',old=record[key];record[key]=Math.max(old,state.score);record.combo=Math.max(record.combo,state.bestStreak);record.plays=Math.min(1000000,record.plays+1);
+      let saved=false;try{storage?.setItem(BEAT_KEY,JSON.stringify(record));saved=!!storage;}catch{}
+      if(state.score>old)note('ENGINE BEAT：'+state.score+'点、最高'+state.bestStreak+'連続'+(state.assisted?'（サポートあり）':'')+'。6回の燃焼でゴール。');
+      result={newBest:state.score>old,saved};feedback(result.newBest?'自己ベスト！':'6回、つながった！','success');
+      pulse('scoreValue',[{transform:'scale(.88)'},{transform:'scale(1.1)'},{transform:'scale(1)'}],300);return;
+    }
+    const value=G.stars(state),improved=value>stars[state.level];stars[state.level]=Math.max(stars[state.level],value);let saved=false;
+    try{storage?.setItem(STAR_KEY,JSON.stringify({version:1,stars}));saved=!!storage;}catch{}
+    if(improved)note('点火ゲーム「'+G.level(state).name+'」：'+value+'つ星。燃焼の力を'+G.level(state).goal+'回つくってゴール。火花 → 燃焼 → ピストンを押す力。');
+    set('saveStatus',saved?'星を、このブラウザに保存したよ。':'今は自動保存できません。開いている間は、つづけて遊べます。');set('winStars','★'.repeat(value)+'☆'.repeat(3-value));set('winMessage',G.level(state).goal+'回のパワーでゴール！');set('nextLevelButton',state.level<2?'次の練習へ →':'BEATであそぶ →');renderLevels();$('winDialog').showModal();
+  }
+  function handle(events){for(const e of events){
+    if(e.type==='wait'){feedback('いま！','ready');sound.effect('discover');}
+    if(e.type==='armed'){feedback('OK','success');sound.effect('tap');pulse('igniteButton',[{transform:'scale(.94)'},{transform:'scale(1)'}],120);}
+    if(e.type==='fire'){fireUntil=timeNow+180;feedback(e.perfect?'ぴったり！':'いいね！','success');sound.effect(e.perfect?'perfect':'spark');pulse('comboValue',[{transform:'scale(1.22)'},{transform:'scale(1)'}],220);}
+    if(e.type==='power'){set('scorePop','＋'+(e.points||20));pulse('scorePop',[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)',offset:.25},{opacity:0,transform:'translateY(-22px)'}],550);sound.effect('combo'+Math.min(6,state.streak));}
+    if(e.type==='miss'){feedback(e.reason==='early'?'もう少し待とう':e.reason==='late'?'次をねらおう':'次をねらおう','retry');sound.effect('retry');}
+    if(e.type==='cycle')feedback('');
+    if(e.type==='win')won();
+  }}
+  function primary(){
+    if(state.status==='ready'||state.status==='paused'){start();return;}
+    if(state.status==='won'){reset(state.kind==='flow'?'flow':state.level);start();return;}
+    handle(G.press(state));render();schedule();
+  }
+  function render(){
+    const l=G.level(state),phase=Math.min(3,Math.floor(state.angle/180)),running=state.status==='running',ready=running&&G.inWindow(state)&&!state.attempted;
+    $('beatLab').setAttribute('data-status',state.status);$('beatLab').classList.toggle('is-ready',state.status==='ready');$('beatLab').classList.toggle('is-won',state.status==='won');
+    $('gameCanvas').parentElement.style.setProperty('--phase',M.STAGES[phase].color);set('stageCount',(phase+1)+' / 4');set('stageWord',words[phase]);set('stageName',M.STAGES[phase].name);
+    set('scoreValue',state.kind==='flow'?state.score:state.hits*20);set('comboValue',state.streak);
+    set('bestLabel',state.kind==='flow'?(state.assisted?'ゆっくり BEST ':'BEST ')+(state.assisted?record.bestAssist:record.best):'練習 '+(state.level+1)+' / 3');
+    const b=$('igniteButton');b.disabled=running&&state.attempted;b.classList.toggle('ready',ready);b.classList.toggle('armed',running&&state.armed);b.classList.toggle('start',state.status==='ready'||state.status==='won'||state.status==='paused');
+    set('igniteIcon',state.status==='ready'||state.status==='paused'?'▶':state.status==='won'?'↻':state.armed?'✓':'ϟ');
+    set('igniteLabel',state.status==='ready'?'はじめる':state.status==='paused'?'つづける':state.status==='won'?'もう一回':state.armed?'OK':ready?'タップ！':'待つ');
+    set('igniteSub',state.status==='ready'?l.goal+'回つないで、ゴール':state.status==='won'?'自分のペースで、もう一度':state.status==='paused'?'同じ場所から':state.armed?'点火を予約したよ':ready?'いま！':'光ったら、1回');
+    b.setAttribute('aria-label',state.status==='ready'?'点火ゲームをはじめる':state.status==='paused'?'点火ゲームをつづける':state.status==='won'?'点火ゲームをもう一回':ready?'いま点火！':'点火ボタン・光るまで待とう');
+    $('beatRing').style.setProperty('--turn',(state.angle/2-180)+'deg');$('beatRing').style.setProperty('--zone',(l.window/2)+'deg');$('beatRing').classList.toggle('lit',ready);$('beatRing').classList.toggle('spent',state.attempted&&running);$('beatRing').classList.toggle('running',running);
+    set('beatPrompt',state.status==='won'?'つながった。':state.status==='paused'?'ひと休み。':ready?'いま、タップ。':'光ったら、タップ。');
+    set('roundHint',state.status==='won'?state.bestStreak+'連続 / '+state.misses+'回ミス'+(state.assisted?' / サポートあり':'')+(result&&!result.saved?' / 自動保存できません':''):state.waiting?'押すまで、待つよ。':state.status==='ready'?'最初は、押すまで待つよ。':state.help?'サポート中。押すまで待つよ。':state.slow?'ゆっくりで練習中。':'');
+    $('powerPips').children&&Array.from($('powerPips').children).forEach((el,i)=>el.classList.toggle('filled',i<state.hits));$('powerPips').setAttribute('aria-label','燃焼の力 '+state.hits+'回、目標'+l.goal+'回');set('powerCount',state.hits+' / '+l.goal);
+    const p=G.progress(state);$('rewardCar').style.left=(p*100)+'%';$('rewardCar').classList.toggle('powered',state.fired&&phase===2);$('roadProgress').setAttribute('aria-valuenow',String(Math.round(p*100)));
+    $('pauseGameButton').disabled=state.status==='ready'||state.status==='won';set('pauseGameButton',state.status==='paused'?'▶ つづける':'Ⅱ とめる');$('slowGameButton').setAttribute('aria-pressed',String(state.slow));set('slowGameButton',state.slow?'✓ ゆっくり':'ゆっくり');
+    const s=M.sample(state.angle,{sparkEnabled:state.fired});$('gameCanvas').setAttribute('aria-label',M.STAGES[phase].name+'。ピストンは'+(s.direction==='still'?'いちばん端で折り返す。':s.direction==='down'?'下がる。':'上がる。')+(state.fired?'燃焼の力が出ている。':'補助モーターで回す。'));
+  }
+  function frame(time){raf=false;const dt=last?Math.min(.1,Math.max(0,(time-last)/1000)):0;last=time;timeNow=time;
+    if(state.status==='running'){handle(G.advance(state,dt));dirty=true;}
+    if(dirty&&(time-lastPaint>=1000/30||state.status!=='running'||state.waiting)){const s=M.sample(state.angle,{sparkEnabled:state.fired});s.ignition=state.fired&&state.angle>=360&&state.angle<385;view.draw(s,{labels:false,game:true});$('gameCanvas').parentElement.classList.toggle('fire-glow',time<fireUntil);render();lastPaint=time;dirty=false;}
+    if(state.status==='running'&&!state.waiting){raf=true;requestAnimationFrame(frame);}
+  }
+  $('igniteButton').addEventListener('click',primary);
+  $('menuButton').addEventListener('click',()=>openDialog('settingsDialog'));
+  $('pauseGameButton').addEventListener('click',()=>{$('settingsDialog').close();state.status==='running'?pause():state.status==='paused'?start():null;});
+  $('slowGameButton').addEventListener('click',()=>{state.slow=!state.slow;if(state.kind==='flow'&&state.slow)state.assisted=true;render();schedule();});
+  $('restartGameButton').addEventListener('click',()=>{$('settingsDialog').close();reset(state.kind==='flow'?'flow':state.level);});
+  $('beatModeButton').addEventListener('click',()=>{$('settingsDialog').close();reset('flow');});
+  $('levelMenuButton').addEventListener('click',()=>{renderLevels();openDialog('levelDialog');});
+  $('helpButton').addEventListener('click',()=>openDialog('helpDialog'));
+  all('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
+  all('[data-level]').forEach(b=>b.addEventListener('click',()=>{const n=+b.dataset.level;if(n>0&&!stars[n-1])return;$('levelDialog').close();reset(n);}));
+  $('nextLevelButton').addEventListener('click',()=>{$('winDialog').close();reset(state.level<2?state.level+1:'flow');start();});
+  $('retryGameButton').addEventListener('click',()=>{$('winDialog').close();reset(state.level);start();});
+  window.addEventListener('blur',pause);window.addEventListener('pagehide',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});window.addEventListener('resize',schedule);if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe($('gameCanvas'));
+  document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.altKey||e.metaKey||all('dialog').some(d=>d.open))return;if(['INPUT','SELECT','TEXTAREA','BUTTON','A','SUMMARY'].includes(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();primary();}if(e.code==='KeyP'){e.preventDefault();state.status==='running'?pause():state.status==='paused'?start():null;}});
+  reset('flow');
+})();
+
+</script>
+</body></html>

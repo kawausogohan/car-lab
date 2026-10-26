@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#192622">
+  <meta name="description" content="指で回して、エンジンの中を見よう。4ストロークの機械のつながりを学ぶCAR LAB第2実験。">
+  <title>CAR LAB｜エンジン研究モード</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23192622'/%3E%3Cpath d='M44 19H25L16 32l9 13h19' fill='none' stroke='%23d5f56b' stroke-width='8'/%3E%3C/svg%3E">
+  <style>
+@charset "UTF-8";
+:root{--ink:#22342e;--muted:#718073;--paper:#f3f4ee;--line:#dfe3d9;--lime:#d5f56b;--green:#637c38;--dark:#192622;--phase:#7bd4d5;font-family:"Segoe UI","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;color:var(--ink);background:var(--paper);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit;touch-action:manipulation;user-select:none;border:0}a{color:inherit}button:disabled{opacity:.45;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #3d947b;outline-offset:3px}button:active:not(:disabled){transform:translateY(1px)}[hidden]{display:none!important}h1,h2,h3,p{margin:0}body:has(dialog[open]){overflow:hidden}
+.topbar{min-height:64px;background:var(--dark);color:#f8faef;padding:8px 28px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{display:flex;align-items:center;color:inherit;text-decoration:none;font-size:25px;font-weight:800;letter-spacing:-1px;gap:7px;white-space:nowrap}.brand b{color:var(--lime)}.brand-mark{display:flex;gap:3px;align-items:center;margin-right:5px;transform:skew(-21deg)}.brand-mark i{width:6px;height:24px;background:var(--lime)}.brand-mark i:first-child{height:14px}.brand-mark i:nth-child(2){height:19px}.brand-caption{font-size:11px;font-weight:500;letter-spacing:.08em;color:#a9b5a8;border-left:1px solid #4a5548;padding-left:17px;margin-left:11px}.header-actions{display:flex;align-items:center;gap:16px}.header-button{background:transparent;color:#f3f5ec;font-size:12px;min-height:44px;display:flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none}.back-link{color:#cce7a8}.count{font-family:monospace;padding:2px 6px;border-radius:4px;background:#394537;color:var(--lime)}
+.lab{max-width:1500px;margin:auto;padding:21px 28px 18px}.stage-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.eyebrow{font-size:10px;letter-spacing:.14em;font-weight:700;color:var(--green)}.eyebrow>span{color:#879280;font-weight:500;letter-spacing:.06em;margin-left:6px}h1{font-size:clamp(23px,2.5vw,32px);letter-spacing:.01em;margin-top:6px;font-weight:750}.heading-period{color:#82964b;margin-left:3px}.stage-subtitle{font-size:11px;color:#7c8873;margin-top:5px}.cycle-badge{border-left:2px solid #becf96;padding:1px 0 1px 17px;display:flex;flex-direction:column;gap:3px}.cycle-badge>span{font:9px Consolas,monospace;letter-spacing:.18em;color:#88977a}.cycle-badge strong{font-size:17px;font-weight:650;white-space:nowrap}.cycle-badge b{font-weight:400;color:#92a477;padding:0 3px}.cycle-badge small{font-size:10px;color:#7c8970}
+.mode-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #d8dfd0;margin-bottom:16px}.mode-tabs{display:flex;gap:4px}.mode-tabs button{background:transparent;padding:0 18px;min-height:48px;border-bottom:3px solid transparent;display:flex;align-items:center;gap:8px;font-size:13px;color:#7c8971;white-space:nowrap}.mode-tabs button>span{font:10px Consolas,monospace;color:#9aa78c}.mode-tabs .selected{border-color:#749145;color:#263d2b;font-weight:700;background:linear-gradient(0deg,#e6edda,transparent)}.mode-tabs small{font-size:10px;font-weight:500;background:#e6ebdc;border-radius:4px;padding:2px 5px}.mode-note{font-size:10px;color:#839075}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:17px;align-items:start}.engine-workbench{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:white}.diagram-panel{background:#1c2e29;color:#e6eddd;position:relative;overflow:hidden}.diagram-heading{min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 17px;border-bottom:1px solid #49604740;font:10px Consolas,monospace;letter-spacing:.1em}.diagram-heading small{font:9px Consolas,monospace;color:#8da591}.live-dot{width:6px;height:6px;display:inline-block;border-radius:50%;background:var(--lime);margin-right:7px}.diagram-button{background:transparent;border:1px solid #5c72595c;border-radius:5px;min-height:44px;padding:0 10px;font:10px inherit;color:#b2c2a5;white-space:nowrap}.diagram-button[aria-pressed=false]{color:#82987f}.diagram-panel canvas{display:block;width:100%;height:clamp(335px,53dvh,530px);touch-action:pan-y}.diagram-footer{min-height:36px;font-size:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 16px;background:#192a25;color:#9eb197;border-top:1px solid #49604740}.diagram-footer>span:first-child{white-space:nowrap}.legend{display:flex;align-items:center;gap:5px;white-space:nowrap;font-size:9px}.legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:6px}.fresh{background:#7bd4d5}.compressed{background:#c6b7ee}.burning{background:#f2ac73}.spent{background:#d5b8a4}
+.transport{padding:12px 18px 13px}.angle-heading{display:flex;align-items:center;justify-content:space-between;gap:9px}.angle-heading label{font-size:12px;font-weight:650}.angle-heading label>span{font-size:10px;font-weight:400;color:#8c9982}.angle-heading output{font:27px "Bahnschrift",Arial,sans-serif;font-weight:500;color:#344d32}.angle-heading output span{font-size:18px;color:#7d8e68;margin-left:3px}input[type=range]{--fill:12.5%;appearance:none;-webkit-appearance:none;width:100%;height:44px;cursor:ew-resize;background:transparent;margin:0;touch-action:none}input[type=range]::-webkit-slider-runnable-track{height:6px;background:linear-gradient(to right,#7d9757 var(--fill),#e6ecdc var(--fill));border-radius:5px}input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:28px;height:28px;background:#fff;border:7px solid #718b4d;border-radius:50%;margin-top:-11px;box-shadow:0 1px 4px #0002}input[type=range]::-moz-range-track{height:6px;background:#e6ecdc}input[type=range]::-moz-range-thumb{width:16px;height:16px;border:6px solid #718b4d;border-radius:50%;background:white}.angle-ticks{display:flex;justify-content:space-between;font:9px Consolas,monospace;color:#8b997e;margin:-3px 5px 9px}.phase-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}.phase-buttons button{--accent:#7bd4d5;min-height:44px;padding:6px 8px;text-align:left;font-size:12px;background:#f4f6ef;border-bottom:3px solid transparent;border-radius:4px;color:#73806b;display:flex;gap:5px;align-items:center;white-space:nowrap}.phase-buttons button:nth-child(2){--accent:#c6b7ee}.phase-buttons button:nth-child(3){--accent:#f2ac73}.phase-buttons button:nth-child(4){--accent:#d5b8a4}.phase-buttons small{font:9px Consolas,monospace;opacity:.65}.phase-buttons button>span{margin-left:auto}.phase-buttons [aria-pressed=true]{border-color:var(--accent);background:#eaf0e2;color:#263a2c;font-weight:700}.playback-row{display:flex;gap:7px;align-items:center;margin-top:12px}.play-button{background:var(--lime);color:#2c3c22;border:1px solid #bfda70;border-radius:6px;min-height:46px;padding:0 17px;min-width:132px;font-size:12px;font-weight:700;box-shadow:0 2px #bdd46e}.play-button[aria-pressed=true]{background:#293e30;border-color:#293e30;color:#ecf4df;box-shadow:0 2px #17261d}.soft-button{min-height:46px;padding:0 12px;border:1px solid #dde4d4;border-radius:6px;background:#f6f8f1;font-size:11px;color:#6d8057;white-space:nowrap}.soft-button[aria-pressed=true]{background:#e5efcb;border-color:#a8be7a;color:#3f5929}.step-group{display:flex;gap:5px;margin-left:auto}.speed-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;flex-wrap:wrap}.speed-row label{display:flex;align-items:center;gap:7px;font-size:10px;color:#7d8a73}select{min-height:44px;padding:0 24px 0 9px;border:1px solid #d9e1d0;border-radius:5px;color:#415738;background:#fafbf7;font-size:11px;max-width:100%}.speed-row>span{font-size:9px;color:#86967a}
+.sidebar{display:flex;flex-direction:column;gap:12px;min-width:0}.phase-card,.rotation-card,.activity-card,.parts-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:17px}.panel-heading{font:9px Consolas,monospace;letter-spacing:.13em;color:#87977b;display:flex;align-items:center;justify-content:space-between;gap:5px}.panel-heading>b{color:#6d8551;font-size:13px}.phase-title{display:flex;align-items:center;gap:10px;margin:15px 0 12px}.phase-title>span:first-child{font:38px "Bahnschrift",Arial,sans-serif;letter-spacing:-2px;color:#b9c9a7;line-height:1}.phase-title>div>small{font:9px Consolas,monospace;letter-spacing:.12em;color:#7b8b6f}.phase-title h2{font-size:23px;font-weight:700;line-height:1.4;margin-top:2px}.phase-title h2 small{font-size:9px;font-weight:400;display:block;color:#95a087}.phase-title>span:last-child{margin-left:auto;color:#728d4b;font-size:28px}.stage-text{font-size:12px;line-height:1.9;color:#64765a;min-height:90px}.state-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 6px;padding-top:14px;border-top:1px solid #edf0e7;margin-top:13px}.state-grid span{font-size:9px;color:#87977b;display:block;margin-bottom:4px}.state-grid strong{font-size:11px;color:#3c5636;font-weight:600}.state-grid .is-open{color:#348a86}.state-grid .is-firing{color:#b56e35}.work-state{background:#f0f4e8;color:#5f7847;padding:10px;border-radius:6px;margin-top:15px;font-size:11px;line-height:1.7}.work-state.power-on{background:#fbebda;color:#99572d}.work-state.fault-state{background:#f2e5df;color:#925d48}.rotation-values{display:flex;align-items:center;justify-content:space-between;margin-top:13px;gap:6px}.rotation-values>div>span{font-size:9px;color:#89977c}.rotation-values strong{font:27px "Bahnschrift",Arial,sans-serif;display:block;color:#405a34;letter-spacing:-.5px;margin-top:4px}.rotation-values strong small{font:9px inherit;color:#8b9d79;letter-spacing:0;margin-left:4px}.rotation-values>i{color:#a4b593;font-style:normal}.rotation-card>p{font:10px Consolas,monospace;color:#7a8e66;margin-top:12px;background:#f2f5eb;border-radius:4px;padding:7px;text-align:center}.volume-data{margin-top:12px;display:flex;justify-content:space-between;gap:5px;font-size:9px;color:#89977c}.volume-data b{display:block;font:11px Consolas,monospace;font-weight:600;color:#637a50;margin-top:4px}
+.activity-card{background:#edf2e4;border-color:#dbe4ce}.activity-card h2{font-size:15px;line-height:1.6;margin-top:8px}.activity-card>p{font-size:11px;line-height:1.9;color:#6b7f59;margin-top:8px}.switch-row{display:flex;align-items:center;gap:8px;font-size:12px;border-top:1px solid #d7e1c8;padding-top:12px;margin-top:12px;min-height:50px;cursor:pointer}.switch-row>span{flex:1}.switch-row small{display:block;font-size:9px;color:#8a9c77;margin-top:4px}.switch-row input{appearance:none;-webkit-appearance:none;width:42px;height:26px;background:#b6c2a5;border-radius:16px;margin:0;position:relative;cursor:pointer;touch-action:manipulation}.switch-row input:before{content:"";position:absolute;top:4px;left:4px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0002}.switch-row input:checked{background:#6c8c45}.switch-row input:checked:before{left:20px}.switch-row>b{font:10px Consolas,monospace;min-width:20px;color:#577338}.activity-card>p.motor-note{font-size:10px;color:#7d8c6e;line-height:1.8;margin-top:10px}.activity-heading{display:flex;justify-content:space-between;align-items:center}.activity-heading>span:last-child{font:10px Consolas,monospace;color:#82956b}.activity-nav{display:flex;gap:6px;margin-top:12px}.activity-nav button{min-height:44px;min-width:44px;flex:1;border:1px solid #d2ddc3;border-radius:5px;background:#f9fbf4;color:#81926b;font-size:11px}.activity-nav button.selected{background:#d5e6b7;border-color:#b1c78f;color:#3e5c2a;font-weight:700}.activity-nav button.complete:after{content:" ✓";color:#4a7030}.stamps{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}.stamps>span{font-size:10px;line-height:1.7;padding:5px 7px;border:1px dashed #bfcca9;border-radius:5px;color:#82956e;background:#f3f7eb}.stamps>.checked{border-style:solid;background:#dcebc5;color:#526e36}.primary{background:#2b4030;border:1px solid #2b4030;color:#f4f8eb;min-height:46px;display:block;width:100%;border-radius:6px;padding:10px 12px;font-size:12px;font-weight:600;margin-top:12px}.feedback{font-size:11px;line-height:1.9;color:#617950;min-height:0}.feedback:empty{display:none}.feedback.success{color:#3e713d;font-weight:600}.feedback.retry{color:#9a603a}.quiz-area{padding-top:14px;border-top:1px solid #d7e1ca;margin-top:15px}.quiz-area h3{font-size:12px;line-height:1.8}.answer-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}.answer-list button{border:1px solid #cfdac1;border-radius:5px;background:#fdfefa;text-align:left;min-height:44px;padding:9px 10px;font-size:11px;line-height:1.6;color:#627b4e}.answer-list .correct{background:#d9efb7;border-color:#b6cf8b;color:#41652e}.answer-list .incorrect{background:#f4dfcf;border-color:#d6b193;color:#945d3b}.mini-title{font-size:11px;margin:15px 0 7px;color:#5d764a}.inspect-buttons{display:flex;gap:5px}.inspect-buttons button{flex:1;min-height:44px;border:1px solid #ccd8bc;border-radius:5px;background:#f6f9ef;font-size:11px;color:#657e4f}.inspect-buttons .inspected{background:#dde9c9}.diagnosis-label{display:flex;flex-direction:column;gap:6px;font-size:11px;color:#6d8359;margin-top:13px}.diagnosis-label select{width:100%;min-height:44px;font-size:11px}.parts-card{padding:0 15px}.parts-card summary{padding:13px 0;font-size:11px;color:#758767;min-height:44px;cursor:pointer}.part-buttons{display:flex;flex-wrap:wrap;gap:5px}.part-buttons button{min-height:44px;background:#f0f4e8;border:1px solid #dfe7d5;border-radius:5px;font-size:10px;padding:7px 10px;color:#6e8558}.part-buttons .selected{background:#dcebca;border-color:#a9bf8a}.parts-card>p{font-size:11px;color:#71865d;line-height:1.9;padding:12px 0 15px}
+.principles{margin-top:20px;border:1px solid var(--line);border-radius:8px;background:#f9faf5;padding:0 18px}.principles>summary{min-height:48px;cursor:pointer;font-size:12px;color:#768867;padding:14px 0}.principles-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:8px 0 15px}.principles h2{font-size:14px;color:#62784e}.principles p{font-size:11px;line-height:1.95;color:#7c8c6e;margin-top:10px}.principles .source-links{font-size:10px;border-top:1px solid #e0e6d6;padding:13px 0 15px;margin:0}.source-links a{color:#527a60;text-underline-offset:3px}.lab-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:9px;color:#8d9b80;padding-top:17px}.lab-footer a{color:#607d43;text-decoration:none;min-height:36px;display:flex;align-items:center}.lab-footer>span:last-child{font:9px Consolas,monospace;letter-spacing:.15em}
+dialog{border:1px solid #d9e1ce;border-radius:14px;padding:23px 27px;background:#fbfcf7;color:var(--ink);width:min(600px,calc(100% - 30px));max-height:88dvh;box-shadow:0 24px 90px #10241f66}dialog::backdrop{background:#0a1d19ab}.dialog-top{display:flex;justify-content:space-between;align-items:center}.close-dialog{width:44px;height:44px;border-radius:50%;background:#edf1e5;color:#71845f;font-size:26px}dialog h2{font-size:24px;margin-top:10px}dialog p{font-size:12px;line-height:1.9;color:#7c8b6d;margin-top:13px}.guide-steps{padding-left:23px;margin:20px 0}.guide-steps li{padding-left:6px;margin:16px 0;color:#728c52}.guide-steps strong{font-size:13px;color:#425e32}.guide-steps p{margin-top:4px;font-size:12px}.storage-note{font-size:10px}.notes-summary{padding:14px;background:#eef3e4;border-radius:7px;margin-top:16px;font-size:13px;color:#5a7442}.note-entry{padding:13px 0;border-bottom:1px solid #e0e7d5}.note-entry strong{font-size:12px;color:#58713f}.note-entry p{font-size:11px;margin-top:5px}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#253e31;color:#f2f8e7;box-shadow:0 5px 24px #0003;border-radius:8px;font-size:12px;line-height:1.8;padding:12px 20px;max-width:90%;opacity:0;pointer-events:none;z-index:5}.toast.visible{opacity:1}.noscript{padding:25px;text-align:center;background:#f4e3d3}
+@media(min-width:1400px){.workspace{grid-template-columns:minmax(0,1fr) 330px}.phase-card,.rotation-card,.activity-card{padding:20px}}
+@media(max-width:1100px){.topbar{padding:7px 18px}.brand-caption{display:none}.lab{padding:17px 18px}.workspace{grid-template-columns:minmax(0,1fr) 280px;gap:12px}.stage-heading{margin-bottom:14px}.mode-note{display:none}.phase-card,.rotation-card,.activity-card{padding:14px}.phase-title h2{font-size:21px}.phase-title>span:first-child{font-size:34px}.transport{padding:10px 12px 12px}.play-button{min-width:115px;padding:0 12px}.soft-button{padding:0 9px;font-size:10px}.diagram-heading{padding:0 12px}.diagram-heading small{display:none}.diagram-footer{padding:7px 10px;flex-wrap:wrap}.phase-buttons button{font-size:10px;padding:5px;gap:3px}.phase-buttons small{font-size:8px}.stage-text{min-height:0;font-size:11px}.state-grid{gap:10px 4px}.mode-tabs button{padding:0 13px}.speed-row{gap:5px}.speed-row label{font-size:9px}.rotation-values strong{font-size:25px}.header-actions{gap:13px}}
+@media(max-width:800px){.topbar{gap:7px;padding:5px 12px}.header-actions{gap:8px}.header-button{font-size:10px}.brand{font-size:22px}.brand-mark{gap:2px}.brand-mark i{width:5px}.lab{padding:15px 12px}.cycle-badge{padding-left:10px}.cycle-badge small{display:none}.cycle-badge strong{font-size:14px}.workspace{grid-template-columns:minmax(0,1fr) 245px;gap:10px}.mode-tabs button{font-size:11px;gap:5px;padding:0 10px}.mode-tabs button>span{font-size:9px}.diagram-panel canvas{height:360px}.diagram-footer{font-size:8px}.legend{gap:3px;font-size:8px}.legend i{margin-left:3px}.playback-row{flex-wrap:wrap}.play-button,.soft-button{flex:1}.step-group{flex:1 0 100%;margin-left:0}.phase-title{gap:7px}.phase-title h2{font-size:18px}.phase-title>span:first-child{font-size:30px}.phase-title>span:last-child{font-size:23px}.state-grid strong{font-size:10px}.rotation-values strong{font-size:22px}.rotation-values>div>span{font-size:8px}.principles-grid{gap:18px}}
+@media(max-width:640px){.workspace{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;align-items:start}.activity-card,.parts-card{grid-column:1/-1}.diagram-panel canvas{height:390px}.back-link{display:none}.cycle-badge{display:none}.stage-heading{margin-bottom:10px}h1{font-size:25px}.mode-tabs{width:100%}.mode-tabs button{flex:1;justify-content:center;padding:0 5px;gap:5px}.mode-tabs button>span{display:none}.stage-subtitle{font-size:10px}.playback-row{flex-wrap:nowrap}.step-group{flex:initial;margin-left:auto}.soft-button{padding:0 6px;font-size:9px}.play-button{min-width:100px;font-size:11px}.principles-grid{grid-template-columns:1fr}.lab-footer{font-size:8px}.parts-card{padding:0 15px}.header-actions{gap:9px}.phase-card,.rotation-card{height:100%}.rotation-values{flex-wrap:wrap}.rotation-values>i{display:none}.rotation-values strong{font-size:21px}.diagram-footer{flex-wrap:nowrap}.legend{gap:3px}}
+@media(max-width:380px){.sidebar{display:flex}.playback-row{flex-wrap:wrap}.step-group{flex:1 0 100%}.brand-mark{display:none}.header-actions{gap:6px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+/* Review 01: common navigation and a single first action. */
+.lab-experiments{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:2px}.lab-experiments a{min-height:48px;display:flex;align-items:center;gap:10px;border:1px solid #d6dfcb;border-radius:7px;padding:7px 13px;background:#fafbf6;color:#6b7e59;text-decoration:none}.lab-experiments a[aria-current=page]{background:#e7efd8;border-color:#bbce9c;color:#3d592d}.lab-experiments a>span{font:18px Bahnschrift,Arial,sans-serif;color:#819869}.lab-experiments strong{font-size:13px}.lab-experiments small{font-size:10px;margin-left:auto;color:#7c8d70}.first-step{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid #dce5ce;background:#edf3e3;border-radius:7px;margin:0 0 14px;font-size:12px;line-height:1.7;color:#5d7449}.first-step>b{font-size:10px;letter-spacing:.07em;white-space:nowrap;color:#849b65}.first-step>span{flex:1}.first-step>a{display:flex;align-items:center;min-height:44px;font-size:11px;white-space:nowrap;font-weight:650;color:#486732;text-decoration:none}@media(max-width:850px){.lab-experiments small{display:none}.first-step{gap:8px;font-size:11px}.first-step>b{display:none}.lab-experiments strong{font-size:12px}}@media(max-width:580px){.first-step{flex-wrap:wrap}.first-step a{min-height:36px}.lab-experiments a{padding:7px 10px}}
+.lab-experiments{margin-bottom:17px}.back-link{display:none}
+
+/* Review 03: keep the mechanism and transport together in landscape. */
+.stage-text{font-size:12px}.activity-card>p,.feedback{font-size:12px}.state-grid strong{font-size:12px}.diagram-heading{min-height:46px}.phase-buttons button{min-height:48px}.soft-button,.play-button{min-height:48px}.part-buttons button{font-size:12px}.speed-row label{font-size:11px}.first-step{margin-bottom:12px}.header-actions{gap:12px}
+@media(min-width:700px) and (orientation:landscape){.lab.drive-focus{height:calc(100dvh - 64px);padding:12px 18px}.lab.drive-focus>:not(.workspace){display:none}.lab.drive-focus .workspace{height:100%;align-items:stretch;min-height:0}.lab.drive-focus .engine-workbench{display:grid;height:100%;grid-template-rows:minmax(180px,1fr) auto}.lab.drive-focus .diagram-panel{display:grid;grid-template-rows:46px minmax(0,1fr) 36px;min-height:0}.lab.drive-focus .diagram-panel canvas{height:100%;min-height:0}.lab.drive-focus .sidebar{max-height:100%;overflow:auto}.lab.drive-focus .transport{padding:9px 12px}.lab.drive-focus .speed-row{margin-top:8px}.lab.drive-focus .playback-row{margin-top:8px}}
+@media(max-width:900px){.header-actions{gap:8px}.header-button{font-size:10px}.state-grid strong{font-size:11px}.speed-row label{font-size:10px}.activity-card>p,.feedback{font-size:11px}}@media(max-width:640px){.topbar{flex-wrap:wrap}.header-actions{flex-wrap:wrap}.lab.drive-focus .first-step{display:none}}
+
+
+.diagram-tools{display:flex;gap:7px}.diagram-button{font-size:10px}.observation-cue{position:absolute;left:16px;bottom:44px;max-width:65%;color:#d4e3c5;background:#183026d9;border:1px solid #6a855343;border-radius:5px;padding:7px 10px;font-size:11px;line-height:1.7;pointer-events:none}.angle-ticks{margin:-4px -4px 4px;gap:4px}.angle-ticks button{background:transparent;min-height:44px;min-width:44px;padding:4px 7px;font:10px Consolas,monospace;color:#71865a;border-radius:4px}.angle-ticks button:hover{background:#edf3e1}.diagram-tools #tourButton{color:#d5f56b;border-color:#7f9a506b}@media(max-width:800px){.diagram-heading>span{font-size:8px}.diagram-tools{gap:4px}.diagram-button{padding:0 7px;font-size:9px}.observation-cue{left:9px;bottom:45px;font-size:10px;max-width:75%}.angle-ticks button{font-size:9px;padding:3px}}
+
+.research-badge{padding:17px;border:1px solid #a9c879;background:linear-gradient(120deg,#e1eec9,#f4f8e9);border-radius:9px;text-align:center;color:#4a6b32}.research-badge>span{font:9px Consolas,monospace;letter-spacing:.15em;display:block;color:#829a61}.research-badge>strong{display:block;font-size:20px;margin:8px 0 5px}.research-badge>small{font-size:11px;color:#7b915e}
+
+.sound-settings{padding:13px;background:#eef3e5;border-radius:7px;margin:15px 0 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}.sound-settings label{font-size:12px;display:flex;align-items:center;gap:10px;flex:1;min-width:180px}.sound-settings input{min-width:80px;width:100px;height:44px}.sound-settings>small{flex-basis:100%;font-size:10px;color:#7d9069;line-height:1.8}.sound-settings .soft-button{min-height:44px;border:1px solid #cfdcbd;border-radius:5px;padding:8px 14px;color:#55773a;background:#f8fbf1;font-size:11px}#soundButton[aria-pressed=true]{color:#d5f56b}
+
+.word-help{background:#f0f4e7;border:1px solid #dce5cf;border-radius:7px;margin-top:17px;padding:0 13px;color:#6c8353}.word-help summary{min-height:44px;cursor:pointer;padding:10px 0;font-size:12px}.word-help dl{font-size:12px;line-height:1.9;margin:2px 0 14px}.word-help dt{font-weight:700;color:#56753c;margin-top:9px}.word-help dd{margin:3px 0 0;color:#758a60}
+
+.mission-flow{display:flex;gap:5px;margin-top:12px}.mission-flow span{flex:1;border-radius:4px;background:#e4ebd7;color:#84966e;padding:6px 3px;font-size:10px;text-align:center}.mission-flow[data-step="1"] span:nth-child(1),.mission-flow[data-step="2"] span:nth-child(2),.mission-flow[data-step="3"] span:nth-child(3){background:#d3e4b6;color:#4b6e30;font-weight:700}.record-hint{font-size:12px;line-height:1.9;margin-top:11px;color:#567640}.target-button{min-height:44px;border:1px solid #bccf9e;background:#f7faef;color:#5e7e40;padding:8px 12px;border-radius:5px;font-size:11px;width:100%;margin-top:8px}.ready-to-record{background:#496a32;border-color:#496a32}.feedback.retry{background:#f5eddf;border:1px solid #e0cfb3;padding:9px;border-radius:5px;font-weight:500}
+
+.engine-backup{margin-top:18px;padding:0 12px;border:1px solid #d9e3cd;border-radius:7px;background:#f2f6e9}.engine-backup summary{min-height:44px;cursor:pointer;padding:10px 0;font-size:12px;color:#6d8750}.engine-backup-actions{display:flex;gap:8px;margin-top:12px}.engine-backup-actions .soft-button{flex:1;display:flex;align-items:center;justify-content:center;min-height:46px;border:1px solid #cfddbc;background:#fafcf5;border-radius:5px;position:relative;cursor:pointer;color:#607f43;font-size:11px}.engine-backup-actions input{position:absolute;opacity:.01;width:1px;height:1px;overflow:hidden}.engine-backup-actions label:focus-within{outline:3px solid #3d947b;outline-offset:3px}.engine-backup>p:last-child{padding-bottom:13px;font-size:11px}
+
+.phase-card{border-left-width:4px}.phase-card[data-phase="0"]{border-left-color:#70bcbc}.phase-card[data-phase="1"]{border-left-color:#b7a2d7}.phase-card[data-phase="2"]{border-left-color:#e7a065}.phase-card[data-phase="3"]{border-left-color:#bea18c}.phase-buttons [data-phase="0"][aria-pressed=true]{background:#e4f1ee}.phase-buttons [data-phase="1"][aria-pressed=true]{background:#f0ebf8}.phase-buttons [data-phase="2"][aria-pressed=true]{background:#f9eadb}.phase-buttons [data-phase="3"][aria-pressed=true]{background:#f3e8dd}.diagram-tools{gap:5px}.diagram-tools .diagram-button{font-size:9px;padding:0 8px}@media(max-width:900px){.diagram-heading>span{display:none}.diagram-tools{width:100%;justify-content:space-between}.diagram-tools .diagram-button{flex:1}}
+
+.lab-experiments a{min-height:44px}.stage-subtitle{font-size:12px;color:#70865b}.diagram-button:disabled{color:#829777;opacity:.65}
+
+/* Research is optional; controls remain comfortably readable on touch screens. */
+.return-game{display:flex;align-items:center;justify-content:center;min-height:54px;border:1px solid #b6ca94;background:#dcebbf;border-radius:8px;padding:12px 18px;margin-bottom:18px;color:#48632e;font-size:19px;font-weight:700;text-decoration:none}
+.header-button{font-size:15px;min-height:48px}.stage-subtitle{font-size:16px;line-height:1.8}.mode-tabs button{font-size:17px;min-height:54px}.mode-tabs small{font-size:13px}.mode-note{font-size:14px}.diagram-button{font-size:14px;min-height:48px}.diagram-heading small{display:none}.angle-heading label{font-size:17px}.angle-heading label>span{font-size:14px}.phase-buttons button{font-size:16px;min-height:52px}.phase-buttons small{font-size:12px}.play-button,.soft-button{font-size:16px;min-height:50px}.speed-row label{font-size:15px}.speed-row select{font-size:16px;min-height:48px}.speed-row>span{font-size:14px}.stage-text{font-size:17px;line-height:1.9}.state-grid span{font-size:14px}.state-grid strong{font-size:16px}.work-state{font-size:16px}.rotation-values>div>span{font-size:14px}.rotation-card>p{font-size:15px}.volume-data{font-size:14px}.volume-data b{font-size:16px}.activity-card h2{font-size:23px}.activity-card>p{font-size:17px}.activity-nav button{font-size:17px;min-height:50px}.stamps>span{font-size:15px}.primary{font-size:18px;min-height:54px}.feedback{font-size:17px}.answer-list button{font-size:17px;min-height:54px}.quiz-area h3{font-size:18px}.switch-row{font-size:17px;min-height:58px}.switch-row small,.activity-card>p.motor-note{font-size:14px}.angle-ticks button{font-size:14px;min-height:48px}.observation-cue{font-size:17px}.inspect-buttons button{font-size:17px;min-height:54px}.parts-card summary{font-size:17px;min-height:48px}.part-buttons button{font-size:16px;min-height:48px}.part-description{font-size:16px;line-height:1.8}.rotate-hint{display:none}.lab-experiments{display:none}.brand-caption,.cycle-badge{display:none}.sound-settings label{font-size:17px}.sound-settings small{font-size:14px}dialog p,dialog li{font-size:17px;line-height:1.8}
+@media(max-width:700px){.mode-tabs{width:100%}.mode-tabs button{font-size:15px;flex:1;padding:8px}.mode-note{display:none}.diagram-heading{flex-wrap:wrap;padding:8px}.diagram-tools{flex-wrap:wrap}.phase-buttons{grid-template-columns:1fr 1fr}.playback-row{flex-wrap:wrap}.step-group{margin-left:0}.lab{padding:14px}.header-actions{flex-wrap:wrap;gap:7px}}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html" aria-label="CAR LAB 第1実験へ"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>CAR <b>LAB</b><span class="brand-caption">クルマのしくみ研究所</span></a>
+    <nav class="header-actions" aria-label="ほかの実験とガイド"><a class="header-button back-link" href="../index.html">← ギアと坂道</a><button id="notesButton" class="header-button">実験ノート <span id="noteCount" class="count">0</span></button><button id="soundButton" class="header-button" aria-pressed="false" aria-label="効果音をONにする">♪ 音 OFF</button><button id="focusButton" class="header-button" aria-pressed="false">集中モード</button><button id="helpButton" class="header-button">？ あそび方</button></nav>
+  </header>
+  <main class="lab" id="labShell">
+    <nav class="lab-experiments" aria-label="実験を選ぶ"><a href="../index.html"><span>01</span><strong>ギアと坂道</strong><small>走って、くらべる</small></a><a aria-current="page" href="lab.html"><span>02</span><strong>エンジンの中へ</strong><small>回して、発見する</small></a></nav>
+    <a class="return-game" href="index.html">← 大きな工程ボタンで観察する</a><section class="stage-heading" aria-labelledby="stageTitle"><div><span class="eyebrow">EXPERIMENT 02 <span>／ ENGINE MECHANICS</span></span><h1 id="stageTitle">エンジンの4ストローク<span class="heading-period">.</span></h1><p class="stage-subtitle">ここは研究モード。細かい角度と部品を調べられるよ。</p></div><div class="cycle-badge"><span>1 CYCLE</span><strong>4工程 <b>＝</b> 720°</strong><small>クランク2回転で、ひとめぐり。</small></div></section>
+    <div class="mode-bar"><div class="mode-tabs" role="group" aria-label="学び方を選ぶ"><button data-mode="observe" class="selected" aria-pressed="true"><span>01</span> 観察する</button><button data-mode="experiment" aria-pressed="false"><span>02</span> 実験する <small id="missionProgress">0/3</small></button><button data-mode="repair" aria-pressed="false"><span>03</span> 修理する <small id="repairProgress">0/2</small></button></div><span class="mode-note" id="modeNote">まずは指で、ゆっくり回してみよう。</span></div>
+    <div class="workspace">
+      <section class="engine-workbench" aria-label="エンジンの断面と操作">
+        <div class="diagram-panel"><div class="diagram-heading"><span><i class="live-dot"></i> SINGLE CYLINDER <small>／ 4-STROKE GASOLINE</small></span><div class="diagram-tools"><button id="tourButton" class="diagram-button">▶ 1サイクル見る</button><button id="zoomButton" class="diagram-button" aria-pressed="false">燃焼室を拡大</button><button id="labelsButton" class="diagram-button" aria-pressed="true">部品名 ON</button></div></div><canvas id="engineCanvas" width="1000" height="660" role="img" aria-label="単気筒4ストロークエンジンの断面図。部品の詳しい説明は右の部品ボタンで確認できます。"></canvas><p class="observation-cue" id="observationCue">入口のバルブが開く。混合気が入ってくる。</p><div class="diagram-footer"><span id="motorLabel">観察用モーターで回しています</span><span class="legend"><i class="fresh"></i>吸入 <i class="compressed"></i>圧縮 <i class="burning"></i>燃焼 <i class="spent"></i>排気</span></div></div>
+        <div class="transport">
+          <div class="angle-heading"><label for="angleInput">クランクを指で回す <span>／ 1サイクル</span></label><output for="angleInput" id="angleValue">90<span>°</span></output></div>
+          <input id="angleInput" type="range" min="0" max="720" step="1" value="90" aria-label="クランク角度 0度から720度">
+          <div class="angle-ticks" role="group" aria-label="角度へ移動"><button data-angle="0" aria-label="0度 吸気のはじまり">0°</button><button data-angle="180" aria-label="180度 圧縮のはじまり">180°</button><button data-angle="360" aria-label="360度 点火のタイミング">360° 点火</button><button data-angle="540" aria-label="540度 排気のはじまり">540°</button><button data-angle="720" aria-label="720度 1サイクルの終わり">720°</button></div>
+          <div class="phase-buttons" role="group" aria-label="工程のまんなかを観察する"><button data-phase="0" aria-pressed="true"><small>01</small> 吸気 <span>↓</span></button><button data-phase="1" aria-pressed="false"><small>02</small> 圧縮 <span>↑</span></button><button data-phase="2" aria-pressed="false"><small>03</small> 燃焼・膨張 <span>↓</span></button><button data-phase="3" aria-pressed="false"><small>04</small> 排気 <span>↑</span></button></div>
+          <div class="playback-row"><button id="playButton" class="play-button" aria-pressed="false" aria-keyshortcuts="Space">▶ 自動再生</button><button id="slowButton" class="soft-button" aria-pressed="false" aria-keyshortcuts="s">スロー ×¼</button><div class="step-group"><button id="prevPhaseButton" class="soft-button" aria-label="前の工程の境目まで戻る">|◀ 前の工程</button><button id="nextPhaseButton" class="soft-button" aria-label="次の工程の境目へ進む">次の工程 ▶|</button></div></div>
+          <div class="speed-row"><label for="rpmInput">エンジン回転数 <select id="rpmInput"><option value="600">600 rpm</option><option value="1200" selected>1,200 rpm</option><option value="2400">2,400 rpm</option><option value="3600">3,600 rpm</option></select></label><label for="rateInput">表示速度 <select id="rateInput"><option value="0.01">実際の1/100</option><option value="0.02" selected>実際の1/50</option><option value="0.04">実際の1/25</option></select></label><span id="cycleTime">1サイクル 約5.0秒で表示</span></div>
+        </div>
+      </section>
+      <aside class="sidebar" aria-label="観察データとミッション"><div id="researchBadge" class="research-badge" hidden><span>ENGINE RESEARCHER</span><strong>エンジン研究員</strong><small>3つの発見 ＋ 2つの修理、達成！</small></div>
+        <section class="phase-card" id="phaseCard" data-phase="0"><div class="panel-heading"><span>LIVE OBSERVATION</span><span id="playStatus">PAUSED</span></div><div class="phase-title"><span id="stageNumber">01</span><div><small id="stageEnglish">INTAKE</small><h2 id="stageName">吸気 <small>きゅうき</small></h2></div><span id="pistonArrow" aria-hidden="true">↓</span></div><p id="stageText" class="stage-text"></p><div class="state-grid"><div><span>ピストン</span><strong id="pistonState">下がる</strong></div><div><span>吸気バルブ</span><strong id="intakeState">開いている</strong></div><div><span>点火プラグ</span><strong id="sparkState">まだ点火しない</strong></div><div><span>排気バルブ</span><strong id="exhaustState">閉じている</strong></div></div><div class="work-state" id="workState"></div></section>
+        <section class="rotation-card"><div class="panel-heading"><span>ROTATION LINK</span><b>2 : 1</b></div><div class="rotation-values"><div><span>クランクシャフト</span><strong id="crankTurns">0.25<small>回転</small></strong></div><i>→</i><div><span>カムシャフト</span><strong id="camTurns">0.13<small>回転</small></strong></div></div><p id="camValue">クランク 90° → カム 45°</p><div class="volume-data"><span>ピストンの移動 <b id="travelValue">0 mm</b></span><span>気体の体積 <b id="volumeValue">0 cm³</b></span></div></section>
+        <section id="observePanel" class="activity-card"><span class="eyebrow">LOOK CLOSER</span><h2>同じ「下がる」でも？</h2><p>吸気と燃焼・膨張を押して、バルブと気体の色をくらべよう。</p><button id="beginMissionsButton" class="primary">3つの実験ミッションへ →</button><label class="switch-row" for="sparkInput"><span>点火プラグ <small>OFFにするとどうなる？</small></span><input id="sparkInput" type="checkbox" checked><b id="sparkToggleLabel">ON</b></label><p class="motor-note">この装置はモーターで回転を保つよ。火花を切っても部品は動くけれど、燃焼の力は生まれない。</p></section>
+        <section id="experimentPanel" class="activity-card" hidden><div class="activity-heading"><span class="eyebrow">EXPERIMENT MISSIONS</span><span id="missionIndex">1 / 3</span></div><div class="activity-nav" role="group" aria-label="実験ミッション"><button data-mission="0" class="selected" aria-pressed="true">1</button><button data-mission="1" aria-pressed="false">2</button><button data-mission="2" aria-pressed="false">3</button></div><h2 id="missionTitle"></h2><p id="missionTask"></p><div id="missionFlow" class="mission-flow" data-step="1"><span>① 見る</span><span>② 記録する</span><span>③ 選ぶ</span></div><p id="recordHint" class="record-hint"></p><button id="observationTargetButton" class="target-button">観察ポイントへ →</button><div id="missionStamps" class="stamps"></div><button id="recordButton" class="primary">＋ 今のようすを記録</button><p id="recordFeedback" class="feedback" role="status"></p><div id="missionQuiz" class="quiz-area" hidden><h3 id="missionQuestion"></h3><div id="missionAnswers" class="answer-list"></div><p id="missionFeedback" class="feedback" role="status"></p><button id="missionNextButton" class="primary" hidden>次の発見へ →</button></div></section>
+        <section id="repairPanel" class="activity-card" hidden><div class="activity-heading"><span class="eyebrow">REPAIR BENCH</span><span id="repairIndex">1 / 2</span></div><div class="activity-nav" role="group" aria-label="修理ケース"><button data-repair="0" class="selected" aria-pressed="true">CASE 1</button><button data-repair="1" aria-pressed="false">CASE 2</button></div><h2 id="repairTitle"></h2><p id="repairTask"></p><p class="motor-note">モーターで回して点検中。回るだけでは、燃えている証拠にならないよ。</p><h3 class="mini-title">部品を点検する</h3><div class="inspect-buttons"><button data-inspect="spark">プラグ</button><button data-inspect="exhaust">排気バルブ</button><button data-inspect="crank">クランク</button></div><p id="inspectFeedback" class="feedback" role="status"></p><label class="diagnosis-label" for="diagnosisInput">原因を考えよう<select id="diagnosisInput"><option value="">原因を選ぶ</option><option value="spark">プラグに電気が来ていない</option><option value="exhaust">排気バルブが閉じない</option><option value="crank">クランクが切れている</option></select></label><button id="repairButton" class="primary" disabled>原因を点検して、修理する</button><button id="verifyButton" class="primary" hidden>燃焼・膨張を見て、修理を確認</button><p id="repairFeedback" class="feedback" role="status"></p><button id="repairNextButton" class="primary" hidden>次の修理へ →</button></section>
+        <details class="parts-card"><summary>部品をタッチして調べる</summary><div class="part-buttons" role="group" aria-label="部品の説明"><button data-part="piston">ピストン</button><button data-part="rod">コンロッド</button><button data-part="crank">クランク</button><button data-part="intake">吸気バルブ</button><button data-part="exhaust">排気バルブ</button><button data-part="spark">点火プラグ</button><button data-part="cam">カムシャフト</button></div><p id="partDescription" role="status">図の部品や、上のボタンをタッチしてね。</p></details>
+      </aside>
+    </div>
+    <details class="principles"><summary>もっと知りたい｜本物のエンジンとのちがい・しくみの約束</summary><div class="principles-grid"><div><h2>動きには、つながりがある。</h2><p>コンロッドは長さが変わらない棒。クランクの回転と、ピストンの上下をつなぐ。ピストンは単純な正弦波ではなく、クランクと棒の長さから位置を計算しているよ。</p><p>クランク側20歯、カム側40歯のタイミングベルトを想定。クランクが2回転する間にカムは1回転する。カムがバルブを押して開き、ばねが閉じるよ。</p><p>燃焼・膨張で得たエネルギーの一部をフライホイールにため、ほかの工程でも回り続ける。実車ではスターターで始動し、多気筒ならほかの気筒も回転を助けるんだ。</p></div><div><h2>この実験で簡単にしたこと。</h2><p>0°＝吸気の始まり、360°＝圧縮の上死点（いちばん上）。点火は360°ちょうど。実車は燃え広がる時間が必要なので、多くの場合は上死点より少し前に点火するよ。</p><p>吸気0〜180°、排気540〜720°で開く理想化したタイミング。実車の開閉の前後ずれや、両方が開く「オーバーラップ」は省略。混合気は吸気ポートでつくる方式を想定し、燃料噴射装置は省略しているよ。</p><p>カム2つは同じ軸の断面を横に並べた展開図。先のとがった接点がカムをなぞる理想化した仕組みで、実車のタペットやローラーとは形がちがう。ベルトの経路・部品の太さ・バルブのすきまは見やすく表示しているよ。</p><p>ボア80 mm、ストローク80 mm、コンロッド140 mm、圧縮比10:1の教材用モデル。気体の粒・色・力の矢印は説明用で、圧力・温度・トルクの実測値や計算結果ではない。流れや燃え広がり、熱損失、排気の残りは簡略化しているよ。</p><p><b>一定回転の観察用モーター</b>で動きを見せる装置なので、失火しても回る。実車のエンストや回転数の変動は再現しない。修理は画面内での学習だよ。排気バルブが開いたままの故障では、有効な圧縮・燃焼の力をゼロとする定性的なモデルにしているよ。</p></div></div><p class="source-links">しくみの参考：<a href="https://www.grc.nasa.gov/WWW/K-12/BGP/engopt.html" target="_blank" rel="noopener noreferrer">NASA Glenn｜4-Stroke Engine</a> ／ <a href="https://www.briggsandstratton.com/en-us/support/videos/4-stroke-theory" target="_blank" rel="noopener noreferrer">Briggs &amp; Stratton｜4-Stroke Theory</a>（説明の参考資料。ゲームの動作に通信は不要）</p></details>
+    <footer class="lab-footer"><span>Space：再生・停止 ／ ← →：5°ずつ ／ 1〜4：工程 ／ S：スロー</span><a href="../index.html">EXPERIMENT 01 ギアと坂道へ ↗</a><span>CAR LAB / 002</span></footer>
+  </main>
+  <dialog id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-top"><span class="eyebrow">QUICK GUIDE</span><button data-close="helpDialog" class="close-dialog" aria-label="あそび方を閉じる">×</button></div><details class="word-help"><summary>ことばのヒント</summary><dl><dt>rpm（アールピーエム）</dt><dd>1分間に何回まわるかを表す数字。1,200 rpmなら1分間に1,200回。</dd><dt>混合気（こんごうき）</dt><dd>空気とガソリンがまざった気体。火花で火がつくよ。</dd><dt>圧力（あつりょく）</dt><dd>気体などが、同じ広さの面を押す強さ。</dd><dt>ギア比（ひ）</dt><dd>ギアの入口と出口の回転数の比。数字が大きいほど、出口をゆっくり回して力を大きくする。エネルギーが増えるわけではないよ。</dd></dl></details><div class="sound-settings"><label for="volumeInput">効果音の音量<input id="volumeInput" type="range" min="0" max="100" step="5" value="30"></label><button id="testSoundButton" class="soft-button">音をためす ♪</button><small>最初は音OFF。ONを押すと鳴るよ。実車の録音ではなく、しくみを伝える合成音です。</small></div><h2 id="helpTitle">エンジンの中で、何が起きる？</h2><ol class="guide-steps"><li><strong>指で回す</strong><p>角度のつまみを左右へ。好きな場所で止めて、部品の動きとバルブを見よう。</p></li><li><strong>ゆっくり見る</strong><p>「自動再生」と「スロー」を押す。「前の工程」「次の工程」は180°ごとの境目まで動かすよ。</p></li><li><strong>ためして、直す</strong><p>実験モードで記録してクイズに挑戦。修理モードでは部品を点検し、原因を考えてから直そう。</p></li></ol><p>観察用モーターで回転を保つので、火花を消しても部品は動くよ。燃焼の力と、装置が回す力を区別して見てみよう。</p><p>回転数は想定したエンジンの速さ。表示は実際の1/50が標準で、「スロー」はさらに1/4にするよ。画面を離れると一時停止する。</p><button data-close="helpDialog" class="primary">わかった、回してみる →</button></dialog>
+  <dialog id="notesDialog" aria-labelledby="notesTitle"><div class="dialog-top"><span class="eyebrow">EXPERIMENT 02 / LOG</span><button data-close="notesDialog" class="close-dialog" aria-label="ノートを閉じる">×</button></div><h2 id="notesTitle">エンジンの実験ノート</h2><p id="storageStatus" class="storage-note"></p><div id="notesSummary" class="notes-summary"></div><div id="notesEntries"></div><details class="engine-backup"><summary>記録を持ち運ぶ</summary><p>別の端末へ移る前に、記録ファイルを書き出そう。</p><div class="engine-backup-actions"><button id="engineExportButton" class="soft-button">記録を書き出す ↓</button><label class="soft-button" for="engineImportInput">記録を読み込む ↑<input id="engineImportInput" type="file" accept=".json,application/json"></label></div><p id="engineBackupFeedback" role="status"></p></details><p class="storage-note">この端末・ブラウザにだけ保存。第1実験のランキングやノートとは別の記録です。</p></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <noscript><p class="noscript">CAR LABにはJavaScriptが必要です。Chromeの設定で有効にしてください。</p></noscript>
+<script>
+/* CAR LAB 02: geometric slider-crank, ideal four-stroke valve timing.
+   Units: mm, degrees. This is a prescribed-speed observation rig, not a
+   torque/thermodynamics solver. No external dependencies or network access. */
+(function (root) {
+  'use strict';
+  const P = Object.freeze({ radius:40, rod:140, bore:80, compression:10, valveLift:6 });
+  const STAGES = Object.freeze([
+    Object.freeze({name:'吸気',reading:'きゅうき',english:'INTAKE',color:'#7bd4d5',direction:'下がる',text:'ピストンが下がると中の圧力が下がり、開いた吸気バルブから空気とガソリンの混合気が入るよ。'}),
+    Object.freeze({name:'圧縮',reading:'あっしゅく',english:'COMPRESSION',color:'#c6b7ee',direction:'上がる',text:'2つのバルブを閉じて、ピストンが上がる。閉じこめた混合気の体積が小さくなり、圧力と温度が上がるよ。'}),
+    Object.freeze({name:'燃焼・膨張',reading:'ねんしょう・ぼうちょう',english:'POWER',color:'#f2ac73',direction:'下がる',text:'上まで縮めた混合気に火花で点火。燃えて高温・高圧になったガスがピストンを押し下げ、クランクを回す仕事をするよ。'}),
+    Object.freeze({name:'排気',reading:'はいき',english:'EXHAUST',color:'#d5b8a4',direction:'上がる',text:'排気バルブが開き、上がるピストンが燃えたあとのガスを押し出す。次の吸気の準備だよ。'})
+  ]);
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  const wrap = (x,n) => ((x%n)+n)%n;
+  const rad = x => x*Math.PI/180;
+  // 0° is TDC at the start of intake. 360° is compression TDC.
+  function geometry(angle) {
+    const t=rad(angle), x=P.radius*Math.sin(t), crankY=-P.radius*Math.cos(t);
+    const reach=Math.sqrt(P.rod*P.rod-x*x), pinY=crankY-reach;
+    const travel=P.radius+P.rod+pinY;
+    return {x,crankY,pinY,travel};
+  }
+  function lift(angle,which) {
+    const a=wrap(angle,720), start=which==='intake'?0:540;
+    if(a<=start||a>=start+180) return 0;
+    return Math.pow(Math.sin(rad(a-start)),2);
+  }
+  // Radial cam with an ideal point follower. Its intersection along the
+  // fixed downward follower axis exactly gives lift(crankAngle), at 1:2 speed.
+  function camRadius(localAngle,which,base=22,amplitude=9.6) {
+    return base+amplitude*lift(180-2*localAngle,which);
+  }
+  function sample(angle,options={}) {
+    const a=clamp(angle,0,720), g=geometry(a), stage=Math.min(3,Math.floor(a/180));
+    const intake=lift(a,'intake'), exhaust=options.exhaustStuck?0.7:lift(a,'exhaust');
+    const sealed=intake<1e-8 && exhaust<1e-8;
+    const hasSpark=options.sparkEnabled!==false;
+    const ignition=hasSpark&&a>=360&&a<370;
+    const fired=hasSpark&&!options.exhaustStuck&&stage===2;
+    const clearance=2*P.radius/(P.compression-1);
+    const volume=Math.PI*P.bore*P.bore/4*(clearance+g.travel)/1000;
+    const volumeFraction=(clearance+g.travel)/(clearance+2*P.radius);
+    const moving=Math.abs(Math.sin(rad(a)))>1e-7;
+    return {angle:a,stage,progress:(a-stage*180)/180,geometry:g,intake,exhaust,sealed,
+      ignition,fired,hasSpark,leaking:!!options.exhaustStuck,camAngle:a/2,
+      volume,volumeFraction,travel:g.travel,
+      direction:moving?(stage%2===0?'down':'up'):'still',
+      // Not a pressure or torque prediction: brightness indicates the power stroke.
+      power:fired&&a>360&&a<540?Math.sin(rad(a-360)):0};
+  }
+  function advance(angle,seconds,rpm,rate) {
+    const delta=clamp(seconds,0,.1)*clamp(rpm,600,3600)*6*clamp(rate,.001,.1);
+    const total=angle+delta;
+    return {angle:total>720?wrap(total,720):total,delta};
+  }
+  function phaseStep(angle,direction) {
+    const a=clamp(angle,0,720);
+    if(direction>0) return a>=720?0:Math.min(720,(Math.floor((a+1e-7)/180)+1)*180);
+    return a<=0?720:Math.max(0,(Math.ceil((a-1e-7)/180)-1)*180);
+  }
+  const API=Object.freeze({P,STAGES,clamp,wrap,geometry,lift,camRadius,sample,advance,phaseStep});
+  if(typeof module==='object'&&module.exports) module.exports=API;
+  else root.EngineLab=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Canvas engineering cutaway. All dimensions come from the same linkage model. */
+(function(root){
+  'use strict';
+  function create(canvas){
+    const ctx=canvas.getContext('2d',{alpha:false}), M=root.EngineLab;
+    const cx=440,cy=545,scaleMM=2,roof=161-160/9;
+    let transform={scale:1,x:0,y:0}, lastState;
+    const color={ink:'#c5d4b8',muted:'#7e9c80',metal:'#a6b8ac',edge:'#d4dfd2',dark:'#233b30',lime:'#d5f56b'};
+    function line(x1,y1,x2,y2,stroke,width=1){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}
+    function circle(x,y,r,fill,stroke,width=1){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    function rect(x,y,w,h,fill,stroke,width=1){if(fill){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.strokeRect(x,y,w,h);}}
+    function text(value,x,y,size=15,fill=color.ink,align='left',weight=400){ctx.font=weight+' '+size+'px "Segoe UI","Yu Gothic UI",Meiryo,sans-serif';ctx.fillStyle=fill;ctx.textAlign=align;ctx.fillText(value,x,y);}
+    function arrow(x1,y1,x2,y2,stroke,width=3,head=9){const a=Math.atan2(y2-y1,x2-x1);line(x1,y1,x2,y2,stroke,width);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-head*Math.cos(a-.55),y2-head*Math.sin(a-.55));ctx.lineTo(x2-head*Math.cos(a+.55),y2-head*Math.sin(a+.55));ctx.closePath();ctx.fillStyle=stroke;ctx.fill();}
+    function label(value,x,y,tx,ty,side='left'){const start=side==='left'?x+138:x-10;line(start,y-5,side==='left'?tx-25:tx+25,y-5,'#6f8a6b75',1);line(side==='left'?tx-25:tx+25,y-5,tx,ty,'#6f8a6b75',1);circle(tx,ty,2,color.lime);text(value,x,y,15,color.ink);}
+    function spring(x,top,bottom){ctx.beginPath();ctx.moveTo(x-11,top);for(let i=0;i<=12;i++)ctx.lineTo(x+(i%2?10:-10),top+(bottom-top)*i/12);ctx.strokeStyle='#859c82';ctx.lineWidth=2;ctx.stroke();}
+    function gear(x,y,r,teeth,angle,accent){ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();for(let i=0;i<teeth*4;i++){const a=i*Math.PI*2/(teeth*4),rr=i%4===1||i%4===2?r+3:r;const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;if(!i)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#314b3a';ctx.fill();ctx.strokeStyle='#8da27a';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,r-7,'#213a2c','#607953',1);for(let i=0;i<3;i++){const t=i*Math.PI*2/3;line(5*Math.cos(t),5*Math.sin(t),(r-8)*Math.cos(t),(r-8)*Math.sin(t),'#77916b',3);}circle(0,0,5,'#afc0a0');circle(0,-r+9,3.5,accent);ctx.restore();}
+    function belt(s){
+      // Open belt: external tangents between 40/20-tooth pulleys. Equal pitch,
+      // hence Rcam=2*Rcrank and both shafts turn in the same direction.
+      const x=800,y1=50,y2=545,r1=44,r2=22,dy=y2-y1;
+      const ny=(r1-r2)/dy,nx=Math.sqrt(1-ny*ny);
+      const ax=x-r1*nx,ay=y1+r1*ny,bx=x-r2*nx,by=y2+r2*ny;
+      const dx=x+r2*nx,ey=y2+r2*ny,ex=x+r1*nx,fy=y1+r1*ny;
+      const a=Math.atan2(ny,nx),left=Math.atan2(ny,-nx);
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.arc(x,y2,r2,left,a,true);ctx.lineTo(ex,fy);ctx.arc(x,y1,r1,a,left,true);ctx.closePath();ctx.strokeStyle='#769266';ctx.lineWidth=8;ctx.stroke();
+      ctx.setLineDash([3,6]);ctx.lineDashOffset=s.angle*Math.PI/180*r2;
+      ctx.strokeStyle='#b6c795';ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);ctx.lineDashOffset=0;
+      line(493,50,752,50,'#6c875966',3);line(450,545,772,545,'#6c875966',3);
+      gear(x,y1,r1,40,s.angle*Math.PI/360,color.lime);gear(x,y2,r2,20,s.angle*Math.PI/180,color.lime);
+      text('カム',864,48,16);text('40歯',864,70,12,color.muted);text('クランク',848,543,16);text('20歯',848,566,12,color.muted);
+      rect(760,271,80,58,'#283f2f','#5d774d',1);text('2 : 1',800,307,27,color.lime,'center',600);
+      text('タイミング',800,363,13,color.muted,'center');text('ベルト',800,384,13,color.muted,'center');
+      text('クランク2回転 → カム1回転',800,617,14,'#b2c59a','center');
+    }
+    function cam(x,s,which){const rotation=s.angle*Math.PI/360;ctx.save();ctx.translate(x,50);ctx.rotate(rotation);ctx.beginPath();for(let deg=0;deg<=360;deg+=2){const a=deg*Math.PI/180,r=M.camRadius(deg,which,22,12);const xx=r*Math.cos(a),yy=r*Math.sin(a);if(!deg)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#9baa90';ctx.fill();ctx.strokeStyle='#d3dfc0';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,7,'#334a32','#6f8563');line(0,0,0,-14,color.lime,2);ctx.restore();}
+    function valve(x,lift,kind,s){const liftPx=lift*12,stroke=kind==='intake'?'#7bc7c5':'#bd9c88';
+      // A point follower touches the radial cam. A stuck-open valve deliberately
+      // leaves a gap to the cam when its closing spring cannot return it.
+      ctx.beginPath();ctx.moveTo(x,72+liftPx);ctx.lineTo(x-5,82+liftPx);ctx.lineTo(x+5,82+liftPx);ctx.closePath();ctx.fillStyle='#b8c7b1';ctx.fill();
+      rect(x-2.5,80+liftPx,5,roof-80,'#a9bca5');
+      rect(x-12,85+liftPx,24,3,'#a0b196');spring(x,90+liftPx,128);rect(x-13,129,26,5,'#61765b');
+      line(x-16,roof-1,x-11,roof+3,'#8fa48b',3);line(x+11,roof+3,x+16,roof-1,'#8fa48b',3);
+      ctx.beginPath();ctx.moveTo(x-15,roof+liftPx);ctx.lineTo(x-11,roof+5+liftPx);ctx.lineTo(x+11,roof+5+liftPx);ctx.lineTo(x+15,roof+liftPx);ctx.closePath();ctx.fillStyle=lift>0.01?stroke:'#9dad9f';ctx.fill();ctx.strokeStyle='#d7dfd1';ctx.lineWidth=1;ctx.stroke();
+      if(kind==='exhaust'&&s.leaking){text('閉じない',x+27,roof+liftPx+9,12,'#efab88');}
+    }
+    function flows(s,emphasis=false){
+      if(s.intake>.03){ctx.beginPath();ctx.moveTo(282,120);ctx.bezierCurveTo(325,120,365,113,398,155);ctx.strokeStyle='#7bd4d577';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1),x=285+112*t,y=120+35*Math.pow(t,3);circle(x,y,2.5,'#7bd4d5');}arrow(305,120,338,120,'#7bd4d5',3,8);if(!emphasis)text('空気 ＋ ガソリン',245,91,12,'#93c9bc');}
+      if(s.stage===3&&s.exhaust>.03||s.leaking&&(s.stage===1||s.stage===2)){
+        const flowColor=s.leaking?'#b6a4d8':'#d5b8a4';ctx.beginPath();ctx.moveTo(480,159);ctx.bezierCurveTo(499,120,535,120,591,120);ctx.strokeStyle=flowColor+'7a';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1);circle(482+110*t,120+39*Math.pow(1-t,3),2.5,flowColor);}arrow(544,120,580,120,flowColor,3,8);if(!emphasis)text(s.leaking?'気体がにげる':'燃えたあとのガス',556,145,12,flowColor);
+      }
+      if(emphasis){
+        if(s.intake>.02){arrow(272,120,390,143,'#9ce8e1',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(274+122*u,120+26*u*u*u,4.5,'#b7f2eb');}}
+        if(s.stage===3&&s.exhaust>.02){arrow(488,145,606,120,'#f0c59d',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(488+118*u,120+25*Math.pow(1-u,3),4.5,'#f0c59d');}}
+        if(s.ignition){circle(442,145,28,'#ffe6a335','#ffe6a3',3);line(428,132,454,158,'#ffe6a3',3);line(428,158,454,132,'#ffe6a3',3);}
+      }
+    }
+    function drawGas(s,crown){const isHot=s.stage===2&&s.fired,spent=s.stage===3&&s.hasSpark&&!s.leaking;
+      const gas=isHot?'#ed9b60':spent?'#b59379':s.stage===1||s.stage===2?'#b6a4d8':'#66c0c3';
+      ctx.save();ctx.beginPath();ctx.rect(360,roof,160,Math.max(0,crown-roof));ctx.clip();
+      const grad=ctx.createLinearGradient(0,roof,0,crown);grad.addColorStop(0,gas+(isHot?'bd':'65'));grad.addColorStop(1,gas+(isHot?'5c':'25'));ctx.fillStyle=grad;ctx.fillRect(360,roof,160,crown-roof);
+      const count=s.stage===0||s.stage===3?Math.max(3,Math.round(42*s.volumeFraction)):42;
+      for(let i=0;i<count;i++){const xx=365+M.wrap(i*0.61803398875,1)*150,yy=roof+3+M.wrap(i*.41421356,1)*Math.max(0,crown-roof-6);circle(xx,yy,i%6===0?2:2.7,isHot?'#ffc487':spent?'#c5a58b':i%6===0?'#d5f56b':gas);}
+      if(isHot&&s.angle<425){const reach=Math.min(90,(s.angle-360)*1.6+10),y=roof+3;ctx.beginPath();ctx.moveTo(cx,y);ctx.lineTo(cx-reach,y+reach*.6);ctx.lineTo(cx-reach*.6,y+reach);ctx.lineTo(cx,y+reach*.8);ctx.lineTo(cx+reach*.65,y+reach);ctx.lineTo(cx+reach,y+reach*.4);ctx.closePath();ctx.fillStyle='#ffd79c60';ctx.fill();}
+      ctx.restore();
+    }
+    function draw(s,opts={}){
+      lastState=s;const box=canvas.getBoundingClientRect(),w=Math.max(1,box.width),h=Math.max(1,box.height),dpr=Math.min(root.devicePixelRatio||1,1.5);
+      const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+      ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#1c2e29';ctx.fillRect(0,0,w,h);
+      const k=Math.min(w/(opts.game?440:1000),h/660)*(opts.zoom?1.75:1),tx=opts.game?w/2-440*k:opts.zoom?w/2-440*k:(w-1000*k)/2,ty=opts.zoom?h/2-200*k:(h-660*k)/2;transform={scale:k,x:tx,y:ty};ctx.translate(tx,ty);ctx.scale(k,k);
+      ctx.lineCap='round';ctx.lineJoin='round';
+      for(let x=0;x<=1000;x+=25)line(x,0,x,660,'#8da78a08');for(let y=0;y<=660;y+=25)line(0,y,1000,y,'#8da78a08');
+      ctx.setLineDash([4,7]);line(cx,115,cx,647,'#89a47755');ctx.setLineDash([]);
+      // Crankcase cutaway and cylinder liner.
+      ctx.beginPath();ctx.moveTo(337,370);ctx.lineTo(317,564);ctx.quadraticCurveTo(316,648,400,649);ctx.lineTo(484,649);ctx.quadraticCurveTo(565,647,563,564);ctx.lineTo(542,370);ctx.closePath();ctx.fillStyle='#283e33';ctx.fill();ctx.strokeStyle='#617a59';ctx.lineWidth=2;ctx.stroke();
+      const t=s.angle*Math.PI/180, gx=s.geometry.x*scaleMM+cx,gy=s.geometry.crankY*scaleMM+cy,pin=s.geometry.pinY*scaleMM+cy,crown=pin-24;
+      // Flywheel: energy store in a real engine; the observation motor here holds rpm.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);circle(0,0,91,'#243a2e','#657d55',4);circle(0,0,82,null,'#405c3b',9);for(let i=0;i<6;i++){const a=i*Math.PI/3;line(53*Math.cos(a),53*Math.sin(a),72*Math.cos(a),72*Math.sin(a),'#7e945f',3);}circle(0,-83,4,color.lime);ctx.restore();
+      // Crank arm and counterweight.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);ctx.beginPath();ctx.moveTo(-17,-8);ctx.lineTo(-48,38);ctx.quadraticCurveTo(0,78,48,38);ctx.lineTo(17,-8);ctx.closePath();ctx.fillStyle='#71876c';ctx.fill();ctx.strokeStyle='#92a58b';ctx.lineWidth=2;ctx.stroke();line(0,0,0,-80,'#829c7f',25);line(0,0,0,-80,'#b9c8b2',13);ctx.restore();
+      // Connecting rod has a fixed length of exactly 140 mm (280 canvas units).
+      line(gx,gy,cx,pin,'#687f6b',24);line(gx,gy,cx,pin,'#b9c9bc',13);line(gx,gy,cx,pin,'#6e8870',3);
+      circle(gx,gy,17,'#a3b5a3','#d3ddcb',2);circle(gx,gy,9,'#3f5b43','#637e5d',1);circle(cx,cy,21,'#3a553d','#bacba6',3);circle(cx,cy,8,'#abbf94');
+      rect(337,137,23,255,'#5a715e','#8aa18a');rect(520,137,23,255,'#5a715e','#8aa18a');rect(356,roof,4,250,'#c2cfc0');rect(520,roof,4,250,'#c2cfc0');
+      // Cooling/casting hatching, outside the liner.
+      for(let y=152;y<385;y+=15){line(337,y,355,y+13,'#9db2983d');line(525,y,543,y+13,'#9db2983d');}
+      drawGas(s,crown);
+      // Piston, ring pack, skirt and gudgeon pin.
+      const metal=ctx.createLinearGradient(361,0,519,0);metal.addColorStop(0,'#9babaa');metal.addColorStop(.32,'#dce2d8');metal.addColorStop(.7,'#c4d0c5');metal.addColorStop(1,'#8da094');
+      rect(361,crown,158,52,metal,'#e3e8db',1);rect(365,crown+34,150,16,'#849b89');for(const n of [7,12,18])line(363,crown+n,517,crown+n,'#455f51',2.5);
+      rect(410,crown+36,60,16,'#334e3b');circle(cx,pin,12,'#8ca28c','#e1e8d8',2);circle(cx,pin,5,'#3a563c');
+      // Head, open port passages, and valve seats.
+      rect(336,101,208,42,'#556d58','#9aaf90',1);rect(351,133,178,10,'#6d836a');
+      ctx.beginPath();ctx.moveTo(282,120);ctx.lineTo(369,120);ctx.quadraticCurveTo(391,120,400,144);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(480,144);ctx.quadraticCurveTo(489,120,511,120);ctx.lineTo(594,120);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      line(282,108,364,108,'#607b65',2);line(282,132,373,132,'#607b65',2);line(516,108,594,108,'#607b65',2);line(508,132,594,132,'#607b65',2);
+      // Spark plug fixed to head, with electrodes at the combustion chamber.
+      rect(434,84,12,20,'#d9ddc7','#f0eedc');for(let y=88;y<104;y+=4)line(433,y,447,y,'#a1aa8a',1);rect(431,105,18,17,'#91a388','#c5d1b8');rect(435,122,10,13,'#c1cbb7');line(440,134,440,141,'#d3dabc',2);line(446,133,446,142,'#bdcaaa',2);line(446,142,443,142,'#bdcaaa',2);
+      if(s.ignition){ctx.beginPath();ctx.moveTo(440,141);ctx.lineTo(436,148);ctx.lineTo(444,147);ctx.lineTo(439,155);ctx.strokeStyle='#ffe9a3';ctx.lineWidth=3;ctx.stroke();circle(441,145,13,'#ffe6a326');text('点火！',448,171,13,'#ffe9a3', 'left',700);}
+      cam(400,s,'intake');cam(480,s,'exhaust');valve(400,s.intake,'intake',s);valve(480,s.exhaust,'exhaust',s);flows(s,opts.emphasis);belt(s);
+      // Piston movement and gas work are different arrows: all four strokes
+      // move the piston, but only the power stroke gets combustion energy.
+      const stage=M.STAGES[s.stage];if(s.direction!=='still'){const ya=crown+12,yb=crown+45;arrow(578,s.direction==='down'?ya:yb,578,s.direction==='down'?yb:ya,stage.color,3,9);}
+      if(s.power>.01){const forceEnd=Math.max(roof+6,crown-6);arrow(440,roof+4,440,forceEnd,'#ffc184',5,Math.min(12,(forceEnd-roof-4)*.6));line(cx,pin+18,gx,gy-20,'#eeb47995',4);ctx.beginPath();ctx.arc(cx,cy,102,-1,.7);ctx.strokeStyle='#f1b678';ctx.lineWidth=3;ctx.stroke();arrow(cx+102*Math.cos(.65),cy+102*Math.sin(.65),cx+102*Math.cos(.85),cy+102*Math.sin(.85),'#f1b678',3,9);text('ガスが押す → 回す力へ',440,419,14,'#efb27e','center',600);}
+      if(opts.labels!==false){label('カムシャフト',34,48,378,50);label('吸気バルブ',34,153,388,roof+4+s.intake*12);label('ピストン',34,279,361,crown+21);label('コンロッド',34,407,(cx+gx)/2,(pin+gy)/2);label('クランクシャフト',34,550,350,545);label('点火プラグ',556,86,445,109,'right');label('排気バルブ',556,200,493,roof+4+s.exhaust*12,'right');text('フライホイール',300,641,12,color.muted);text('カムは同じ軸の2断面を表示',418,16,11,color.muted,'center');}
+      if(!opts.emphasis){text('TDC',305,166,10,'#a0b291');text('BDC',305,326,10,'#a0b291');line(332,161,356,161,'#a0b291',1);line(332,321,356,321,'#a0b291',1);}
+      if(!opts.game){text('0°／360°／720°：いちばん上',34,606,12,'#73916d');text('180°／540°：いちばん下',34,627,12,'#73916d');}
+    }
+    function hitTest(clientX,clientY){const b=canvas.getBoundingClientRect(),x=(clientX-b.left-transform.x)/transform.scale,y=(clientY-b.top-transform.y)/transform.scale;if(!lastState)return null;
+      const pin=cy+lastState.geometry.pinY*scaleMM,crankX=cx+lastState.geometry.x*scaleMM,crankY=cy+lastState.geometry.crankY*scaleMM;
+      if(y<86&&x>365&&x<517)return 'cam';if(x>425&&x<456&&y>82&&y<153)return 'spark';if(x>380&&x<420&&y>80&&y<175)return 'intake';if(x>460&&x<500&&y>80&&y<175)return 'exhaust';if(x>360&&x<520&&y>pin-24&&y<pin+30)return 'piston';if(Math.hypot(x-cx,y-cy)<100)return 'crank';
+      const vx=crankX-cx,vy=crankY-pin,t=M.clamp(((x-cx)*vx+(y-pin)*vy)/(vx*vx+vy*vy),0,1);if(Math.hypot(x-cx-t*vx,y-pin-t*vy)<24)return 'rod';return null;
+    }
+    return {draw,hitTest};
+  }
+  root.EngineView=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Offline Web Audio effects. No recordings, downloads or network access.
+   Starts silent. Only an explicit user gesture enables sound. */
+(function(root){
+  'use strict';
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  function create(options={}){
+    let ctx=null,master=null,motorGain=null,motors=[],enabled=false,volume=.3,generation=0;
+    let exhaustFilter=null,intakeGain=null,noiseSource=null;
+    let lastDrive=[900,0,false,{}],lastEffect=-Infinity,voices=new Set();
+    const button=options.button,slider=options.volume;
+    function update(){if(button){button.textContent=enabled?'♪ 音 ON':'♪ 音 OFF';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'効果音をOFFにする':'効果音をONにする');}if(slider)slider.value=String(Math.round(volume*100));}
+    function ensure(){if(ctx)return;const C=root.AudioContext||root.webkitAudioContext;if(!C)throw Error('音を使えないブラウザです。音なしで遊べます。');ctx=new C();master=ctx.createGain();master.gain.value=volume;master.connect(ctx.destination);}
+    function stopEffects(){for(const v of voices){try{v.stop();}catch{}try{v.disconnect();}catch{}}voices.clear();}
+    function quiet(){if(ctx&&motorGain){motorGain.gain.cancelScheduledValues(ctx.currentTime);motorGain.gain.setValueAtTime(0,ctx.currentTime);}stopEffects();if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}
+    async function setEnabled(value){const request=++generation;if(!value){enabled=false;quiet();if(master)master.gain.setValueAtTime(0,ctx.currentTime);if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});update();return false;}
+      try{ensure();await ctx.resume();if(request!==generation)return enabled;enabled=true;master.gain.setValueAtTime(volume,ctx.currentTime);update();drive(...lastDrive);effect('tap');return true;}
+      catch(e){enabled=false;quiet();update();if(options.onError)options.onError(e.message||'音を再生できません。音なしでも遊べます。');return false;}}
+    function setVolume(value){volume=clamp(value,0,1);if(master)master.gain.setTargetAtTime(enabled?volume:0,ctx.currentTime,.02);update();}
+    function tone(freq,duration,gain,offset=0,type='sine'){
+      if(!enabled||!ctx)return;const start=ctx.currentTime+offset,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(gain,start+.004);g.gain.exponentialRampToValueAtTime(.0001,start+duration);o.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();g.disconnect();};o.start(start);o.stop(start+duration+.01);
+    }
+    function effect(name){if(!enabled||!ctx)return;if(ctx.state==='suspended')ctx.resume().catch(()=>{});const time=ctx.currentTime;if(name==='tap'&&time-lastEffect<.04)return;lastEffect=time;
+      if(name==='gear'){tone(160,.07,.07,0,'triangle');tone(85,.05,.035,.025,'sine');}
+      else if(name==='spark'){tone(1600,.025,.045,0,'triangle');tone(85,.13,.07,.01,'sine');}
+      else if(name==='sparkOnly'){tone(1600,.025,.045,0,'triangle');}
+      else if(name==='perfect'){tone(1500,.025,.035,0,'triangle');tone(85,.12,.06,.01);tone(988,.09,.035,.045);}
+      else if(/^combo[1-6]$/.test(name)){const notes=[330,392,440,494,587,659],index=+name.slice(-1)-1;tone(notes[index],.1,.04,0,'triangle');if(index>=3)tone(notes[index]*1.5,.11,.025,.035);}
+      else if(name==='valve'){tone(410,.035,.035,0,'triangle');}
+      else if(name==='win'){[392,494,587].forEach((n,i)=>tone(n,.19,.065,i*.12));}
+      else if(name==='discover'){tone(523,.12,.055);tone(659,.17,.055,.09);}
+      else if(name==='retry'){tone(240,.09,.035);}
+      else tone(620,.045,.04);
+    }
+    function drive(rpm,throttle,active,conditions={}){
+      lastDrive=[rpm,throttle,active,conditions];if(!enabled||!ctx)return;
+      if(!active){if(motorGain)motorGain.gain.setTargetAtTime(0,ctx.currentTime,.035);return;}
+      if(!motorGain){
+        motorGain=ctx.createGain();motorGain.gain.value=0;motorGain.connect(master);
+        exhaustFilter=ctx.createBiquadFilter();exhaustFilter.type='lowpass';exhaustFilter.frequency.value=700;if(exhaustFilter.Q)exhaustFilter.Q.value=.65;exhaustFilter.connect(motorGain);
+        let wave=null;
+        if(ctx.createPeriodicWave){const real=new Float32Array(49),imag=new Float32Array(49);for(let n=1;n<49;n++){const pulse=Math.sin(Math.PI*n*.15)/(Math.PI*n*.15);real[n]=pulse*Math.exp(-n/18);imag[n]=real[n]*.12;}wave=ctx.createPeriodicWave(real,imag);}
+        motors=[1,2].map(h=>{const o=ctx.createOscillator(),g=ctx.createGain();if(wave&&o.setPeriodicWave)o.setPeriodicWave(wave);else o.type='sawtooth';g.gain.value=h===1?.62:.10;o.connect(g);g.connect(exhaustFilter);o.start();return o;});
+        if(ctx.createBuffer&&ctx.createBufferSource){
+          const buffer=ctx.createBuffer(1,Math.round(ctx.sampleRate*2),ctx.sampleRate),data=buffer.getChannelData(0);let seed=71237;
+          for(let i=0;i<data.length;i++){seed=(1664525*seed+1013904223)>>>0;data[i]=(seed/4294967296*2-1);}
+          noiseSource=ctx.createBufferSource();noiseSource.buffer=buffer;noiseSource.loop=true;const band=ctx.createBiquadFilter();band.type='bandpass';band.frequency.value=1300;if(band.Q)band.Q.value=.6;intakeGain=ctx.createGain();intakeGain.gain.value=0;noiseSource.connect(band);band.connect(intakeGain);intakeGain.connect(motorGain);noiseSource.start();
+        }
+      }
+      if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+      // Four cylinders, one combustion per cylinder per two crank turns:
+      // 2 firing pulses per revolution = rpm / 30 Hz. Pitch follows rpm only.
+      const firing=clamp(rpm,700,7000)/30,gas=clamp(throttle,0,1),load=clamp(conditions.load??gas,0,1),cut=conditions.shifting?.32:1;
+      motors.forEach((o,i)=>o.frequency.setTargetAtTime(firing*(i+1),ctx.currentTime,conditions.shifting?.035:.065));
+      exhaustFilter.frequency.setTargetAtTime(430+gas*1800+load*1100,ctx.currentTime,.08);
+      motorGain.gain.setTargetAtTime((.055+.10*gas+.055*load)*cut,ctx.currentTime,.045);
+      if(intakeGain)intakeGain.gain.setTargetAtTime(.005+gas*.045+load*.025,ctx.currentTime,.07);
+    }
+    if(button)button.addEventListener('click',()=>setEnabled(!enabled));
+    if(slider)slider.addEventListener('input',()=>setVolume(+slider.value/100));
+    if(options.testButton)options.testButton.addEventListener('click',()=>{if(enabled)effect('gear');else setEnabled(true).then(on=>{if(on)effect('gear');});});
+    update();return Object.freeze({setEnabled,setVolume,effect,drive,quiet,isEnabled:()=>enabled,getVolume:()=>volume});
+  }
+  root.CarLabAudio=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const M=EngineLab, $=id=>document.getElementById(id), all=sel=>[...document.querySelectorAll(sel)];
+  const sound=CarLabAudio.create({button:$('soundButton'),volume:$('volumeInput'),testButton:$('testSoundButton'),onError:toast});
+  const canvas=$('engineCanvas'), view=EngineView.create(canvas), KEY='car-lab.engine.progress.v1';
+  const parts={
+    piston:['ピストン','気体を押し縮めたり、燃えたガスに押されたりして上下する部品。横のリングが気体のもれを減らすよ。'],
+    rod:['コンロッド','ピストンとクランクをつなぐ、長さの変わらない棒。両端の軸で向きを変えながら、力を伝えるよ。'],
+    crank:['クランクシャフト','中心からずれた軸にコンロッドがつながる。ピストンの上下と回転をつなぐ部品。丸いフライホイールは回転のエネルギーをためるよ。'],
+    intake:['吸気バルブ','混合気の入口。カムに押されると開き、ばねで閉じる。圧縮や燃焼のときは閉じて、気体を閉じこめるよ。'],
+    exhaust:['排気バルブ','燃えたあとのガスの出口。排気の工程で開き、上がるピストンがガスを押し出すよ。'],
+    spark:['点火プラグ','電気で小さな火花を飛ばして混合気に火をつける。この実験では圧縮のいちばん上、360°で点火するよ。'],
+    cam:['カムシャフト','出っぱりのあるカムが回り、決まったときにバルブを開く。クランク2回転につき1回転。図の2つのカムは同じ軸についているよ。']
+  };
+  const missions=[
+    {title:'同じ「下がる」、ちがう役目。',task:'「吸気」と「燃焼・膨張」をそれぞれ観察して記録しよう。点火はONにしてね。',
+      stamps:[{label:'吸気を観察',match:s=>s.stage===0&&s.angle>20&&s.angle<160},{label:'燃焼・膨張を観察',match:s=>s.fired&&s.angle>390&&s.angle<510}],
+      question:'燃焼でクランクを回すエネルギーを得るのは、どの工程？',answers:['吸気','圧縮','燃焼・膨張'],correct:2,
+      success:'発見！ 同じ下向きでも、吸気は混合気を取りこむ工程。燃焼・膨張では高温・高圧のガスからエネルギーを受け取る。',retry:'吸気では入口が開き、燃焼・膨張では2つとも閉じているね。オレンジの矢印が出る工程をもう一度見よう。'},
+    {title:'クランク2回転のあいだに？',task:'角度のつまみを左端の0°と、右端の720°にして記録しよう。カムの角度と回転数も見てね。',
+      stamps:[{label:'0°から出発',match:s=>s.angle===0},{label:'720°まで回した',match:s=>s.angle===720}],
+      question:'クランクが2回転すると、カムは何回転する？',answers:['1回転','2回転','4回転'],correct:0,
+      success:'発見！ 20歯のクランク側が2回転する間に、40歯のカム側は1回転。4工程で1サイクルだから、この比率でバルブを開くんだ。',retry:'右の「ROTATION LINK」を見よう。720°では、クランク2回転に対してカムは360°になっているよ。'},
+    {title:'火花をなくしたら？',task:'上の「点火プラグ」をOFFにして、燃焼・膨張を記録。ONに戻して、同じ工程をもう一度記録しよう。切り替えると330°に戻るよ。',
+      stamps:[{label:'OFFの燃焼・膨張',match:s=>!s.hasSpark&&s.angle>=400&&s.angle<=500},{label:'ONの燃焼・膨張',match:s=>s.fired&&s.angle>=400&&s.angle<=500}],
+      question:'火花がOFFでも部品が動くのは、なぜ？',answers:['火花なしでも燃焼の力が出るから','観察用モーターが回しているから','カムがガソリンを燃やすから'],correct:1,
+      success:'発見！ 動いていても、燃焼の力が出るとは限らない。OFFでは火がつかず、観察用モーターが回している。実車は始動後、燃焼の力で回り続けるよ。',retry:'この装置には観察用モーターがあるよ。OFFのとき、燃える色と「ガスが押す」矢印は出ていたかな？'}
+  ];
+  const cases=[
+    {title:'CASE 1｜回るのに、燃えない。',task:'2つのバルブは動くのに、燃焼のオレンジ色が見えない。360°の前後で止めて、どの部品が原因か点検しよう。',cause:'spark'},
+    {title:'CASE 2｜圧縮できない。',task:'ピストンが上がっても、気体が出口へにげてしまう。圧縮の途中でバルブを点検しよう。',cause:'exhaust'}
+  ];
+  let storage=null, storageAvailable=true, progress={missions:[],repairs:[],notes:[],observations:[0,0,0]};
+  try {
+    storage=window.localStorage;
+    const saved=JSON.parse(storage.getItem(KEY)||'null');
+    if(saved&&saved.version===1){
+      progress.missions=[...new Set(Array.isArray(saved.missions)?saved.missions.filter(n=>Number.isInteger(n)&&n>=0&&n<3):[])];
+      progress.repairs=[...new Set(Array.isArray(saved.repairs)?saved.repairs.filter(n=>Number.isInteger(n)&&n>=0&&n<2):[])];
+      progress.observations=Array.isArray(saved.observations)&&saved.observations.length===3?saved.observations.map(n=>Number.isInteger(n)&&n>=0&&n<=3?n:0):[0,0,0];
+      progress.notes=Array.isArray(saved.notes)?saved.notes.filter(n=>n&&['observation','mission','repair'].includes(n.kind)&&typeof n.text==='string'&&n.text.length<=500).slice(-30):[];
+    }
+  } catch {storageAvailable=false;}
+  const stamps=missions.map((m,i)=>m.stamps.map((st,j)=>progress.missions.includes(i)||!!(progress.observations[i]&(1<<j))));
+  let tourPlaying=false,zoom=false;
+  let mode='observe',angle=90,playing=false,slow=false,labels=true,rpm=1200,rate=.02,spark=true;
+  let missionIndex=0,repairIndex=0,repairFixed=false,inspected=new Set(),repairVerified=false;
+  let rafPending=false,lastFrame=0,lastPaint=-Infinity,lastUi=-Infinity,dirty=true,toastTimer,canvasDown=null;
+  function options(){return mode==='repair'&&!repairFixed?{sparkEnabled:cases[repairIndex].cause!=='spark',exhaustStuck:cases[repairIndex].cause==='exhaust'}:{sparkEnabled:spark};}
+  function current(){return M.sample(angle,options());}
+  function toast(message){$('toast').textContent=message;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),4200);}
+  function save(){try{if(!storage)throw Error('no storage');storage.setItem(KEY,JSON.stringify({version:1,...progress}));storageAvailable=true;}catch{storageAvailable=false;}updateProgress();}
+  function note(kind,text){progress.notes.push({kind,text});progress.notes=progress.notes.slice(-30);save();}
+  function updateProgress(){
+    $('researchBadge').hidden=!(progress.missions.length===3&&progress.repairs.length===2);
+    $('noteCount').textContent=String(progress.notes.length);
+    $('missionProgress').textContent=progress.missions.length+'/3';$('repairProgress').textContent=progress.repairs.length+'/2';
+    all('[data-mission]').forEach(b=>b.classList.toggle('complete',progress.missions.includes(+b.dataset.mission)));
+    all('[data-repair]').forEach(b=>b.classList.toggle('complete',progress.repairs.includes(+b.dataset.repair)));
+    $('storageStatus').textContent=storageAvailable?'第2実験の発見と修理の結果を、自動で保存します。':'このブラウザでは保存を使えません。今の画面を閉じるまでは記録を残します。';
+  }
+  function schedule(){dirty=true;if(!rafPending){rafPending=true;requestAnimationFrame(frame);}}
+  function observationTarget(){
+    const i=stamps[missionIndex].findIndex(v=>!v),step=i<0?0:i;
+    const angles=[[90,450],[0,720],[450,450]],hints=[['入口が開く「吸気」を見て、記録しよう。','「燃焼・膨張」でガスが押す力を見て、記録しよう。'],['0°でカムの向きを見て、記録しよう。','720°まで回したら、カムは何回転したかな？'],['点火プラグをOFFにして、450°でくらべよう。','点火プラグをONに戻して、450°でくらべよう。']];
+    return {angle:angles[missionIndex][step],hint:hints[missionIndex][step]};
+  }
+  function updateUi(s){
+    $('phaseCard').setAttribute('data-phase',String(s.stage));
+    $('observationCue').textContent=s.leaking?'出口が閉じない。気体を閉じこめられるかな？':!s.hasSpark&&s.stage===2?'火花なし。動いていても、燃焼の力は出ていない。':['入口が開く。混合気が入ってくる。','両方閉じる。気体の入るすきまが小さくなる。','火花 → 燃焼 → ガスがピストンを押す。','出口が開く。燃えたあとのガスを押し出す。'][s.stage];
+    const stage=M.STAGES[s.stage];$('angleValue').innerHTML=Math.round(angle)+'<span>°</span>';
+    $('angleInput').value=String(Math.round(angle));$('angleInput').style.setProperty('--fill',(angle/720*100)+'%');
+    $('angleInput').setAttribute('aria-valuetext',Math.round(angle)+'度、'+stage.name+'、カム'+Math.round(angle/2)+'度');
+    $('stageNumber').textContent='0'+(s.stage+1);$('stageEnglish').textContent=stage.english;
+    $('stageName').innerHTML=stage.name+' <small>'+stage.reading+'</small>';
+    $('stageText').textContent=s.leaking&&(s.stage===1||s.stage===2)?'排気バルブが閉じず、気体を閉じこめられない。体積は小さくなっても、圧縮の圧力が十分に上がらないよ。この修理モデルでは燃焼の力が出ないとしている。':!s.hasSpark&&s.stage===2?'混合気を縮めても、火花がなければ火がつかない。燃焼で押す力は生まれず、この装置のモーターが部品を動かしているよ。':stage.text;
+    $('pistonArrow').textContent=s.direction==='still'?'·':s.direction==='down'?'↓':'↑';
+    $('pistonState').textContent=s.direction==='still'?(s.travel<.01?'いちばん上':'いちばん下'):s.direction==='down'?'下がる ↓':'上がる ↑';
+    $('intakeState').textContent=s.intake>.001?'開いている':'閉じている';$('intakeState').classList.toggle('is-open',s.intake>.001);
+    $('exhaustState').textContent=s.leaking?'閉じない（故障）':s.exhaust>.001?'開いている':'閉じている';$('exhaustState').classList.toggle('is-open',s.exhaust>.001);
+    $('sparkState').textContent=!s.hasSpark?'火花なし（OFF）':s.ignition?'360°で点火！':angle>=370?'360°で点火済み':'360°で点火する';$('sparkState').classList.toggle('is-firing',s.ignition);
+    const power=s.fired&&angle>360&&angle<540;
+    $('workState').textContent=s.leaking?'気体がもれて、有効な燃焼の力が出ない。':!s.hasSpark&&s.stage===2?'燃焼の力なし。観察用モーターが回す。':power?'ガス → ピストン → コンロッド → クランク。主にここで出力を得る！':s.stage===2?'上死点では回す腕の長さがゼロ。下がり始めると、回す力が生まれる。':'この工程は回転のエネルギーを使う。実車ではフライホイールなどが回転を助ける。';
+    $('workState').classList.toggle('power-on',power);$('workState').classList.toggle('fault-state',s.leaking||(!s.hasSpark&&s.stage===2));
+    $('crankTurns').innerHTML=(angle/360).toFixed(2)+'<small>回転</small>';$('camTurns').innerHTML=(angle/720).toFixed(2)+'<small>回転</small>';
+    // Round both readouts from the same displayed angle, so the visible 2:1
+    // relationship remains exact even between integer angles during playback.
+    const shownAngle=Math.round(angle);$('camValue').textContent='クランク '+shownAngle+'° → カム '+(shownAngle/2)+'°';
+    $('travelValue').textContent=s.travel.toFixed(1)+' mm';$('volumeValue').textContent=s.volume.toFixed(0)+' cm³';
+    $('playButton').textContent=playing?'Ⅱ 一時停止':'▶ 自動再生';$('playButton').setAttribute('aria-pressed',String(playing));
+    $('playStatus').textContent=playing?(slow?'SLOW PLAY':'PLAYING'):'PAUSED';
+    $('slowButton').setAttribute('aria-pressed',String(slow));$('slowButton').textContent=slow?'✓ スロー ×¼':'スロー ×¼';
+    $('cycleTime').textContent='1サイクル 約'+(120/(rpm*rate*(slow?.25:1))).toFixed(1)+'秒で表示';
+    all('[data-phase]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.phase===s.stage)));
+    if(mode==='experiment'){const done=stamps[missionIndex].every(Boolean),target=observationTarget();const canRecord=missions[missionIndex].stamps.some(st=>st.match(s));$('recordHint').textContent=done?'2つの記録がそろった！ 下の理解チェックで確かめよう。':target.hint;$('observationTargetButton').hidden=done;$('recordButton').textContent=canRecord?'＋ 今のようすを記録':'＋ 観察できたら、ここで記録';$('recordButton').classList.toggle('ready-to-record',canRecord);$('missionFlow').setAttribute('data-step',done?'3':stamps[missionIndex].some(Boolean)?'2':'1');}
+    $('verifyButton').disabled=!(mode==='repair'&&repairFixed&&s.power>.2&&!repairVerified);
+    canvas.setAttribute('aria-label',stage.name+'の断面図。ピストン'+$('pistonState').textContent+'。吸気バルブ'+$('intakeState').textContent+'、排気バルブ'+$('exhaustState').textContent+'。');
+  }
+  function frame(t){
+    rafPending=false;
+    if(playing){const before=angle;const dt=lastFrame?Math.min(.1,Math.max(0,(t-lastFrame)/1000)):0;const next=M.advance(angle,dt,rpm,rate*(slow?.25:1));if(tourPlaying&&angle+next.delta>=720){angle=720;playing=false;tourPlaying=false;toast('4工程で1サイクル。クランク2回転、カム1回転だったね。');}else angle=next.angle;const currentState=current();if(before<360&&angle>=360&&currentState.hasSpark)sound.effect(currentState.leaking?'sparkOnly':'spark');else if(Math.floor(before/180)!==Math.floor(angle/180)&&Math.floor(angle/180)!==2)sound.effect('valve');dirty=true;}lastFrame=t;
+    if(dirty&&(t-lastPaint>=1000/30||!playing)){const s=current();view.draw(s,{labels:labels&&!zoom,zoom});lastPaint=t;dirty=false;if(t-lastUi>=100||!playing){updateUi(s);lastUi=t;}}
+    if(playing){rafPending=true;requestAnimationFrame(frame);}
+  }
+  function setPlaying(value){if(!value){tourPlaying=false;sound.quiet();}playing=!!value;lastFrame=0;updateUi(current());schedule();}
+  function seek(value){setPlaying(false);angle=M.clamp(value,0,720);updateUi(current());schedule();}
+  function selectPart(key){if(!parts[key])return;all('[data-part]').forEach(b=>b.classList.toggle('selected',b.dataset.part===key));$('partDescription').textContent=parts[key][0]+'：'+parts[key][1];$('partDescription').parentElement.open=true;toast(parts[key][0]+'：'+parts[key][1]);}
+  function renderMission(){
+    const m=missions[missionIndex];$('missionIndex').textContent=(missionIndex+1)+' / 3';$('missionTitle').textContent=m.title;$('missionTask').textContent=m.task;
+    all('[data-mission]').forEach(b=>{b.classList.toggle('selected',+b.dataset.mission===missionIndex);b.setAttribute('aria-pressed',String(+b.dataset.mission===missionIndex));});
+    const stampNodes=m.stamps.map((stamp,i)=>{const el=document.createElement('span');el.textContent=(stamps[missionIndex][i]?'✓ ':'○ ')+stamp.label;el.classList.toggle('checked',stamps[missionIndex][i]);return el;});$('missionStamps').replaceChildren(...stampNodes);
+    const ready=stamps[missionIndex].every(Boolean);$('missionQuiz').hidden=!ready;$('missionQuestion').textContent=m.question;
+    $('missionAnswers').replaceChildren(...m.answers.map((answer,i)=>{const b=document.createElement('button');b.textContent=answer;b.addEventListener('click',()=>answerMission(i,b));return b;}));
+    $('recordFeedback').textContent='';$('missionFeedback').textContent=progress.missions.includes(missionIndex)?'✓ '+m.success:'';
+    $('missionFeedback').className='feedback'+(progress.missions.includes(missionIndex)?' success':'');
+    $('missionNextButton').hidden=!progress.missions.includes(missionIndex);
+    $('recordButton').textContent=progress.missions.includes(missionIndex)?'✓ もう一度、観察を記録':'＋ 今のようすを記録';
+    updateProgress();updateUi(current());
+  }
+  function recordObservation(){
+    if(mode!=='experiment')return;setPlaying(false);const s=current(),m=missions[missionIndex];let found=false,newStamp=false;
+    m.stamps.forEach((stamp,i)=>{if(stamp.match(s)){found=true;if(!stamps[missionIndex][i])newStamp=true;stamps[missionIndex][i]=true;}});
+    if(!found){$('recordFeedback').textContent='観察ポイントをもう一度見てみよう。ボタンで場所へ移動できるよ。点火のON/OFFも確かめてね。';$('recordFeedback').className='feedback retry';return;}
+    progress.observations[missionIndex]=stamps[missionIndex].reduce((bits,v,j)=>bits|(v?(1<<j):0),0);
+    if(newStamp)sound.effect('discover');
+    if(newStamp||progress.missions.includes(missionIndex))note('observation',m.title+' ／ '+Math.round(angle)+'° '+M.STAGES[s.stage].name+' ／ 点火'+(s.hasSpark?'ON':'OFF'));
+    renderMission();$('recordFeedback').textContent=stamps[missionIndex].every(Boolean)?'✓ 2つの観察がそろった！ 下の理解チェックへ進もう。':'✓ 記録した！ もう一方も、同じように観察してみよう。';$('recordFeedback').className='feedback success';
+  }
+  function answerMission(index,button){
+    if(mode!=='experiment'||!stamps[missionIndex].every(Boolean))return;const m=missions[missionIndex],right=index===m.correct;
+    sound.effect(right?'discover':'retry');button.classList.add(right?'correct':'incorrect');$('missionFeedback').textContent=right?'✓ '+m.success:m.retry;$('missionFeedback').className='feedback '+(right?'success':'retry');
+    if(right)$('missionNextButton').hidden=false;
+    if(right&&!progress.missions.includes(missionIndex)){progress.missions.push(missionIndex);note('mission','ミッション'+(missionIndex+1)+'達成：'+m.success);toast('ミッション'+(missionIndex+1)+' 達成！ 発見をノートに残したよ。');}
+  }
+  function renderRepair(){
+    const c=cases[repairIndex];$('repairIndex').textContent=(repairIndex+1)+' / 2';$('repairTitle').textContent=c.title;$('repairTask').textContent=c.task;
+    all('[data-repair]').forEach(b=>{b.classList.toggle('selected',+b.dataset.repair===repairIndex);b.setAttribute('aria-pressed',String(+b.dataset.repair===repairIndex));});
+    all('[data-inspect]').forEach(b=>b.classList.toggle('inspected',inspected.has(b.dataset.inspect)));
+    $('repairButton').hidden=repairFixed;$('verifyButton').hidden=!repairFixed;
+    $('repairButton').disabled=repairFixed||!inspected.has(c.cause)||$('diagnosisInput').value!==c.cause;
+    updateProgress();updateUi(current());
+  }
+  function resetRepair(index){$('repairNextButton').hidden=true;repairIndex=index;repairFixed=false;repairVerified=false;inspected=new Set();$('diagnosisInput').value='';$('inspectFeedback').textContent='';$('repairFeedback').textContent='';seek(index===0?365:270);renderRepair();}
+  function inspect(part){
+    if(mode!=='repair')return;setPlaying(false);inspected.add(part);const c=cases[repairIndex];
+    const messages={spark:!repairFixed&&c.cause==='spark'?'点検結果：圧縮の上死点360°でも火花が出ない。プラグへ電気が来ていないよ。':'点検結果：プラグの配線は正常。360°で火花が出るよ。',exhaust:!repairFixed&&c.cause==='exhaust'?'点検結果：圧縮や燃焼の工程でも排気バルブが開いたまま。気体がにげてしまうよ。':'点検結果：排気バルブは排気のときに開き、圧縮と燃焼のときは閉じるよ。',crank:'点検結果：クランクとコンロッドはつながり、ピストンも連動している。ここは正常だよ。'};
+    $('inspectFeedback').textContent=messages[part];$('inspectFeedback').className='feedback';renderRepair();
+  }
+  function diagnose(){
+    if(mode!=='repair'||repairFixed)return;const chosen=$('diagnosisInput').value,c=cases[repairIndex];
+    $('repairFeedback').textContent=!chosen?'':chosen!==c.cause?'その部品は正常だったかな？ 点検結果と、断面図をもう一度見てみよう。':!inspected.has(c.cause)?'その部品を点検して、証拠を確かめよう。':'点検結果と原因がつながった！ 修理して、力が戻るか確かめよう。';
+    $('repairFeedback').className='feedback'+(chosen&&chosen!==c.cause?' retry':'');renderRepair();
+  }
+  function repair(){
+    const c=cases[repairIndex];if(mode!=='repair'||repairFixed||!inspected.has(c.cause)||$('diagnosisInput').value!==c.cause)return;
+    repairFixed=true;spark=true;seek(330);sound.effect('gear');renderRepair();$('repairFeedback').textContent='修理したよ。自動再生、または角度のつまみで400〜500°へ。燃焼の色と矢印が戻ったら、下のボタンで確認しよう。';$('repairFeedback').className='feedback';
+  }
+  function verify(){
+    const s=current();if(mode!=='repair'||!repairFixed||s.power<=.2||repairVerified)return;setPlaying(false);repairVerified=true;
+    if(!progress.repairs.includes(repairIndex)){progress.repairs.push(repairIndex);note('repair','CASE '+(repairIndex+1)+' 修理完了：'+(repairIndex===0?'プラグの配線を直すと、火花で混合気が燃え、ピストンを押す力が戻った。':'排気バルブが閉じるように直すと、混合気を閉じこめ、燃焼の力を取り出せた。'));}
+    sound.effect('win');$('repairFeedback').textContent='✓ 修理完了！ '+(repairIndex===0?'火花 → 燃焼 → 押す力、のつながりが戻った。':'バルブが閉じる → 圧縮できる → 燃焼の力を取り出せる、のつながりが戻った。');$('repairFeedback').className='feedback success';$('verifyButton').disabled=true;$('repairNextButton').hidden=false;toast('修理完了！ 結果をノートに残したよ。');
+  }
+  function setMode(next){
+    if(!['observe','experiment','repair'].includes(next))return;setPlaying(false);mode=next;spark=true;$('sparkInput').checked=true;$('sparkToggleLabel').textContent='ON';
+    all('[data-mode]').forEach(b=>{b.classList.toggle('selected',b.dataset.mode===next);b.setAttribute('aria-pressed',String(b.dataset.mode===next));});
+    $('observePanel').hidden=next==='repair';$('experimentPanel').hidden=next!=='experiment';$('repairPanel').hidden=next!=='repair';
+    $('modeNote').textContent=next==='observe'?'まずは指で、ゆっくり回してみよう。':next==='experiment'?'くらべて記録。気づいたことを確かめよう。':'点検 → 原因を考える → 直して確かめる。';
+    $('motorLabel').textContent=next==='repair'?'モーターで回して故障を点検中':'観察用モーターで回しています';
+    if(next==='repair')resetRepair(repairIndex);else{renderMission();updateUi(current());schedule();}
+  }
+  function showNotes(){
+    setPlaying(false);$('notesSummary').textContent='実験ミッション '+progress.missions.length+' / 3 達成　·　修理 '+progress.repairs.length+' / 2 完了';
+    const entries=progress.notes.slice().reverse().map(n=>{const article=document.createElement('article');article.className='note-entry';const title=document.createElement('strong');title.textContent=n.kind==='mission'?'発見したこと':n.kind==='repair'?'修理の結果':'観察の記録';const p=document.createElement('p');p.textContent=n.text;article.append(title,p);return article;});
+    if(!entries.length){const p=document.createElement('p');p.textContent='まだ記録はありません。「実験する」で観察を記録してみよう。';entries.push(p);}$('notesEntries').replaceChildren(...entries);if(!$('notesDialog').open)$('notesDialog').showModal();
+  }
+  $('focusButton').addEventListener('click',()=>{const on=!$('labShell').classList.contains('drive-focus');$('labShell').classList.toggle('drive-focus',on);$('focusButton').setAttribute('aria-pressed',String(on));$('focusButton').textContent=on?'全体表示へ':'集中モード';schedule();});
+  all('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+  $('observationTargetButton').addEventListener('click',()=>seek(observationTarget().angle));
+  $('tourButton').addEventListener('click',()=>{setMode('observe');seek(0);rpm=1200;rate=.01;slow=false;$('rpmInput').value='1200';$('rateInput').value='0.01';tourPlaying=true;setPlaying(true);});
+  all('[data-angle]').forEach(b=>b.addEventListener('click',()=>{seek(+b.dataset.angle);sound.effect(+b.dataset.angle===360&&current().hasSpark?(current().leaking?'sparkOnly':'spark'):'tap');}));
+  $('angleInput').addEventListener('input',()=>seek(+$('angleInput').value));
+  $('playButton').addEventListener('click',()=>setPlaying(!playing));$('slowButton').addEventListener('click',()=>{slow=!slow;updateUi(current());schedule();});
+  $('prevPhaseButton').addEventListener('click',()=>seek(M.phaseStep(angle,-1)));$('nextPhaseButton').addEventListener('click',()=>seek(M.phaseStep(angle,1)));
+  all('[data-phase]').forEach(b=>b.addEventListener('click',()=>{seek(+b.dataset.phase*180+90);sound.effect('tap');}));
+  $('rpmInput').addEventListener('change',()=>{rpm=M.clamp(+$('rpmInput').value,600,3600);updateUi(current());schedule();});
+  $('rateInput').addEventListener('change',()=>{rate=M.clamp(+$('rateInput').value,.01,.04);updateUi(current());schedule();});
+  $('sparkInput').addEventListener('change',()=>{spark=$('sparkInput').checked;$('sparkToggleLabel').textContent=spark?'ON':'OFF';seek(330);toast('点火を'+(spark?'ON':'OFF')+'にしたよ。圧縮の終わり330°から、もう一度くらべよう。');});
+  $('zoomButton').addEventListener('click',()=>{zoom=!zoom;$('zoomButton').setAttribute('aria-pressed',String(zoom));$('zoomButton').textContent=zoom?'全体図へ':'燃焼室を拡大';$('labelsButton').disabled=zoom;$('labelsButton').textContent=zoom?'部品名は全体図で':'部品名 '+(labels?'ON':'OFF');schedule();});
+  $('labelsButton').addEventListener('click',()=>{labels=!labels;$('labelsButton').setAttribute('aria-pressed',String(labels));$('labelsButton').textContent='部品名 '+(labels?'ON':'OFF');schedule();});
+  all('[data-part]').forEach(b=>b.addEventListener('click',()=>selectPart(b.dataset.part)));
+  canvas.addEventListener('pointerdown',e=>{canvasDown={id:e.pointerId,x:e.clientX,y:e.clientY};});
+  canvas.addEventListener('pointerup',e=>{if(canvasDown&&canvasDown.id===e.pointerId&&Math.hypot(e.clientX-canvasDown.x,e.clientY-canvasDown.y)<10){const part=view.hitTest(e.clientX,e.clientY);if(part)selectPart(part);}canvasDown=null;});canvas.addEventListener('pointercancel',()=>{canvasDown=null;});
+  all('[data-mission]').forEach(b=>b.addEventListener('click',()=>{missionIndex=+b.dataset.mission;renderMission();}));$('recordButton').addEventListener('click',recordObservation);
+  all('[data-repair]').forEach(b=>b.addEventListener('click',()=>resetRepair(+b.dataset.repair)));
+  all('[data-inspect]').forEach(b=>b.addEventListener('click',()=>inspect(b.dataset.inspect)));
+  $('diagnosisInput').addEventListener('change',diagnose);$('repairButton').addEventListener('click',repair);$('verifyButton').addEventListener('click',verify);
+  $('beginMissionsButton').addEventListener('click',()=>setMode('experiment'));
+  $('missionNextButton').addEventListener('click',()=>{const next=missions.findIndex((m,i)=>!progress.missions.includes(i));if(next<0){setMode('observe');toast('3つの発見、コンプリート！ 自由に回して、さらに調べよう。');}else{missionIndex=next;renderMission();}});
+  $('repairNextButton').addEventListener('click',()=>{const next=cases.findIndex((c,i)=>!progress.repairs.includes(i));if(next<0){setMode('observe');toast('2つの修理、完了！ 正常なしくみをもう一度見よう。');}else resetRepair(next);});
+
+  function exportEngine(){
+    const url=URL.createObjectURL(new Blob([JSON.stringify({format:'CAR-LAB-ENGINE',version:1,data:progress},null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='CAR-LAB-engine-records.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('engineBackupFeedback').textContent='記録を書き出したよ。HTMLと、このJSONファイルを一緒に持っていこう。';
+  }
+  async function importEngine(event){
+    const file=event.target.files&&event.target.files[0];if(!file)return;
+    try{
+      if(file.size>256000)throw Error('256 KB以下の記録ファイルを選んでね。');
+      const payload=JSON.parse(await file.text());if(!payload||payload.format!=='CAR-LAB-ENGINE'||payload.version!==1||!payload.data||typeof payload.data!=='object')throw Error('エンジン編で書き出した記録ファイルを選んでね。');
+      const p=payload.data;
+      progress.missions=[...new Set([...progress.missions,...(Array.isArray(p.missions)?p.missions:[]).filter(n=>Number.isInteger(n)&&n>=0&&n<3)])];
+      progress.repairs=[...new Set([...progress.repairs,...(Array.isArray(p.repairs)?p.repairs:[]).filter(n=>Number.isInteger(n)&&n>=0&&n<2)])];
+      for(let i=0;i<3;i++){const bits=Array.isArray(p.observations)&&Number.isInteger(p.observations[i])&&p.observations[i]>=0&&p.observations[i]<=3?p.observations[i]:0;progress.observations[i]|=bits;for(let j=0;j<2;j++)stamps[i][j]=progress.missions.includes(i)||!!(progress.observations[i]&(1<<j));}
+      const incoming=Array.isArray(p.notes)?p.notes.filter(n=>n&&['observation','mission','repair'].includes(n.kind)&&typeof n.text==='string'&&n.text.length<=500).slice(-30):[];
+      const unique=new Map([...progress.notes,...incoming].map(n=>[n.kind+'|'+n.text,{kind:n.kind,text:n.text}]));progress.notes=[...unique.values()].slice(-30);save();renderMission();showNotes();$('engineBackupFeedback').textContent='記録を読み込んだよ。今ある発見も残し、同じ記録はまとめたよ。';
+    }catch(e){$('engineBackupFeedback').textContent=e instanceof SyntaxError?'記録ファイルを読み取れなかったよ。':e.message||'記録を読み取れなかったよ。';}event.target.value='';
+  }
+  $('engineExportButton').addEventListener('click',exportEngine);$('engineImportInput').addEventListener('change',importEngine);
+
+  $('notesButton').addEventListener('click',showNotes);$('helpButton').addEventListener('click',()=>{setPlaying(false);$('helpDialog').showModal();});
+  all('[data-close]').forEach(b=>b.addEventListener('click',()=>$(b.dataset.close).close()));
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)setPlaying(false);});window.addEventListener('blur',()=>{canvasDown=null;setPlaying(false);});
+  document.addEventListener('keydown',e=>{
+    if(e.repeat||e.ctrlKey||e.altKey||e.metaKey||all('dialog').some(d=>d.open))return;
+    const tag=e.target.tagName;if(['INPUT','SELECT','TEXTAREA','BUTTON','A','SUMMARY'].includes(tag))return;
+    let used=true;
+    if(e.code==='Space'){setPlaying(!playing);}else if(e.code==='ArrowLeft'){seek(angle-(e.shiftKey?15:5));}else if(e.code==='ArrowRight'){seek(angle+(e.shiftKey?15:5));}else if(e.code==='Home'){seek(0);}else if(e.code==='End'){seek(720);}else if(/^Digit[1-4]$/.test(e.code)){seek((+e.code.slice(-1)-1)*180+90);}else if(e.code==='KeyS'){slow=!slow;updateUi(current());schedule();}else used=false;
+    if(used)e.preventDefault();
+  });
+  window.addEventListener('pagehide',()=>setPlaying(false));
+  window.addEventListener('resize',schedule);if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe(canvas);
+  updateProgress();renderMission();renderRepair();updateUi(current());schedule();
+})();
+
+</script>
+</body>
+</html>

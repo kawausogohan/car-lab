@@ -1,0 +1,320 @@
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#192622"><title>CAR LAB｜02 エンジンの4ストローク</title><style>
+@charset "UTF-8";
+:root{--lesson-ink:#263e30;--lesson-paper:#f3f4ee;--lesson-lime:#d5f56b;--lesson-dark:#192622;font-family:"Segoe UI","Yu Gothic UI",Meiryo,sans-serif}*{box-sizing:border-box}.experiment-tabs{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:10px;min-width:0}.experiment-tabs a,.experiment-tabs button{display:flex;align-items:center;justify-content:center;gap:12px;min-height:58px;border:1px solid #c5d3b4;border-radius:9px;background:#e9efdf;color:#536f3e;padding:10px 12px;text-decoration:none;font:inherit;touch-action:manipulation}.experiment-tabs strong{font-size:19px;font-weight:700;line-height:1.4}.experiment-tabs span{font:18px Bahnschrift,Arial,sans-serif;color:#8aa167}.experiment-tabs [aria-current=page]{background:#d5f56b;color:#2e4827;border-color:#a6c34e}.experiment-tabs button:disabled{opacity:.48;cursor:default}.learning-goal{display:flex;gap:14px;align-items:center;padding:10px 16px;border-left:4px solid #9ebd5e;background:#e9efdf;color:#29452e;border-radius:0 8px 8px 0;min-height:62px}.learning-goal>span{font-size:15px;color:#6d8652;white-space:nowrap}.learning-goal h1{font-size:24px;font-weight:700;line-height:1.5;margin:0}.cause-card{display:grid;grid-template-columns:1fr 1.4fr;align-items:center;gap:18px;padding:12px 18px;border-radius:8px;background:#ebf1df;color:#385230;min-height:76px}.cause-card strong{font-size:20px;line-height:1.6}.cause-card p{font-size:18px;line-height:1.7;margin:0;padding-left:18px;border-left:1px solid #c5d5af}.learning-first .lab.simple-ui{height:calc(100dvh - 64px);min-height:650px;grid-template-rows:58px 62px minmax(0,1fr) 100px 80px;gap:10px;padding:10px 20px}.learning-first .lab.simple-ui>.experiment-tabs,.learning-first .lab.simple-ui>.learning-goal,.learning-first .lab.simple-ui>.cause-card{display:grid}.learning-first .lab.simple-ui>.learning-goal{display:flex}.learning-first .lab.simple-ui .engine-game-link,.learning-first .engine-game-link{display:none}.learning-first .lab.simple-ui>.lab-experiments{display:none}.learning-first .lab:not(.simple-ui) .learning-goal{margin:6px 0}.learning-first .cause-card{flex-shrink:0}.learning-first .lab.simple-ui .telemetry{width:216px}.learning-first .lab.simple-ui .discovery{display:none}.learning-first .lab.simple-ui .run-status{font-size:17px}.learning-first .lab.simple-ui .track-data{bottom:65px}.learning-first .lab.simple-ui .controls{gap:18px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:80px}.lesson-header{height:64px;background:#192622;color:#edf3e4;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}.lesson-brand{font-size:26px;font-weight:850;text-decoration:none;letter-spacing:-1px;color:inherit;white-space:nowrap}.lesson-brand b{color:#d5f56b}.lesson-header nav{display:flex;gap:10px}.lesson-header button{min-height:48px;border:1px solid #4c6541;border-radius:7px;padding:8px 14px;background:#2c4334;color:#e1eed1;font-size:16px}.lesson-action{display:flex;min-height:52px;align-items:center;justify-content:center;width:100%;padding:10px 14px;margin-top:12px;background:#e3edcf;border:1px solid #b9ce98;border-radius:7px;text-decoration:none;color:#4a6c33;font:inherit}.lesson-volume{display:flex;align-items:center;gap:15px;font-size:18px;margin-top:18px}.lesson-volume input{height:48px;min-width:80px;flex:1;accent-color:#719343}.lesson-dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.lesson-dialog-heading h2{font-size:26px}.lesson-dialog-heading button{width:48px;height:48px;border:0;border-radius:50%;background:#e6eddb;font:28px Arial,sans-serif;color:#486433}.learning-first button:focus-visible,.experiment-tabs a:focus-visible,.lesson-header button:focus-visible,.lesson-action:focus-visible{outline:3px solid #66b8b2;outline-offset:4px}
+@media(min-width:700px) and (max-height:700px){.learning-first .lab.simple-ui{min-height:540px;grid-template-rows:52px 52px minmax(0,1fr) 84px 76px;padding:8px 16px;gap:8px}.experiment-tabs a,.experiment-tabs button{min-height:52px}.experiment-tabs strong{font-size:17px}.learning-goal{min-height:52px;padding:8px 12px}.learning-goal h1{font-size:22px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:72px}.cause-card{padding:10px 14px;gap:14px}.cause-card strong{font-size:18px}.cause-card p{font-size:17px;line-height:1.65}.learning-first .lab.simple-ui .telemetry{width:190px}.learning-first .lab.simple-ui .tachometer svg{max-height:117px}}
+@media(max-width:699px){.experiment-tabs{gap:6px;grid-template-columns:1fr 1fr 1.2fr}.experiment-tabs a,.experiment-tabs button{padding:8px 6px;min-height:62px;gap:5px;flex-direction:column}.experiment-tabs strong{font-size:15px}.experiment-tabs span{font-size:15px}.learning-goal{gap:8px;padding:10px}.learning-goal h1{font-size:21px}.learning-goal>span{font-size:14px}.learning-first .lab.simple-ui{height:auto;min-height:calc(100dvh - 64px);grid-template-rows:auto auto minmax(290px,45dvh) 148px auto;padding:10px 12px;gap:10px}.learning-first .lab.simple-ui .controls{gap:10px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:64px}.cause-card{grid-template-columns:1fr;gap:6px;padding:13px}.cause-card strong{font-size:19px}.cause-card p{font-size:17px;padding:0;border:0}.lesson-header{padding:8px 14px}.lesson-header button{font-size:14px;padding:8px 10px}.lesson-header nav{gap:6px}}
+
+</style><style>
+@charset "UTF-8";
+body{margin:0;background:#f3f4ee;color:#263e30;font-size:17px}button,input{font:inherit}button{cursor:pointer;touch-action:manipulation;user-select:none}h1,h2,p{margin:0}[hidden]{display:none!important}body:has(dialog[open]){overflow:hidden}.observation-lab{max-width:1400px;margin:auto;padding:12px 22px 18px;height:calc(100dvh - 64px);min-height:650px;display:grid;grid-template-rows:58px 62px minmax(0,1fr) 74px 64px;gap:12px}.observation-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,1fr);gap:22px;min-height:0}.cutaway-panel{background:#1c2e29;border:1px solid #415a45;border-radius:12px;overflow:hidden;min-height:0;display:flex;flex-direction:column}.cutaway-panel canvas{width:100%;height:0;flex:1;min-height:0;display:block;touch-action:pan-y}.flow-key{display:flex;align-items:center;justify-content:center;gap:20px;padding:10px 12px;font-size:14px;background:#172820;flex-shrink:0}.intake-key{color:#91dedb}.exhaust-key{color:#e4bc94}.stage-explanation{align-self:center;min-width:0}.phase-number{font:16px Consolas,monospace;color:#839c62;margin-bottom:8px}.stage-explanation h2{font-size:clamp(30px,3.6vw,45px);line-height:1.3;font-weight:750;color:#354f34}.stage-explanation h2 span{display:block;font-size:16px;font-weight:500;color:#87997b;margin-top:6px}.explain-label{font-size:15px;color:#839573;margin-top:20px;margin-bottom:7px}.stage-explanation strong{display:block;font-size:23px;line-height:1.65;font-weight:650}.stage-explanation #stageWhy{font-size:21px;line-height:1.7;color:#637c4b}.spark-explanation{font-size:19px;line-height:1.7;color:#95652f;background:#f6e8c5;padding:10px 13px;border-radius:7px;margin-top:14px}.repeat-guide{font-size:16px;line-height:1.7;color:#7d9169;margin-top:17px}.phase-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.phase-cards button{min-height:74px;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 12px;border:1px solid #cbd7bb;border-bottom:4px solid #c7d5b3;border-radius:9px;background:#e9efdf;color:#5f7a47}.phase-cards b{font:30px Bahnschrift,Arial,sans-serif;color:#94aa78}.phase-cards span{font-size:21px;font-weight:700;text-align:left}.phase-cards small{display:block;font-size:15px;font-weight:400;color:#869a6d;margin-top:3px}.phase-cards button[aria-pressed=true]{background:#e1edce;color:#36562d;border-color:#9ab76b;box-shadow:inset 0 -3px #8fb366}.phase-cards button:nth-child(1)[aria-pressed=true]{border-color:#64b9b4}.phase-cards button:nth-child(2)[aria-pressed=true]{border-color:#ad98d2}.phase-cards button:nth-child(3)[aria-pressed=true]{border-color:#d7a16d}.phase-cards button:nth-child(4)[aria-pressed=true]{border-color:#b79b80}.observe-transport{display:flex;align-items:center;gap:12px}.observe-transport button{min-height:54px;flex-shrink:0;padding:10px 18px;border:1px solid #b3c78f;border-radius:8px;background:#d5f56b;color:#36512c;font-size:18px;font-weight:650}.observe-transport button:nth-child(2){background:#e5edda;font-size:17px}.observe-transport button[aria-pressed=true]{background:#294530;color:#e6f2d5}.observe-transport label{display:flex;align-items:center;gap:12px;font-size:16px;color:#788d61;flex:1;min-width:100px;white-space:nowrap}.observe-transport input{height:48px;min-width:80px;width:100%;accent-color:#789c50;touch-action:none}.observe-transport output{font:22px Bahnschrift,Arial,sans-serif;min-width:58px;text-align:right;color:#57723c}dialog{max-width:650px;width:calc(100% - 28px);max-height:90dvh;overflow:auto;padding:25px;border:1px solid #c4d3ae;border-radius:12px;background:#f7f8f2;color:#3e5a34}dialog::backdrop{background:#152b23bb}dialog p{font-size:17px;line-height:1.9;margin-top:18px}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #62b6b0;outline-offset:4px}
+@media(min-width:700px) and (max-height:700px){.observation-lab{min-height:540px;grid-template-rows:52px 52px minmax(0,1fr) 66px 54px;gap:8px;padding:8px 16px}.observation-grid{gap:18px}.stage-explanation h2{font-size:32px}.stage-explanation strong{font-size:20px}.stage-explanation #stageWhy{font-size:19px}.explain-label{margin-top:12px;font-size:14px}.phase-number{font-size:14px;margin-bottom:4px}.repeat-guide{font-size:15px;margin-top:10px}.phase-cards button{min-height:66px;padding:7px}.phase-cards span{font-size:19px}.phase-cards small{font-size:14px}.spark-explanation{font-size:17px;margin-top:8px;padding:8px}.observe-transport button{font-size:16px;padding:8px 12px;min-height:48px}.observe-transport label{font-size:14px;gap:6px}.flow-key{font-size:13px;padding:8px;gap:12px}}
+@media(max-width:699px){.observation-lab{height:auto;min-height:calc(100dvh - 64px);padding:12px;grid-template-rows:auto auto auto auto auto;gap:12px}.observation-grid{grid-template-columns:1fr;gap:16px}.cutaway-panel{height:300px}.stage-explanation{padding:0 6px}.stage-explanation h2{font-size:33px}.stage-explanation strong{font-size:21px}.stage-explanation #stageWhy{font-size:19px}.phase-cards{grid-template-columns:1fr 1fr;gap:8px}.phase-cards button{min-height:72px}.phase-cards span{font-size:20px}.observe-transport{flex-wrap:wrap;gap:8px}.observe-transport button:first-child{flex:1}.observe-transport label{flex-basis:75%}.repeat-guide{font-size:16px}.flow-key{font-size:13px;gap:12px}}
+
+.stage-explanation h2 span{display:inline;font-size:16px;margin-left:9px}.explain-label{margin-top:14px}.phase-number{margin-bottom:4px}.stage-explanation h2{font-size:37px}@media(min-width:700px) and (max-height:850px){.phase-number,.repeat-guide,.spark-explanation{display:none!important}.stage-explanation h2{font-size:31px}.explain-label{margin-top:10px}.stage-explanation h2 span{font-size:14px;margin-left:7px}.stage-explanation strong{font-size:21px}.stage-explanation #stageWhy{font-size:20px}}
+
+/* Readable HTML captions replace the tiny labels scaled inside the canvas. */
+.flow-key{justify-content:flex-start;gap:16px;padding:12px 20px;min-height:84px;line-height:1.4;text-align:left;border-top:1px solid #45665c}.flow-symbol{display:grid;place-items:center;font:36px Arial,sans-serif;width:52px;height:52px;flex-shrink:0;border-radius:12px;background:#36564c;color:#b4eee5}.flow-key>div{min-width:0}.flow-key strong{display:block;font-size:25px;font-weight:750;color:#b4eee5;line-height:1.4}.flow-key>div>span{display:block;margin-top:3px;font-size:18px;color:#a6cabc}.flow-key[data-phase="1"] strong,.flow-key[data-phase="1"] .flow-symbol{color:#d6c6f1}.flow-key[data-phase="2"] strong,.flow-key[data-phase="2"] .flow-symbol{color:#ffd09c}.flow-key[data-phase="3"] strong,.flow-key[data-phase="3"] .flow-symbol{color:#f0ccaf}
+@media(min-width:700px) and (max-height:850px){.flow-key{min-height:76px;padding:10px 16px;gap:12px}.flow-key strong{font-size:23px}.flow-key>div>span{font-size:17px}.flow-symbol{width:46px;height:46px;font-size:32px}}
+@media(max-width:699px){.cutaway-panel{height:370px}.flow-key{padding:10px 14px;gap:10px;min-height:78px}.flow-key strong{font-size:22px}.flow-key>div>span{font-size:17px}.flow-symbol{width:44px;height:44px;font-size:30px}}
+
+</style></head><body class="observe-first"><header class="lesson-header"><a class="lesson-brand" href="../index.html">CAR <b>LAB</b></a><nav aria-label="音と補足"><button id="soundButton" aria-pressed="false">♪ 音 OFF</button><button id="helpButton">しくみ・音量</button></nav></header><main class="observation-lab"><nav class="experiment-tabs" aria-label="学ぶしくみを選ぶ"><a href="../index.html"><span>01</span><strong>ギアと坂道</strong></a><a aria-current="page" href="../engine/index.html"><span>02</span><strong>4ストローク</strong></a><a href="../driveline/index.html"><span>03</span><strong>エンジンからタイヤ</strong></a></nav><section class="learning-goal" aria-labelledby="learningTitle"><span>めあて</span><h1 id="learningTitle">エンジンは、4つの工程をくり返して力をつくる。</h1></section><div class="observation-grid"><section class="cutaway-panel" aria-label="エンジンの断面"><canvas id="learnCanvas" width="680" height="660" role="img" aria-label="ピストン、クランク、カム、バルブが連動する断面図"></canvas><div id="flowKey" class="flow-key" data-phase="0"><span id="flowSymbol" class="flow-symbol" aria-hidden="true">↓</span><div><strong id="flowTitle">空気 ＋ ガソリン</strong><span id="flowAction">開いたバルブから入る</span></div></div></section><section class="stage-explanation" aria-labelledby="stageTitle"><div class="phase-number" id="stageNumber">01 / 04</div><h2 id="stageTitle">吸気<span>きゅうき</span></h2><p class="explain-label">いま、何が起きている？</p><strong id="stageWhat">ピストンが下がり、空気とガソリンを吸いこむ。</strong><p class="explain-label">なぜ必要？</p><p id="stageWhy">燃やす材料を、エンジンの中へ入れるため。</p><p id="sparkExplanation" class="spark-explanation" hidden>プラグの先で火花が飛び、混合気に火がつく。</p><p class="repeat-guide" id="repeatHint">下の工程ボタンを押すと、その動きをもう一度見られる。</p></section></div><div class="phase-cards" role="group" aria-label="工程を選んで繰り返し観察"><button data-learn-phase="0" aria-pressed="true"><b>1</b><span>吸気<small>すいこむ</small></span></button><button data-learn-phase="1" aria-pressed="false"><b>2</b><span>圧縮<small>ぎゅっと縮める</small></span></button><button data-learn-phase="2" aria-pressed="false"><b>3</b><span>燃焼・膨張<small>燃えて押す</small></span></button><button data-learn-phase="3" aria-pressed="false"><b>4</b><span>排気<small>ガスを出す</small></span></button></div><div class="observe-transport"><button id="learnPlayButton" aria-pressed="false">▶ 4つをつなげて再生</button><button id="learnSlowButton" aria-pressed="false">ゆっくり</button><label for="learnAngle">指で好きな位置へ<input id="learnAngle" type="range" min="0" max="720" step="1" value="90" aria-label="クランク角度 0度から720度"></label><output id="learnAngleValue" for="learnAngle">90°</output></div></main><dialog id="learnHelp" aria-labelledby="helpTitle"><div class="lesson-dialog-heading"><h2 id="helpTitle">もっと調べる</h2><button id="closeLearnHelp" aria-label="補足を閉じる">×</button></div><p>工程ボタンを押すたびに、選んだ工程を最初からもう一度見られます。動きの最後で止まるので、何度でも比べられます。「4つをつなげて再生」で1サイクルを続けて観察できます。</p><p>クランク2回転（720°）の間に、カムは1回転。ピストンの同じ高さでも、吸気・圧縮・燃焼・排気では役目が違います。</p><p>この装置はモーターで回転を助けます。点火は圧縮の上死点360°、バルブのタイミングは理想化しています。色や粒は気体の流れを伝える模式表示で、圧力や温度の測定値ではありません。実車では上死点の少し前に点火することがあります。</p><label class="lesson-volume" for="volumeInput">音量<input id="volumeInput" type="range" min="0" max="100" value="30" step="5"></label><button id="testSoundButton" class="lesson-action">♪ 音をためす</button><a class="lesson-action" href="lab.html">細かい角度・実験・修理・研究ノート →</a><a class="lesson-action" href="beat.html">点火のタイミングゲーム →</a></dialog><script>
+/* CAR LAB 02: geometric slider-crank, ideal four-stroke valve timing.
+   Units: mm, degrees. This is a prescribed-speed observation rig, not a
+   torque/thermodynamics solver. No external dependencies or network access. */
+(function (root) {
+  'use strict';
+  const P = Object.freeze({ radius:40, rod:140, bore:80, compression:10, valveLift:6 });
+  const STAGES = Object.freeze([
+    Object.freeze({name:'吸気',reading:'きゅうき',english:'INTAKE',color:'#7bd4d5',direction:'下がる',text:'ピストンが下がると中の圧力が下がり、開いた吸気バルブから空気とガソリンの混合気が入るよ。'}),
+    Object.freeze({name:'圧縮',reading:'あっしゅく',english:'COMPRESSION',color:'#c6b7ee',direction:'上がる',text:'2つのバルブを閉じて、ピストンが上がる。閉じこめた混合気の体積が小さくなり、圧力と温度が上がるよ。'}),
+    Object.freeze({name:'燃焼・膨張',reading:'ねんしょう・ぼうちょう',english:'POWER',color:'#f2ac73',direction:'下がる',text:'上まで縮めた混合気に火花で点火。燃えて高温・高圧になったガスがピストンを押し下げ、クランクを回す仕事をするよ。'}),
+    Object.freeze({name:'排気',reading:'はいき',english:'EXHAUST',color:'#d5b8a4',direction:'上がる',text:'排気バルブが開き、上がるピストンが燃えたあとのガスを押し出す。次の吸気の準備だよ。'})
+  ]);
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  const wrap = (x,n) => ((x%n)+n)%n;
+  const rad = x => x*Math.PI/180;
+  // 0° is TDC at the start of intake. 360° is compression TDC.
+  function geometry(angle) {
+    const t=rad(angle), x=P.radius*Math.sin(t), crankY=-P.radius*Math.cos(t);
+    const reach=Math.sqrt(P.rod*P.rod-x*x), pinY=crankY-reach;
+    const travel=P.radius+P.rod+pinY;
+    return {x,crankY,pinY,travel};
+  }
+  function lift(angle,which) {
+    const a=wrap(angle,720), start=which==='intake'?0:540;
+    if(a<=start||a>=start+180) return 0;
+    return Math.pow(Math.sin(rad(a-start)),2);
+  }
+  // Radial cam with an ideal point follower. Its intersection along the
+  // fixed downward follower axis exactly gives lift(crankAngle), at 1:2 speed.
+  function camRadius(localAngle,which,base=22,amplitude=9.6) {
+    return base+amplitude*lift(180-2*localAngle,which);
+  }
+  function sample(angle,options={}) {
+    const a=clamp(angle,0,720), g=geometry(a), stage=Math.min(3,Math.floor(a/180));
+    const intake=lift(a,'intake'), exhaust=options.exhaustStuck?0.7:lift(a,'exhaust');
+    const sealed=intake<1e-8 && exhaust<1e-8;
+    const hasSpark=options.sparkEnabled!==false;
+    const ignition=hasSpark&&a>=360&&a<370;
+    const fired=hasSpark&&!options.exhaustStuck&&stage===2;
+    const clearance=2*P.radius/(P.compression-1);
+    const volume=Math.PI*P.bore*P.bore/4*(clearance+g.travel)/1000;
+    const volumeFraction=(clearance+g.travel)/(clearance+2*P.radius);
+    const moving=Math.abs(Math.sin(rad(a)))>1e-7;
+    return {angle:a,stage,progress:(a-stage*180)/180,geometry:g,intake,exhaust,sealed,
+      ignition,fired,hasSpark,leaking:!!options.exhaustStuck,camAngle:a/2,
+      volume,volumeFraction,travel:g.travel,
+      direction:moving?(stage%2===0?'down':'up'):'still',
+      // Not a pressure or torque prediction: brightness indicates the power stroke.
+      power:fired&&a>360&&a<540?Math.sin(rad(a-360)):0};
+  }
+  function advance(angle,seconds,rpm,rate) {
+    const delta=clamp(seconds,0,.1)*clamp(rpm,600,3600)*6*clamp(rate,.001,.1);
+    const total=angle+delta;
+    return {angle:total>720?wrap(total,720):total,delta};
+  }
+  function phaseStep(angle,direction) {
+    const a=clamp(angle,0,720);
+    if(direction>0) return a>=720?0:Math.min(720,(Math.floor((a+1e-7)/180)+1)*180);
+    return a<=0?720:Math.max(0,(Math.ceil((a-1e-7)/180)-1)*180);
+  }
+  const API=Object.freeze({P,STAGES,clamp,wrap,geometry,lift,camRadius,sample,advance,phaseStep});
+  if(typeof module==='object'&&module.exports) module.exports=API;
+  else root.EngineLab=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Canvas engineering cutaway. All dimensions come from the same linkage model. */
+(function(root){
+  'use strict';
+  function create(canvas){
+    const ctx=canvas.getContext('2d',{alpha:false}), M=root.EngineLab;
+    const cx=440,cy=545,scaleMM=2,roof=161-160/9;
+    let transform={scale:1,x:0,y:0}, lastState;
+    const color={ink:'#c5d4b8',muted:'#7e9c80',metal:'#a6b8ac',edge:'#d4dfd2',dark:'#233b30',lime:'#d5f56b'};
+    function line(x1,y1,x2,y2,stroke,width=1){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}
+    function circle(x,y,r,fill,stroke,width=1){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    function rect(x,y,w,h,fill,stroke,width=1){if(fill){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.strokeRect(x,y,w,h);}}
+    function text(value,x,y,size=15,fill=color.ink,align='left',weight=400){ctx.font=weight+' '+size+'px "Segoe UI","Yu Gothic UI",Meiryo,sans-serif';ctx.fillStyle=fill;ctx.textAlign=align;ctx.fillText(value,x,y);}
+    function arrow(x1,y1,x2,y2,stroke,width=3,head=9){const a=Math.atan2(y2-y1,x2-x1);line(x1,y1,x2,y2,stroke,width);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-head*Math.cos(a-.55),y2-head*Math.sin(a-.55));ctx.lineTo(x2-head*Math.cos(a+.55),y2-head*Math.sin(a+.55));ctx.closePath();ctx.fillStyle=stroke;ctx.fill();}
+    function label(value,x,y,tx,ty,side='left'){const start=side==='left'?x+138:x-10;line(start,y-5,side==='left'?tx-25:tx+25,y-5,'#6f8a6b75',1);line(side==='left'?tx-25:tx+25,y-5,tx,ty,'#6f8a6b75',1);circle(tx,ty,2,color.lime);text(value,x,y,15,color.ink);}
+    function spring(x,top,bottom){ctx.beginPath();ctx.moveTo(x-11,top);for(let i=0;i<=12;i++)ctx.lineTo(x+(i%2?10:-10),top+(bottom-top)*i/12);ctx.strokeStyle='#859c82';ctx.lineWidth=2;ctx.stroke();}
+    function gear(x,y,r,teeth,angle,accent){ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();for(let i=0;i<teeth*4;i++){const a=i*Math.PI*2/(teeth*4),rr=i%4===1||i%4===2?r+3:r;const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;if(!i)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#314b3a';ctx.fill();ctx.strokeStyle='#8da27a';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,r-7,'#213a2c','#607953',1);for(let i=0;i<3;i++){const t=i*Math.PI*2/3;line(5*Math.cos(t),5*Math.sin(t),(r-8)*Math.cos(t),(r-8)*Math.sin(t),'#77916b',3);}circle(0,0,5,'#afc0a0');circle(0,-r+9,3.5,accent);ctx.restore();}
+    function belt(s){
+      // Open belt: external tangents between 40/20-tooth pulleys. Equal pitch,
+      // hence Rcam=2*Rcrank and both shafts turn in the same direction.
+      const x=800,y1=50,y2=545,r1=44,r2=22,dy=y2-y1;
+      const ny=(r1-r2)/dy,nx=Math.sqrt(1-ny*ny);
+      const ax=x-r1*nx,ay=y1+r1*ny,bx=x-r2*nx,by=y2+r2*ny;
+      const dx=x+r2*nx,ey=y2+r2*ny,ex=x+r1*nx,fy=y1+r1*ny;
+      const a=Math.atan2(ny,nx),left=Math.atan2(ny,-nx);
+      ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.arc(x,y2,r2,left,a,true);ctx.lineTo(ex,fy);ctx.arc(x,y1,r1,a,left,true);ctx.closePath();ctx.strokeStyle='#769266';ctx.lineWidth=8;ctx.stroke();
+      ctx.setLineDash([3,6]);ctx.lineDashOffset=s.angle*Math.PI/180*r2;
+      ctx.strokeStyle='#b6c795';ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);ctx.lineDashOffset=0;
+      line(493,50,752,50,'#6c875966',3);line(450,545,772,545,'#6c875966',3);
+      gear(x,y1,r1,40,s.angle*Math.PI/360,color.lime);gear(x,y2,r2,20,s.angle*Math.PI/180,color.lime);
+      text('カム',864,48,16);text('40歯',864,70,12,color.muted);text('クランク',848,543,16);text('20歯',848,566,12,color.muted);
+      rect(760,271,80,58,'#283f2f','#5d774d',1);text('2 : 1',800,307,27,color.lime,'center',600);
+      text('タイミング',800,363,13,color.muted,'center');text('ベルト',800,384,13,color.muted,'center');
+      text('クランク2回転 → カム1回転',800,617,14,'#b2c59a','center');
+    }
+    function cam(x,s,which){const rotation=s.angle*Math.PI/360;ctx.save();ctx.translate(x,50);ctx.rotate(rotation);ctx.beginPath();for(let deg=0;deg<=360;deg+=2){const a=deg*Math.PI/180,r=M.camRadius(deg,which,22,12);const xx=r*Math.cos(a),yy=r*Math.sin(a);if(!deg)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy);}ctx.closePath();ctx.fillStyle='#9baa90';ctx.fill();ctx.strokeStyle='#d3dfc0';ctx.lineWidth=1.5;ctx.stroke();circle(0,0,7,'#334a32','#6f8563');line(0,0,0,-14,color.lime,2);ctx.restore();}
+    function valve(x,lift,kind,s){const liftPx=lift*12,stroke=kind==='intake'?'#7bc7c5':'#bd9c88';
+      // A point follower touches the radial cam. A stuck-open valve deliberately
+      // leaves a gap to the cam when its closing spring cannot return it.
+      ctx.beginPath();ctx.moveTo(x,72+liftPx);ctx.lineTo(x-5,82+liftPx);ctx.lineTo(x+5,82+liftPx);ctx.closePath();ctx.fillStyle='#b8c7b1';ctx.fill();
+      rect(x-2.5,80+liftPx,5,roof-80,'#a9bca5');
+      rect(x-12,85+liftPx,24,3,'#a0b196');spring(x,90+liftPx,128);rect(x-13,129,26,5,'#61765b');
+      line(x-16,roof-1,x-11,roof+3,'#8fa48b',3);line(x+11,roof+3,x+16,roof-1,'#8fa48b',3);
+      ctx.beginPath();ctx.moveTo(x-15,roof+liftPx);ctx.lineTo(x-11,roof+5+liftPx);ctx.lineTo(x+11,roof+5+liftPx);ctx.lineTo(x+15,roof+liftPx);ctx.closePath();ctx.fillStyle=lift>0.01?stroke:'#9dad9f';ctx.fill();ctx.strokeStyle='#d7dfd1';ctx.lineWidth=1;ctx.stroke();
+      if(kind==='exhaust'&&s.leaking){text('閉じない',x+27,roof+liftPx+9,12,'#efab88');}
+    }
+    function flows(s,emphasis=false){
+      if(s.intake>.03){ctx.beginPath();ctx.moveTo(282,120);ctx.bezierCurveTo(325,120,365,113,398,155);ctx.strokeStyle='#7bd4d577';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1),x=285+112*t,y=120+35*Math.pow(t,3);circle(x,y,2.5,'#7bd4d5');}arrow(305,120,338,120,'#7bd4d5',3,8);if(!emphasis)text('空気 ＋ ガソリン',245,91,12,'#93c9bc');}
+      if(s.stage===3&&s.exhaust>.03||s.leaking&&(s.stage===1||s.stage===2)){
+        const flowColor=s.leaking?'#b6a4d8':'#d5b8a4';ctx.beginPath();ctx.moveTo(480,159);ctx.bezierCurveTo(499,120,535,120,591,120);ctx.strokeStyle=flowColor+'7a';ctx.lineWidth=4;ctx.stroke();for(let i=0;i<7;i++){const t=M.wrap(s.progress+i/7,1);circle(482+110*t,120+39*Math.pow(1-t,3),2.5,flowColor);}arrow(544,120,580,120,flowColor,3,8);if(!emphasis)text(s.leaking?'気体がにげる':'燃えたあとのガス',556,145,12,flowColor);
+      }
+      if(emphasis){
+        if(s.intake>.02){arrow(272,120,390,143,'#9ce8e1',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(274+122*u,120+26*u*u*u,4.5,'#b7f2eb');}}
+        if(s.stage===3&&s.exhaust>.02){arrow(488,145,606,120,'#f0c59d',7,16);for(let i=0;i<10;i++){const u=M.wrap(s.progress*1.5+i/10,1);circle(488+118*u,120+25*Math.pow(1-u,3),4.5,'#f0c59d');}}
+        if(s.ignition){circle(442,145,28,'#ffe6a335','#ffe6a3',3);line(428,132,454,158,'#ffe6a3',3);line(428,158,454,132,'#ffe6a3',3);}
+      }
+    }
+    function drawGas(s,crown){const isHot=s.stage===2&&s.fired,spent=s.stage===3&&s.hasSpark&&!s.leaking;
+      const gas=isHot?'#ed9b60':spent?'#b59379':s.stage===1||s.stage===2?'#b6a4d8':'#66c0c3';
+      ctx.save();ctx.beginPath();ctx.rect(360,roof,160,Math.max(0,crown-roof));ctx.clip();
+      const grad=ctx.createLinearGradient(0,roof,0,crown);grad.addColorStop(0,gas+(isHot?'bd':'65'));grad.addColorStop(1,gas+(isHot?'5c':'25'));ctx.fillStyle=grad;ctx.fillRect(360,roof,160,crown-roof);
+      const count=s.stage===0||s.stage===3?Math.max(3,Math.round(42*s.volumeFraction)):42;
+      for(let i=0;i<count;i++){const xx=365+M.wrap(i*0.61803398875,1)*150,yy=roof+3+M.wrap(i*.41421356,1)*Math.max(0,crown-roof-6);circle(xx,yy,i%6===0?2:2.7,isHot?'#ffc487':spent?'#c5a58b':i%6===0?'#d5f56b':gas);}
+      if(isHot&&s.angle<425){const reach=Math.min(90,(s.angle-360)*1.6+10),y=roof+3;ctx.beginPath();ctx.moveTo(cx,y);ctx.lineTo(cx-reach,y+reach*.6);ctx.lineTo(cx-reach*.6,y+reach);ctx.lineTo(cx,y+reach*.8);ctx.lineTo(cx+reach*.65,y+reach);ctx.lineTo(cx+reach,y+reach*.4);ctx.closePath();ctx.fillStyle='#ffd79c60';ctx.fill();}
+      ctx.restore();
+    }
+    function draw(s,opts={}){
+      lastState=s;const box=canvas.getBoundingClientRect(),w=Math.max(1,box.width),h=Math.max(1,box.height),dpr=Math.min(root.devicePixelRatio||1,1.5);
+      const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
+      ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#1c2e29';ctx.fillRect(0,0,w,h);
+      const k=Math.min(w/(opts.game?440:1000),h/660)*(opts.zoom?1.75:1),tx=opts.game?w/2-440*k:opts.zoom?w/2-440*k:(w-1000*k)/2,ty=opts.zoom?h/2-200*k:(h-660*k)/2;transform={scale:k,x:tx,y:ty};ctx.translate(tx,ty);ctx.scale(k,k);
+      ctx.lineCap='round';ctx.lineJoin='round';
+      for(let x=0;x<=1000;x+=25)line(x,0,x,660,'#8da78a08');for(let y=0;y<=660;y+=25)line(0,y,1000,y,'#8da78a08');
+      ctx.setLineDash([4,7]);line(cx,115,cx,647,'#89a47755');ctx.setLineDash([]);
+      // Crankcase cutaway and cylinder liner.
+      ctx.beginPath();ctx.moveTo(337,370);ctx.lineTo(317,564);ctx.quadraticCurveTo(316,648,400,649);ctx.lineTo(484,649);ctx.quadraticCurveTo(565,647,563,564);ctx.lineTo(542,370);ctx.closePath();ctx.fillStyle='#283e33';ctx.fill();ctx.strokeStyle='#617a59';ctx.lineWidth=2;ctx.stroke();
+      const t=s.angle*Math.PI/180, gx=s.geometry.x*scaleMM+cx,gy=s.geometry.crankY*scaleMM+cy,pin=s.geometry.pinY*scaleMM+cy,crown=pin-24;
+      // Flywheel: energy store in a real engine; the observation motor here holds rpm.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);circle(0,0,91,'#243a2e','#657d55',4);circle(0,0,82,null,'#405c3b',9);for(let i=0;i<6;i++){const a=i*Math.PI/3;line(53*Math.cos(a),53*Math.sin(a),72*Math.cos(a),72*Math.sin(a),'#7e945f',3);}circle(0,-83,4,color.lime);ctx.restore();
+      // Crank arm and counterweight.
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(t);ctx.beginPath();ctx.moveTo(-17,-8);ctx.lineTo(-48,38);ctx.quadraticCurveTo(0,78,48,38);ctx.lineTo(17,-8);ctx.closePath();ctx.fillStyle='#71876c';ctx.fill();ctx.strokeStyle='#92a58b';ctx.lineWidth=2;ctx.stroke();line(0,0,0,-80,'#829c7f',25);line(0,0,0,-80,'#b9c8b2',13);ctx.restore();
+      // Connecting rod has a fixed length of exactly 140 mm (280 canvas units).
+      line(gx,gy,cx,pin,'#687f6b',24);line(gx,gy,cx,pin,'#b9c9bc',13);line(gx,gy,cx,pin,'#6e8870',3);
+      circle(gx,gy,17,'#a3b5a3','#d3ddcb',2);circle(gx,gy,9,'#3f5b43','#637e5d',1);circle(cx,cy,21,'#3a553d','#bacba6',3);circle(cx,cy,8,'#abbf94');
+      rect(337,137,23,255,'#5a715e','#8aa18a');rect(520,137,23,255,'#5a715e','#8aa18a');rect(356,roof,4,250,'#c2cfc0');rect(520,roof,4,250,'#c2cfc0');
+      // Cooling/casting hatching, outside the liner.
+      for(let y=152;y<385;y+=15){line(337,y,355,y+13,'#9db2983d');line(525,y,543,y+13,'#9db2983d');}
+      drawGas(s,crown);
+      // Piston, ring pack, skirt and gudgeon pin.
+      const metal=ctx.createLinearGradient(361,0,519,0);metal.addColorStop(0,'#9babaa');metal.addColorStop(.32,'#dce2d8');metal.addColorStop(.7,'#c4d0c5');metal.addColorStop(1,'#8da094');
+      rect(361,crown,158,52,metal,'#e3e8db',1);rect(365,crown+34,150,16,'#849b89');for(const n of [7,12,18])line(363,crown+n,517,crown+n,'#455f51',2.5);
+      rect(410,crown+36,60,16,'#334e3b');circle(cx,pin,12,'#8ca28c','#e1e8d8',2);circle(cx,pin,5,'#3a563c');
+      // Head, open port passages, and valve seats.
+      rect(336,101,208,42,'#556d58','#9aaf90',1);rect(351,133,178,10,'#6d836a');
+      ctx.beginPath();ctx.moveTo(282,120);ctx.lineTo(369,120);ctx.quadraticCurveTo(391,120,400,144);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(480,144);ctx.quadraticCurveTo(489,120,511,120);ctx.lineTo(594,120);ctx.strokeStyle='#283f35';ctx.lineWidth=20;ctx.stroke();
+      line(282,108,364,108,'#607b65',2);line(282,132,373,132,'#607b65',2);line(516,108,594,108,'#607b65',2);line(508,132,594,132,'#607b65',2);
+      // Spark plug fixed to head, with electrodes at the combustion chamber.
+      rect(434,84,12,20,'#d9ddc7','#f0eedc');for(let y=88;y<104;y+=4)line(433,y,447,y,'#a1aa8a',1);rect(431,105,18,17,'#91a388','#c5d1b8');rect(435,122,10,13,'#c1cbb7');line(440,134,440,141,'#d3dabc',2);line(446,133,446,142,'#bdcaaa',2);line(446,142,443,142,'#bdcaaa',2);
+      if(s.ignition){ctx.beginPath();ctx.moveTo(440,141);ctx.lineTo(436,148);ctx.lineTo(444,147);ctx.lineTo(439,155);ctx.strokeStyle='#ffe9a3';ctx.lineWidth=3;ctx.stroke();circle(441,145,13,'#ffe6a326');text('点火！',448,171,13,'#ffe9a3', 'left',700);}
+      cam(400,s,'intake');cam(480,s,'exhaust');valve(400,s.intake,'intake',s);valve(480,s.exhaust,'exhaust',s);flows(s,opts.emphasis);belt(s);
+      // Piston movement and gas work are different arrows: all four strokes
+      // move the piston, but only the power stroke gets combustion energy.
+      const stage=M.STAGES[s.stage];if(s.direction!=='still'){const ya=crown+12,yb=crown+45;arrow(578,s.direction==='down'?ya:yb,578,s.direction==='down'?yb:ya,stage.color,3,9);}
+      if(s.power>.01){const forceEnd=Math.max(roof+6,crown-6);arrow(440,roof+4,440,forceEnd,'#ffc184',5,Math.min(12,(forceEnd-roof-4)*.6));line(cx,pin+18,gx,gy-20,'#eeb47995',4);ctx.beginPath();ctx.arc(cx,cy,102,-1,.7);ctx.strokeStyle='#f1b678';ctx.lineWidth=3;ctx.stroke();arrow(cx+102*Math.cos(.65),cy+102*Math.sin(.65),cx+102*Math.cos(.85),cy+102*Math.sin(.85),'#f1b678',3,9);text('ガスが押す → 回す力へ',440,419,14,'#efb27e','center',600);}
+      if(opts.labels!==false){label('カムシャフト',34,48,378,50);label('吸気バルブ',34,153,388,roof+4+s.intake*12);label('ピストン',34,279,361,crown+21);label('コンロッド',34,407,(cx+gx)/2,(pin+gy)/2);label('クランクシャフト',34,550,350,545);label('点火プラグ',556,86,445,109,'right');label('排気バルブ',556,200,493,roof+4+s.exhaust*12,'right');text('フライホイール',300,641,12,color.muted);text('カムは同じ軸の2断面を表示',418,16,11,color.muted,'center');}
+      if(!opts.emphasis){text('TDC',305,166,10,'#a0b291');text('BDC',305,326,10,'#a0b291');line(332,161,356,161,'#a0b291',1);line(332,321,356,321,'#a0b291',1);}
+      if(!opts.game){text('0°／360°／720°：いちばん上',34,606,12,'#73916d');text('180°／540°：いちばん下',34,627,12,'#73916d');}
+    }
+    function hitTest(clientX,clientY){const b=canvas.getBoundingClientRect(),x=(clientX-b.left-transform.x)/transform.scale,y=(clientY-b.top-transform.y)/transform.scale;if(!lastState)return null;
+      const pin=cy+lastState.geometry.pinY*scaleMM,crankX=cx+lastState.geometry.x*scaleMM,crankY=cy+lastState.geometry.crankY*scaleMM;
+      if(y<86&&x>365&&x<517)return 'cam';if(x>425&&x<456&&y>82&&y<153)return 'spark';if(x>380&&x<420&&y>80&&y<175)return 'intake';if(x>460&&x<500&&y>80&&y<175)return 'exhaust';if(x>360&&x<520&&y>pin-24&&y<pin+30)return 'piston';if(Math.hypot(x-cx,y-cy)<100)return 'crank';
+      const vx=crankX-cx,vy=crankY-pin,t=M.clamp(((x-cx)*vx+(y-pin)*vy)/(vx*vx+vy*vy),0,1);if(Math.hypot(x-cx-t*vx,y-pin-t*vy)<24)return 'rod';return null;
+    }
+    return {draw,hitTest};
+  }
+  root.EngineView=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Offline Web Audio effects. No recordings, downloads or network access.
+   Starts silent. Only an explicit user gesture enables sound. */
+(function(root){
+  'use strict';
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  function create(options={}){
+    let ctx=null,master=null,motorGain=null,motors=[],enabled=false,volume=.3,generation=0;
+    let exhaustFilter=null,intakeGain=null,noiseSource=null;
+    let lastDrive=[900,0,false,{}],lastEffect=-Infinity,voices=new Set();
+    const button=options.button,slider=options.volume;
+    function update(){if(button){button.textContent=enabled?'♪ 音 ON':'♪ 音 OFF';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'効果音をOFFにする':'効果音をONにする');}if(slider)slider.value=String(Math.round(volume*100));}
+    function ensure(){if(ctx)return;const C=root.AudioContext||root.webkitAudioContext;if(!C)throw Error('音を使えないブラウザです。音なしで遊べます。');ctx=new C();master=ctx.createGain();master.gain.value=volume;master.connect(ctx.destination);}
+    function stopEffects(){for(const v of voices){try{v.stop();}catch{}try{v.disconnect();}catch{}}voices.clear();}
+    function quiet(){if(ctx&&motorGain){motorGain.gain.cancelScheduledValues(ctx.currentTime);motorGain.gain.setValueAtTime(0,ctx.currentTime);}stopEffects();if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}
+    async function setEnabled(value){const request=++generation;if(!value){enabled=false;quiet();if(master)master.gain.setValueAtTime(0,ctx.currentTime);if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});update();return false;}
+      try{ensure();await ctx.resume();if(request!==generation)return enabled;enabled=true;master.gain.setValueAtTime(volume,ctx.currentTime);update();drive(...lastDrive);effect('tap');return true;}
+      catch(e){enabled=false;quiet();update();if(options.onError)options.onError(e.message||'音を再生できません。音なしでも遊べます。');return false;}}
+    function setVolume(value){volume=clamp(value,0,1);if(master)master.gain.setTargetAtTime(enabled?volume:0,ctx.currentTime,.02);update();}
+    function tone(freq,duration,gain,offset=0,type='sine'){
+      if(!enabled||!ctx)return;const start=ctx.currentTime+offset,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(gain,start+.004);g.gain.exponentialRampToValueAtTime(.0001,start+duration);o.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();g.disconnect();};o.start(start);o.stop(start+duration+.01);
+    }
+    function effect(name){if(!enabled||!ctx)return;if(ctx.state==='suspended')ctx.resume().catch(()=>{});const time=ctx.currentTime;if(name==='tap'&&time-lastEffect<.04)return;lastEffect=time;
+      if(name==='gear'){tone(160,.07,.07,0,'triangle');tone(85,.05,.035,.025,'sine');}
+      else if(name==='spark'){tone(1600,.025,.045,0,'triangle');tone(85,.13,.07,.01,'sine');}
+      else if(name==='sparkOnly'){tone(1600,.025,.045,0,'triangle');}
+      else if(name==='perfect'){tone(1500,.025,.035,0,'triangle');tone(85,.12,.06,.01);tone(988,.09,.035,.045);}
+      else if(/^combo[1-6]$/.test(name)){const notes=[330,392,440,494,587,659],index=+name.slice(-1)-1;tone(notes[index],.1,.04,0,'triangle');if(index>=3)tone(notes[index]*1.5,.11,.025,.035);}
+      else if(name==='valve'){tone(410,.035,.035,0,'triangle');}
+      else if(name==='win'){[392,494,587].forEach((n,i)=>tone(n,.19,.065,i*.12));}
+      else if(name==='discover'){tone(523,.12,.055);tone(659,.17,.055,.09);}
+      else if(name==='retry'){tone(240,.09,.035);}
+      else tone(620,.045,.04);
+    }
+    function drive(rpm,throttle,active,conditions={}){
+      lastDrive=[rpm,throttle,active,conditions];if(!enabled||!ctx)return;
+      if(!active){if(motorGain)motorGain.gain.setTargetAtTime(0,ctx.currentTime,.035);return;}
+      if(!motorGain){
+        motorGain=ctx.createGain();motorGain.gain.value=0;motorGain.connect(master);
+        exhaustFilter=ctx.createBiquadFilter();exhaustFilter.type='lowpass';exhaustFilter.frequency.value=700;if(exhaustFilter.Q)exhaustFilter.Q.value=.65;exhaustFilter.connect(motorGain);
+        let wave=null;
+        if(ctx.createPeriodicWave){const real=new Float32Array(49),imag=new Float32Array(49);for(let n=1;n<49;n++){const pulse=Math.sin(Math.PI*n*.15)/(Math.PI*n*.15);real[n]=pulse*Math.exp(-n/18);imag[n]=real[n]*.12;}wave=ctx.createPeriodicWave(real,imag);}
+        motors=[1,2].map(h=>{const o=ctx.createOscillator(),g=ctx.createGain();if(wave&&o.setPeriodicWave)o.setPeriodicWave(wave);else o.type='sawtooth';g.gain.value=h===1?.62:.10;o.connect(g);g.connect(exhaustFilter);o.start();return o;});
+        if(ctx.createBuffer&&ctx.createBufferSource){
+          const buffer=ctx.createBuffer(1,Math.round(ctx.sampleRate*2),ctx.sampleRate),data=buffer.getChannelData(0);let seed=71237;
+          for(let i=0;i<data.length;i++){seed=(1664525*seed+1013904223)>>>0;data[i]=(seed/4294967296*2-1);}
+          noiseSource=ctx.createBufferSource();noiseSource.buffer=buffer;noiseSource.loop=true;const band=ctx.createBiquadFilter();band.type='bandpass';band.frequency.value=1300;if(band.Q)band.Q.value=.6;intakeGain=ctx.createGain();intakeGain.gain.value=0;noiseSource.connect(band);band.connect(intakeGain);intakeGain.connect(motorGain);noiseSource.start();
+        }
+      }
+      if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+      // Four cylinders, one combustion per cylinder per two crank turns:
+      // 2 firing pulses per revolution = rpm / 30 Hz. Pitch follows rpm only.
+      const firing=clamp(rpm,700,7000)/30,gas=clamp(throttle,0,1),load=clamp(conditions.load??gas,0,1),cut=conditions.shifting?.32:1;
+      motors.forEach((o,i)=>o.frequency.setTargetAtTime(firing*(i+1),ctx.currentTime,conditions.shifting?.035:.065));
+      exhaustFilter.frequency.setTargetAtTime(430+gas*1800+load*1100,ctx.currentTime,.08);
+      motorGain.gain.setTargetAtTime((.055+.10*gas+.055*load)*cut,ctx.currentTime,.045);
+      if(intakeGain)intakeGain.gain.setTargetAtTime(.005+gas*.045+load*.025,ctx.currentTime,.07);
+    }
+    if(button)button.addEventListener('click',()=>setEnabled(!enabled));
+    if(slider)slider.addEventListener('input',()=>setVolume(+slider.value/100));
+    if(options.testButton)options.testButton.addEventListener('click',()=>{if(enabled)effect('gear');else setEnabled(true).then(on=>{if(on)effect('gear');});});
+    update();return Object.freeze({setEnabled,setVolume,effect,drive,quiet,isEnabled:()=>enabled,getVolume:()=>volume});
+  }
+  root.CarLabAudio=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const M=EngineLab,$=id=>document.getElementById(id),buttons=[...document.querySelectorAll('[data-learn-phase]')];
+  const explanations=[
+    ['ピストンが下がり、空気とガソリンを吸いこむ。','燃やす材料を、シリンダーに入れるため。'],
+    ['バルブを閉じて、気体をぎゅっと縮める。','気体を閉じこめて燃やし、強く押す準備をする。'],
+    ['プラグの火花で燃えたガスが、ピストンを押し下げる。','この力でクランクを回し、仕事を取り出す。'],
+    ['上がるピストンが、開いたバルブからガスを押し出す。','次の空気とガソリンが入る場所をあけるため。']
+  ];
+  const flowCaptions=[['↓','空気 ＋ ガソリン','開いたバルブから入る'],['↥','閉じこめた混合気','ピストンでぎゅっと縮める'],['ϟ','火花 → 燃える → 押す','燃えたガスがピストンを押す'],['↗','燃えたあとのガス','開いたバルブから外へ出る']];
+  const view=EngineView.create($('learnCanvas'));
+  let angle=90,playing=false,slow=false,once=null,raf=false,last=0,lastPaint=-Infinity,dirty=true;
+  const sound=CarLabAudio.create({button:$('soundButton'),volume:$('volumeInput'),testButton:$('testSoundButton'),onError:message=>{$('repeatHint').textContent=message;}});
+  function schedule(){dirty=true;if(!raf){raf=true;requestAnimationFrame(frame);}}
+  function update(){const s=M.sample(angle),stage=M.STAGES[s.stage];
+    $('stageNumber').textContent=String(s.stage+1).padStart(2,'0')+' / 04';
+    $('stageTitle').replaceChildren(document.createTextNode(stage.name),Object.assign(document.createElement('span'),{textContent:stage.reading}));
+    $('flowKey').dataset.phase=String(s.stage);$('flowSymbol').textContent=flowCaptions[s.stage][0];$('flowTitle').textContent=flowCaptions[s.stage][1];$('flowAction').textContent=flowCaptions[s.stage][2];
+    $('stageWhat').textContent=explanations[s.stage][0];$('stageWhy').textContent=explanations[s.stage][1];$('sparkExplanation').hidden=s.stage!==2;
+    $('learnAngle').value=String(Math.round(angle));$('learnAngleValue').textContent=Math.round(angle)+'°';
+    $('learnPlayButton').textContent=playing?'Ⅱ ここで止める':'▶ 4つをつなげて再生';$('learnPlayButton').setAttribute('aria-pressed',String(playing));
+    $('learnSlowButton').setAttribute('aria-pressed',String(slow));$('learnSlowButton').textContent=slow?'✓ ゆっくり':'ゆっくり';
+    buttons.forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.learnPhase===s.stage)));
+    $('learnCanvas').setAttribute('aria-label',stage.name+'。'+explanations[s.stage][0]+' '+explanations[s.stage][1]);
+    $('repeatHint').textContent=!playing&&once!==null?'この工程のおわり。工程ボタンで、もう一度見よう。':'工程ボタンを押すと、その動きをもう一度見られる。';
+  }
+  function pause(){playing=false;last=0;sound.quiet();update();schedule();}
+  function seek(value){playing=false;once=null;angle=M.clamp(value,0,720);last=0;sound.quiet();update();schedule();}
+  function phase(index){once=index;angle=index*180;playing=true;last=0;sound.effect(index===2?'spark':'valve');update();schedule();}
+  function frame(t){raf=false;const dt=last?Math.min(.1,Math.max(0,(t-last)/1000)):0;last=t;
+    if(playing){const before=angle,next=M.advance(angle,dt,1200,(1/120)*(slow?.5:1));if(once!==null&&angle+next.delta>=(once+1)*180){angle=(once+1)*180-.001;playing=false;}else angle=next.angle;if(before<360&&angle>=360)sound.effect('spark');dirty=true;}
+    if(dirty&&(t-lastPaint>=1000/30||!playing)){view.draw(M.sample(angle),{labels:false,game:true,emphasis:true});update();lastPaint=t;dirty=false;}
+    if(playing){raf=true;requestAnimationFrame(frame);}
+  }
+  buttons.forEach(b=>b.addEventListener('click',()=>phase(+b.dataset.learnPhase)));
+  $('learnAngle').addEventListener('input',()=>seek(+$('learnAngle').value));
+  $('learnPlayButton').addEventListener('click',()=>{if(playing){pause();return;}once=null;if(angle>=720)angle=0;playing=true;last=0;update();schedule();});
+  $('learnSlowButton').addEventListener('click',()=>{slow=!slow;update();schedule();});
+  $('helpButton').addEventListener('click',()=>{pause();if(!$('learnHelp').open)$('learnHelp').showModal();});$('closeLearnHelp').addEventListener('click',()=>$('learnHelp').close());
+  window.addEventListener('blur',pause);window.addEventListener('pagehide',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});window.addEventListener('resize',schedule);if(typeof ResizeObserver!=='undefined')new ResizeObserver(schedule).observe($('learnCanvas'));
+  document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.altKey||e.metaKey||$('learnHelp').open||['INPUT','SELECT','BUTTON','A','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('learnPlayButton').click();}else if(/^Digit[1-4]$/.test(e.code)){e.preventDefault();phase(+e.code.slice(-1)-1);}else if(e.code==='ArrowLeft'||e.code==='ArrowRight'){e.preventDefault();seek(angle+(e.code==='ArrowRight'?5:-5));}});
+  update();schedule();
+})();
+
+</script>
+</body></html>

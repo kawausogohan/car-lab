@@ -1,0 +1,298 @@
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#192622"><title>CAR LAB｜03 エンジンからタイヤまで</title><style>
+@charset "UTF-8";
+:root{--lesson-ink:#263e30;--lesson-paper:#f3f4ee;--lesson-lime:#d5f56b;--lesson-dark:#192622;font-family:"Segoe UI","Yu Gothic UI",Meiryo,sans-serif}*{box-sizing:border-box}.experiment-tabs{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:10px;min-width:0}.experiment-tabs a,.experiment-tabs button{display:flex;align-items:center;justify-content:center;gap:12px;min-height:58px;border:1px solid #c5d3b4;border-radius:9px;background:#e9efdf;color:#536f3e;padding:10px 12px;text-decoration:none;font:inherit;touch-action:manipulation}.experiment-tabs strong{font-size:19px;font-weight:700;line-height:1.4}.experiment-tabs span{font:18px Bahnschrift,Arial,sans-serif;color:#8aa167}.experiment-tabs [aria-current=page]{background:#d5f56b;color:#2e4827;border-color:#a6c34e}.experiment-tabs button:disabled{opacity:.48;cursor:default}.learning-goal{display:flex;gap:14px;align-items:center;padding:10px 16px;border-left:4px solid #9ebd5e;background:#e9efdf;color:#29452e;border-radius:0 8px 8px 0;min-height:62px}.learning-goal>span{font-size:15px;color:#6d8652;white-space:nowrap}.learning-goal h1{font-size:24px;font-weight:700;line-height:1.5;margin:0}.cause-card{display:grid;grid-template-columns:1fr 1.4fr;align-items:center;gap:18px;padding:12px 18px;border-radius:8px;background:#ebf1df;color:#385230;min-height:76px}.cause-card strong{font-size:20px;line-height:1.6}.cause-card p{font-size:18px;line-height:1.7;margin:0;padding-left:18px;border-left:1px solid #c5d5af}.learning-first .lab.simple-ui{height:calc(100dvh - 64px);min-height:650px;grid-template-rows:58px 62px minmax(0,1fr) 100px 80px;gap:10px;padding:10px 20px}.learning-first .lab.simple-ui>.experiment-tabs,.learning-first .lab.simple-ui>.learning-goal,.learning-first .lab.simple-ui>.cause-card{display:grid}.learning-first .lab.simple-ui>.learning-goal{display:flex}.learning-first .lab.simple-ui .engine-game-link,.learning-first .engine-game-link{display:none}.learning-first .lab.simple-ui>.lab-experiments{display:none}.learning-first .lab:not(.simple-ui) .learning-goal{margin:6px 0}.learning-first .cause-card{flex-shrink:0}.learning-first .lab.simple-ui .telemetry{width:216px}.learning-first .lab.simple-ui .discovery{display:none}.learning-first .lab.simple-ui .run-status{font-size:17px}.learning-first .lab.simple-ui .track-data{bottom:65px}.learning-first .lab.simple-ui .controls{gap:18px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:80px}.lesson-header{height:64px;background:#192622;color:#edf3e4;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}.lesson-brand{font-size:26px;font-weight:850;text-decoration:none;letter-spacing:-1px;color:inherit;white-space:nowrap}.lesson-brand b{color:#d5f56b}.lesson-header nav{display:flex;gap:10px}.lesson-header button{min-height:48px;border:1px solid #4c6541;border-radius:7px;padding:8px 14px;background:#2c4334;color:#e1eed1;font-size:16px}.lesson-action{display:flex;min-height:52px;align-items:center;justify-content:center;width:100%;padding:10px 14px;margin-top:12px;background:#e3edcf;border:1px solid #b9ce98;border-radius:7px;text-decoration:none;color:#4a6c33;font:inherit}.lesson-volume{display:flex;align-items:center;gap:15px;font-size:18px;margin-top:18px}.lesson-volume input{height:48px;min-width:80px;flex:1;accent-color:#719343}.lesson-dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.lesson-dialog-heading h2{font-size:26px}.lesson-dialog-heading button{width:48px;height:48px;border:0;border-radius:50%;background:#e6eddb;font:28px Arial,sans-serif;color:#486433}.learning-first button:focus-visible,.experiment-tabs a:focus-visible,.lesson-header button:focus-visible,.lesson-action:focus-visible{outline:3px solid #66b8b2;outline-offset:4px}
+@media(min-width:700px) and (max-height:700px){.learning-first .lab.simple-ui{min-height:540px;grid-template-rows:52px 52px minmax(0,1fr) 84px 76px;padding:8px 16px;gap:8px}.experiment-tabs a,.experiment-tabs button{min-height:52px}.experiment-tabs strong{font-size:17px}.learning-goal{min-height:52px;padding:8px 12px}.learning-goal h1{font-size:22px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:72px}.cause-card{padding:10px 14px;gap:14px}.cause-card strong{font-size:18px}.cause-card p{font-size:17px;line-height:1.65}.learning-first .lab.simple-ui .telemetry{width:190px}.learning-first .lab.simple-ui .tachometer svg{max-height:117px}}
+@media(max-width:699px){.experiment-tabs{gap:6px;grid-template-columns:1fr 1fr 1.2fr}.experiment-tabs a,.experiment-tabs button{padding:8px 6px;min-height:62px;gap:5px;flex-direction:column}.experiment-tabs strong{font-size:15px}.experiment-tabs span{font-size:15px}.learning-goal{gap:8px;padding:10px}.learning-goal h1{font-size:21px}.learning-goal>span{font-size:14px}.learning-first .lab.simple-ui{height:auto;min-height:calc(100dvh - 64px);grid-template-rows:auto auto minmax(290px,45dvh) 148px auto;padding:10px 12px;gap:10px}.learning-first .lab.simple-ui .controls{gap:10px}.learning-first .lab.simple-ui .gear,.learning-first .lab.simple-ui .pedal{min-height:64px}.cause-card{grid-template-columns:1fr;gap:6px;padding:13px}.cause-card strong{font-size:19px}.cause-card p{font-size:17px;padding:0;border:0}.lesson-header{padding:8px 14px}.lesson-header button{font-size:14px;padding:8px 10px}.lesson-header nav{gap:6px}}
+
+</style><style>
+@charset "UTF-8";
+body{margin:0;background:#f3f4ee;color:#263e30;font-size:17px}button,input{font:inherit}button{cursor:pointer;touch-action:manipulation;user-select:none}h1,h2,p{margin:0}[hidden]{display:none!important}body:has(dialog[open]){overflow:hidden}.driveline-lab{max-width:1500px;margin:auto;padding:10px 20px 16px;display:grid;grid-template-rows:58px 62px minmax(260px,1fr) 58px 88px 80px;gap:10px;height:calc(100dvh - 64px);min-height:720px}.power-diagram{position:relative;min-height:0;background:#1c2e29;border-radius:12px;border:1px solid #3d5941;overflow:hidden;display:flex;flex-direction:column}.diagram-readouts{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px;flex-shrink:0;padding:8px 18px;background:#192c24;color:#a5be95;font-size:15px}.diagram-readouts strong{font-size:18px;font-weight:650;color:#d9eac8}.diagram-readouts #powerState[data-direction=forward]{color:#d5f56b}.diagram-readouts #powerState[data-direction=reverse]{color:#9edce4}.power-diagram canvas{display:block;flex:1;width:100%;height:0;min-height:0;touch-action:pan-y}.part-buttons{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.part-buttons button{min-height:58px;border:1px solid #c4d4af;border-radius:8px;background:#e8efdc;color:#56733e;padding:7px 5px;line-height:1.35;font-size:18px}.part-buttons button[aria-pressed=true]{background:#d5e8b5;border-color:#91ad65;color:#33582a}.drive-controls{display:grid;grid-template-columns:1fr 1.3fr;gap:18px}.drive-controls>button{min-height:88px;border:1px solid #adca75;border-radius:10px;background:#d5f56b;color:#385328;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px}.drive-controls>button span{font-size:16px;font-weight:400;opacity:.7}.drive-controls>button strong{font-size:24px}.drive-controls>button[aria-pressed=true]{background:#294530;color:#e9f2dc;border-color:#294530}.drive-throttle{padding:12px 20px;background:#e9efdf;border:1px solid #d2dfc0;border-radius:10px;display:flex;flex-direction:column;justify-content:center}.drive-throttle>div{display:flex;align-items:center;justify-content:space-between}.drive-throttle label{font-size:21px;font-weight:650}.drive-throttle output{font-size:24px;color:#769551}.drive-throttle input{height:48px;width:100%;accent-color:#789d4c;cursor:ew-resize;touch-action:none;margin:0}.part-card{position:absolute;left:18px;right:18px;bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;background:#edf4d8f5;border:1px solid #a9c779;border-radius:8px;color:#405d2d;box-shadow:0 10px 30px #10231933}.part-card strong{font-size:22px}.part-card p{font-size:20px;line-height:1.7;margin-top:4px}.part-card button{min-height:48px;min-width:48px;border:0;border-radius:50%;background:#dce9bf;font-size:27px;color:#55763b}.part-card>div{min-width:0}dialog{max-width:690px;width:calc(100% - 28px);max-height:90dvh;overflow:auto;padding:25px;border:1px solid #bdcfa3;border-radius:13px;background:#f7f8f1;color:#48603a}dialog::backdrop{background:#11291ec7}dialog p,dialog li{font-size:17px;line-height:1.9;margin-top:14px}dialog li{padding-left:4px}dialog ol{padding-left:23px}dialog details{margin-top:18px;padding:8px 15px;background:#eaf0df;border-radius:8px}dialog summary{min-height:48px;padding:10px 0;font-size:18px;cursor:pointer}.sources{font-size:14px!important}.sources a{color:#5b7c3e;text-underline-offset:3px}button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #65b8b1;outline-offset:4px}
+@media(min-width:700px) and (max-height:740px){.driveline-lab{grid-template-rows:52px 52px minmax(240px,1fr) 54px 80px 76px;min-height:685px;gap:8px;padding:8px 16px}.part-buttons button{font-size:16px;min-height:54px}.drive-controls>button{min-height:80px}.drive-controls>button strong{font-size:22px}.drive-throttle{padding:8px 16px}.drive-throttle label{font-size:19px}.diagram-readouts{min-height:36px;padding:6px 14px;font-size:14px}.diagram-readouts strong{font-size:16px}.drive-throttle input{height:44px}.part-card p{font-size:18px}}
+@media(max-width:699px){.driveline-lab{height:auto;min-height:calc(100dvh - 64px);padding:12px;grid-template-rows:auto auto 290px auto auto auto;gap:12px}.diagram-readouts{padding:8px 10px;flex-wrap:wrap;gap:4px}.diagram-readouts #motionStatus{display:none}.diagram-readouts strong{font-size:15px}.part-buttons{grid-template-columns:repeat(4,1fr);gap:6px}.part-buttons button{min-height:58px;font-size:16px}.drive-controls{grid-template-columns:1fr;gap:10px}.drive-controls>button{min-height:80px}.part-card{left:8px;right:8px;bottom:8px;padding:12px}.part-card strong{font-size:20px}.part-card p{font-size:17px}.lesson-header{height:auto;min-height:64px;flex-wrap:wrap}.lesson-header nav{flex-wrap:wrap}.lesson-header button{font-size:14px;min-height:44px}.learning-goal h1{font-size:21px}}
+
+/* Drive choice stays with the car; the extra differential is only shown in 4WD. */
+.diagram-readouts{gap:12px;min-height:68px}.drive-mode-switch{display:flex;gap:6px;flex-shrink:0}.drive-mode-switch button{min-height:52px;min-width:120px;display:flex;gap:8px;align-items:center;justify-content:center;padding:8px 11px;border:1px solid #607851;border-radius:8px;background:#263e30;color:#b1c5a0;line-height:1.3}.drive-mode-switch b{font:700 20px Bahnschrift,Arial,sans-serif}.drive-mode-switch span{font-size:16px}.drive-mode-switch button[aria-pressed=true]{color:#243d22;background:#d5f56b;border-color:#d5f56b}.power-diagram{min-height:320px}.diagram-readouts>span{white-space:nowrap}.diagram-readouts #powerState{font-size:17px}.visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%);white-space:nowrap!important;border:0!important}.driveline-lab[data-layout-mode="4wd"] .part-buttons{grid-template-columns:repeat(8,minmax(0,1fr))}.part-buttons button[data-drive-part="transfer"]{font-size:15px}.part-buttons button[data-drive-part="propeller"]{font-size:16px}
+@media(min-width:700px) and (max-width:1090px){.diagram-readouts{gap:8px;padding:8px 12px}.drive-mode-switch button{min-width:104px;padding:7px 8px;gap:5px}.drive-mode-switch span{font-size:14px}.diagram-readouts #powerState{font-size:15px}.diagram-readouts>span{font-size:13px}.driveline-lab[data-layout-mode="4wd"] .part-buttons{gap:5px}.part-buttons button[data-drive-part="transfer"]{font-size:13px}}
+@media(max-width:699px){.driveline-lab{grid-template-rows:auto auto 390px auto auto auto}.drive-mode-switch{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr}.drive-mode-switch button{min-width:0;min-height:56px;flex-direction:column;gap:2px}.drive-mode-switch span{font-size:14px}.diagram-readouts{gap:6px;min-height:100px}.diagram-readouts #powerState{font-size:15px}.driveline-lab[data-layout-mode="4wd"] .part-buttons{grid-template-columns:repeat(4,minmax(0,1fr))}.part-buttons button[data-drive-part="transfer"]{font-size:14px}}
+
+/* Core experiment controls and explanation precede the optional part list. */
+.driveline-lab{grid-template-rows:58px 62px minmax(320px,1fr) 88px 80px 58px;min-height:750px}
+@media(min-width:700px) and (max-height:740px){.driveline-lab{grid-template-rows:52px 52px minmax(320px,1fr) 80px 76px 54px;min-height:700px}}
+@media(max-width:699px){.driveline-lab{grid-template-rows:auto auto 390px auto auto auto;min-height:calc(100dvh - 64px)}}
+
+</style></head><body><header class="lesson-header"><a class="lesson-brand" href="../index.html">CAR <b>LAB</b></a><nav aria-label="再生・音・補足"><button id="drivePlayButton" aria-pressed="true">Ⅱ とめる</button><button id="soundButton" aria-pressed="false">♪ 音 OFF</button><button id="helpButton">しくみ・音量</button></nav></header><main class="driveline-lab" id="driveShell" data-layout-mode="fr"><nav class="experiment-tabs" aria-label="学ぶしくみを選ぶ"><a href="../index.html"><span>01</span><strong>ギアと坂道</strong></a><a href="../engine/index.html"><span>02</span><strong>4ストローク</strong></a><a href="index.html" aria-current="page"><span>03</span><strong>エンジンからタイヤ</strong></a></nav><section class="learning-goal" aria-labelledby="learningTitle"><span>めあて</span><h1 id="learningTitle">エンジンの力は、部品を通ってタイヤへ伝わる。</h1></section><section class="power-diagram" id="powerDiagram" aria-label="FF・FR・4WDの動力伝達を比べる"><div class="diagram-readouts"><div class="drive-mode-switch" role="group" aria-label="力を送るタイヤを選ぶ"><button data-drive-mode="ff" aria-pressed="false"><b>FF</b><span>前の2輪</span></button><button data-drive-mode="fr" aria-pressed="true"><b>FR</b><span>後ろの2輪</span></button><button data-drive-mode="4wd" aria-pressed="false"><b>4WD</b><span>4つのタイヤ</span></button></div><span>エンジン <strong id="driveRpm">900</strong> rpm</span><strong id="powerState">タイヤへ力は届いていない</strong><span id="motionStatus" class="visually-hidden">観察中</span></div><canvas id="driveLabCanvas" width="1200" height="480" role="img" aria-label="4つのピストンが一本のクランクにつながり、クラッチ、変速機、プロペラシャフト、デフ、後輪へと力が伝わるFR車の模式図"></canvas><div id="partCard" class="part-card" hidden><div><strong id="partName">クラッチ</strong><p id="partRole"></p></div><button id="closePartCard" aria-label="部品の説明を閉じる">×</button></div></section><section class="drive-controls" aria-label="アクセルとクラッチの操作"><button id="driveClutchButton" aria-pressed="false"><span id="clutchState">切れている</span><strong id="clutchAction">クラッチをつなぐ</strong></button><div class="drive-throttle"><div><label for="driveThrottle">アクセル</label><output id="driveThrottleValue" for="driveThrottle">0%</output></div><input id="driveThrottle" type="range" min="0" max="100" value="0" step="5" aria-label="アクセル開度 0パーセントから100パーセント"></div></section><section class="cause-card" aria-label="今起きたことと、その理由"><strong id="drivePhenomenon">エンジンだけ回り、タイヤは止まっている。</strong><p id="driveWhy">クラッチが離れているため、力はそこで途切れる。</p></section><div class="part-buttons" role="group" aria-label="部品を選んで役割を見る"><button data-drive-part="engine">エンジン</button><button data-drive-part="crank">クランク</button><button data-drive-part="clutch">クラッチ</button><button data-drive-part="transmission">変速機</button><button data-drive-part="propeller">プロペラ<br>シャフト</button><button data-drive-part="differential">デフ</button><button data-drive-part="wheels">駆動輪</button><button data-drive-part="transfer" hidden>前後に分ける<br>センターデフ</button></div></main><dialog id="driveHelp" aria-labelledby="helpTitle"><div class="lesson-dialog-heading"><h2 id="helpTitle">エンジンからタイヤまで</h2><button id="closeDriveHelp" aria-label="補足を閉じる">×</button></div><ol><li>アクセルを増やす。クラッチを切ったままなら、エンジンだけ速く回る。</li><li>クラッチをつなぐ。光の経路が選んだ駆動輪までつながり、タイヤが回る。</li><li>もう一度切る。エンジンからの力は切れるが、タイヤは勢いでしばらく回る。</li></ol><p><b>FFは前の2輪、FRは後ろの2輪、4WDは4輪へエンジンの力を送ります。</b>駆動していないタイヤも、車が進むと路面の上を転がります。回っているかどうかだけでなく、光がどこへ届くかを比べてください。</p><p>部品や下の部品ボタンを押すと、役割を一文で読めます。緑の光はエンジンからの力の道しるべです。水や物が流れているのではありません。青い光は、タイヤの勢いがエンジンへ戻る向きです。</p><details><summary>モデルと、本物の車とのちがい</summary><p>直列4気筒ガソリンエンジンと1速固定の3つの教材用モデルを比べます。部品のつながりを見せるため、配置を広げた図です。FFでは実車の多くが変速機と前輪のデフを一体にまとめています。図のFFの折れ線は動力の経路で、長いプロペラシャフトがあるという意味ではありません。エンジンの断面とクランク形状、部品の大きさ・配置は分かりやすくした模式図です。ピストンとコンロッドの長さは計算し、1・4番、2・3番がそれぞれ同じ高さで動きます。燃焼順序は1→3→4→2、180°ごとです。</p><p>発進時の半クラッチとアイドリングは自動で補助します。エンジンの速さは教材用の調速モデル、車体の慣性と走行抵抗は簡略化した計算です。クラッチのすべりでエネルギーが失われる方向は守りますが、温度、摩耗、空燃比、熱力学は計算しません。変速比3.6、最終減速比4.1、伝達損失は省略し、まっすぐ進むので4輪は同じ速さで転がり、各デフの左右へのトルクは等しくなります。4WDはセンターデフで前後へ半分ずつ分け、前後のデフが左右へ分ける理想的なフルタイム4WDです。すべりや空転、LSDは省略しています。</p><p>FF・FR・4WDのボタンは3台のしくみの比較用で、実車の走行中の切り替えを再現したものではありません。同じエンジン・重さ・減速比・抵抗で比べます。4WDでも力が2倍になるわけではなく、送る先が前後へ分かれます。この路面では空転しないため加速の差はつけていません。タイヤは厚みとホイールが分かる斜めからの描写、その他の部品は断面を並べた模式図です。</p><p>全ての回転を同じ1/70の速さで描き、部品の速度比は保ちます。画面の光や流れる点は力の伝わる経路の説明用です。タイヤが回っていても、クラッチを切ればエンジンからの動力は届きません。</p></details><label class="lesson-volume" for="volumeInput">音量<input id="volumeInput" type="range" min="0" max="100" value="30" step="5"></label><button id="testSoundButton" class="lesson-action">♪ 音をためす</button><p class="sources">参考：<a href="https://www.exedy-aftermarket.com/en/knowledge/function-of-the-clutch/">EXEDY：クラッチの働き</a> ／ <a href="https://autoparts.toyota.com/products/product/shaft-assy-propeller-rr-371106a260">Toyota：プロペラシャフトの役割</a> ／ <a href="https://www.subaru.ca/WebPage.aspx?WebPageID=5964&amp;WebSiteID=284">SUBARU：センターデフによる前後配分</a></p></dialog><script>
+/* FF / FR / full-time 4WD teaching rigs: ideal fixed first gear, straight line.
+   Engine speed governor and progressive clutch assist are disclosed in help.
+   Clutch impulse conserves angular momentum; slip can only dissipate energy. */
+(function(root){
+  'use strict';
+  const P=Object.freeze({mass:1050,wheelRadius:.29,wheelInertia:2,engineInertia:.28,gearRatio:3.6,finalDrive:4.1,idle:900,maxRpm:5200,clutchCapacity:150,displayRate:1/70});
+  const ratio=P.gearRatio*P.finalDrive,loadInertia=(P.mass*P.wheelRadius**2+P.wheelInertia)/ratio**2;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,Number.isFinite(+v)?+v:a)),wrap=(v,n)=>((v%n)+n)%n;
+  const radians=rpm=>rpm*Math.PI/30,rpm=omega=>omega*30/Math.PI;
+  function create(){return {driveMode:'fr',time:0,throttle:0,closed:false,engagement:0,engineOmega:radians(P.idle),wheelOmega:0,engineAngle:0,inputAngle:0,propellerAngle:0,wheelAngle:0,transmittedTorque:0,clutchHeat:0,engineClutchPower:0,wheelClutchPower:0,locked:false};}
+  // This switches between ideal rigs, not a real vehicle's drive selector.
+  // Equal ratios, inertia, grip and zero branch losses: no extra energy or torque.
+  function setDriveMode(s,mode){if(['ff','fr','4wd'].includes(mode))s.driveMode=mode;}
+  function setThrottle(s,v){s.throttle=clamp(v,0,1);}
+  function setClutch(s,on){s.closed=!!on;if(!s.closed){s.engagement=0;s.transmittedTorque=0;s.clutchHeat=0;s.engineClutchPower=0;s.wheelClutchPower=0;s.locked=false;}}
+  function telemetry(s){const inputOmega=s.wheelOmega*ratio,propellerOmega=s.wheelOmega*P.finalDrive,total=s.transmittedTorque*ratio,frontShare=s.driveMode==='ff'?1:s.driveMode==='4wd'?.5:0,frontTorque=total*frontShare,rearTorque=total-frontTorque;return {driveMode:s.driveMode||'fr',frontDriven:frontShare>0,rearDriven:frontShare<1,frontTorque,rearTorque,frontLeftTorque:frontTorque/2,frontRightTorque:frontTorque/2,rearLeftTorque:rearTorque/2,rearRightTorque:rearTorque/2,engineRpm:rpm(s.engineOmega),inputRpm:rpm(inputOmega),propellerRpm:rpm(propellerOmega),wheelRpm:rpm(s.wheelOmega),speed:s.wheelOmega*P.wheelRadius,torque:s.transmittedTorque,wheelTorque:total,leftTorque:total/2,rightTorque:total/2,powerDirection:!s.closed?'none':s.transmittedTorque>.05?'forward':s.transmittedTorque<-.05?'reverse':'none',inputOmega,propellerOmega};}
+  function step(s,dt){
+    if(!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,1/60);s.throttle=clamp(s.throttle,0,1);
+    const target=radians(P.idle+s.throttle*(P.maxRpm-P.idle));
+    // Net engine shaft torque from a stable demonstration speed governor.
+    const netEngine=clamp((target-s.engineOmega)*1.1,-28,18+125*s.throttle);
+    const engineFree=Math.max(0,s.engineOmega+netEngine/P.engineInertia*dt);
+    const speed=s.wheelOmega*P.wheelRadius,roadTorque=(.015*P.mass*9.81+.42*speed*speed)*P.wheelRadius;
+    const loadFree=Math.max(0,s.wheelOmega*ratio-roadTorque/ratio/loadInertia*dt);
+    s.engagement=s.closed?Math.min(1,s.engagement+dt/0.65):0;
+    const wanted=(engineFree-loadFree)/(1/P.engineInertia+1/loadInertia),limit=P.clutchCapacity*s.engagement*dt;
+    const impulse=s.closed?clamp(wanted,-limit,limit):0;
+    s.engineOmega=engineFree-impulse/P.engineInertia;const loadOmega=loadFree+impulse/loadInertia;s.wheelOmega=loadOmega/ratio;
+    s.transmittedTorque=impulse/dt;s.locked=s.closed&&Math.abs(s.engineOmega-loadOmega)<1e-6;
+    s.engineClutchPower=s.transmittedTorque*(engineFree+s.engineOmega)/2;s.wheelClutchPower=s.transmittedTorque*(loadFree+loadOmega)/2;
+    s.clutchHeat=Math.max(0,s.engineClutchPower-s.wheelClutchPower);
+    s.engineAngle=wrap(s.engineAngle+s.engineOmega*dt*P.displayRate,4*Math.PI);
+    s.inputAngle=wrap(s.inputAngle+loadOmega*dt*P.displayRate,2*Math.PI);
+    s.propellerAngle=wrap(s.propellerAngle+s.wheelOmega*P.finalDrive*dt*P.displayRate,2*Math.PI);
+    s.wheelAngle=wrap(s.wheelAngle+s.wheelOmega*dt*P.displayRate,2*Math.PI);s.time+=dt;
+  }
+  // TDC firing phases for cylinders 1,2,3,4: order 1 -> 3 -> 4 -> 2.
+  const FIRING_TDC=Object.freeze([0,540,180,360]);
+  function cylinders(angleDegrees){return FIRING_TDC.map((fire,i)=>{const cycle=wrap(angleDegrees-fire+360,720),t=cycle*Math.PI/180,r=40,L=140,x=r*Math.sin(t),y=-r*Math.cos(t),pin=y-Math.sqrt(L*L-x*x);return {number:i+1,cycle,phase:Math.floor(cycle/180),x,y,pin,travel:r+L+pin,ignition:cycle>=360&&cycle<370,power:cycle>360&&cycle<540?Math.sin((cycle-360)*Math.PI/180):0};});}
+  const API=Object.freeze({P,ratio,loadInertia,create,setThrottle,setClutch,setDriveMode,step,telemetry,cylinders,FIRING_TDC,clamp,wrap});
+  if(typeof module==='object'&&module.exports)module.exports=API;else root.DriveLab=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(function(root){
+  'use strict';
+  function create(canvas){
+    const ctx=canvas.getContext('2d',{alpha:false}),D=root.DriveLab;let transform={s:1,x:0,y:0},lastMode='fr';
+    const c={bg:'#1c2e29',metal:'#afc0b2',edge:'#718a71',dim:'#49644e',lime:'#d5f56b',reverse:'#8fd3df'};
+    function line(x1,y1,x2,y2,color,width=2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+    function rect(x,y,w,h,fill,stroke,r=8){ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}}
+    function circle(x,y,r,fill,stroke,width=2){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    function text(t,x,y,size=20,color='#b8cbae',align='center'){ctx.font='600 '+size+'px "Segoe UI","Yu Gothic UI",Meiryo,sans-serif';ctx.textAlign=align;ctx.fillStyle=color;ctx.fillText(t,x,y);}
+    function arrow(x1,y1,x2,y2,color,width=6){line(x1,y1,x2,y2,color,width);const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-12*Math.cos(a-.5),y2-12*Math.sin(a-.5));ctx.lineTo(x2-12*Math.cos(a+.5),y2-12*Math.sin(a+.5));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
+    function gear(x,y,r,teeth,angle){ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.beginPath();for(let i=0;i<teeth*4;i++){const t=i*Math.PI*2/(teeth*4),rr=i%4===1||i%4===2?r+2:r-1,xx=Math.cos(t)*rr,yy=Math.sin(t)*rr;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);}ctx.closePath();ctx.fillStyle='#55725b';ctx.fill();ctx.strokeStyle=c.metal;ctx.lineWidth=1.5;ctx.stroke();circle(0,0,r*.65,'#283f32',c.edge);line(0,0,r*.7,0,c.metal,3);circle(0,0,4,'#c8d7bd');ctx.restore();}
+    function oval(x,y,rx,ry,fill,stroke,width=1){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();}}
+    // Oblique tire: extruded rubber casing, tread on its circumference and a
+    // rotating six-spoke rim. Wheel rotation comes from the same road speed.
+    function wheel(x,y,angle,power){
+      ctx.save();ctx.translate(x,y);oval(7,43,56,12,'#0b171b55');
+      const rubber=ctx.createLinearGradient(-45,-45,45,45);rubber.addColorStop(0,'#4a5553');rubber.addColorStop(.32,'#212b2b');rubber.addColorStop(1,'#10191a');
+      for(let layer=0;layer<=8;layer++)oval(-8+layer*2,-12+layer*3,44,40,rubber,layer===0?'#64706b':null,1.5);
+      for(let i=0;i<20;i++){const a=angle+i*Math.PI/10,xx=44*Math.cos(a),yy=40*Math.sin(a);if(Math.sin(a)+Math.cos(a)<.25){line(xx-8,yy-12,xx,yy-3,'#718079',3);line(xx,yy-3,xx+8,yy+12,'#374640',3);}}
+      const wall=ctx.createRadialGradient(0,-3,8,8,12,47);wall.addColorStop(0,'#384342');wall.addColorStop(.65,'#202a2a');wall.addColorStop(1,'#0e181a');
+      oval(8,12,44,40,wall,'#839187',2);oval(8,12,36,33,null,'#47574e',1.5);
+      const alloy=ctx.createLinearGradient(-18,-16,38,39);alloy.addColorStop(0,'#e0e7de');alloy.addColorStop(.5,'#8d9f99');alloy.addColorStop(1,'#cbd6cb');
+      oval(8,12,28,26,alloy,'#d2dfd0',1.5);oval(8,12,23,21,'#26363a','#6e817c',2);
+      ctx.save();ctx.translate(8,12);ctx.scale(1,26/28);ctx.rotate(angle);circle(0,0,20,'#52635e','#75887c');
+      for(let i=0;i<12;i++){const a=i*Math.PI/6;circle(16*Math.cos(a),16*Math.sin(a),1.2,'#273a34');}
+      for(let i=0;i<6;i++){ctx.save();ctx.rotate(i*Math.PI/3);ctx.beginPath();ctx.moveTo(4,-5);ctx.lineTo(24,-4);ctx.lineTo(25,2);ctx.lineTo(4,4);ctx.closePath();ctx.fillStyle=alloy;ctx.fill();ctx.strokeStyle='#d2dfce';ctx.lineWidth=1;ctx.stroke();ctx.restore();}
+      circle(0,0,8,'#a4b7aa','#e0ebd6',1.5);for(let i=0;i<5;i++){const a=i*Math.PI*2/5;circle(5*Math.cos(a),5*Math.sin(a),1,'#314d3b');}ctx.restore();
+      if(power)oval(8,12,49,45,null,power,3);ctx.restore();
+    }
+    function route(points,color,width=6){ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();}
+    function movingPower(points,s,color,reverse){const lengths=points.slice(1).map((p,i)=>Math.hypot(p[0]-points[i][0],p[1]-points[i][1])),total=lengths.reduce((a,b)=>a+b,0);for(let i=0;i<9;i++){let u=D.wrap(s.time*.24+i/9,1);if(reverse)u=1-u;let distance=u*total;for(let j=0;j<lengths.length;j++){if(distance<=lengths[j]){const f=distance/lengths[j];circle(points[j][0]+(points[j+1][0]-points[j][0])*f,points[j][1]+(points[j+1][1]-points[j][1])*f,5,color);break;}distance-=lengths[j];}}}
+    function diff(x,label,angle,front){rect(x-46,183,92,104,'#2e4837','#94aa81',22);gear(x,235,33,32,angle);ctx.beginPath();ctx.moveTo(x+(front?62:-62),223);ctx.lineTo(x+(front?29:-29),235);ctx.lineTo(x+(front?62:-62),247);ctx.closePath();ctx.fillStyle='#9eb38b';ctx.fill();text(label,x,315,22);}
+    function disc(x,angle,color){ctx.beginPath();ctx.ellipse(x,235,11,52,0,0,Math.PI*2);ctx.fillStyle='#344f3d';ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=3;ctx.stroke();for(let i=0;i<3;i++){const a=angle+i*Math.PI*2/3;line(x,235,x+Math.sin(a)*8,235+Math.cos(a)*46,color,3);}}
+    const hits={engine:[108,92,305,130],crank:[108,222,315,82],clutch:[430,173,83,128],transmission:[518,172,164,160],propeller:[690,204,320,64],differential:[1007,179,105,114],wheels:[1030,24,120,440],transfer:[699,183,83,110]};
+    function draw(s,selected=''){
+      const box=canvas.getBoundingClientRect(),w=Math.max(1,box.width),h=Math.max(1,box.height),dpr=Math.min(root.devicePixelRatio||1,1.5);
+      if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=c.bg;ctx.fillRect(0,0,w,h);
+      const k=Math.min(w/1200,h/480),tx=(w-1200*k)/2,ty=(h-480*k)/2;transform={s:k,x:tx,y:ty};ctx.translate(tx,ty);ctx.scale(k,k);ctx.lineCap='round';ctx.lineJoin='round';
+      for(let x=0;x<=1200;x+=40)line(x,0,x,480,'#89aa8909',1);for(let y=0;y<=480;y+=40)line(0,y,1200,y,'#89aa8909',1);
+      const t=D.telemetry(s),forward=t.powerDirection==='forward',reverse=t.powerDirection==='reverse',active=forward||reverse,power=reverse?c.reverse:c.lime,ff=t.driveMode==='ff',awd=t.driveMode==='4wd';lastMode=t.driveMode;
+      rect(52,71,1090,332,null,'#47654c',42);text('前',66,22,24,'#c4d6b1');text('後ろ',1120,22,24,'#c4d6b1');
+      text(awd?'4WD：4つのタイヤを回す':ff?'FF：前の2輪を回す':'FR：後ろの2輪を回す',925,470,24,'#c4dbaf');
+      text('部品を広げた模式図',850,40,17,'#8ba47b');
+      // A subtle body outline gives the four oblique wheels a vehicle context.
+      line(55,164,40,164,'#59795a',3);line(40,164,40,310,'#59795a',3);line(40,310,55,310,'#59795a',3);
+      rect(755,97,260,274,null,'#4b695144',30);line(775,125,980,125,'#55735455',2);line(775,344,980,344,'#55735455',2);
+      const frontColor=active&&t.frontDriven?power:null,rearColor=active&&t.rearDriven?power:null;
+      line(60,85,60,395,frontColor||'#536e55',8);line(1062,85,1062,395,rearColor||'#536e55',8);
+      const frontRoute=awd?[[741,235],[741,415],[60,415],[60,235]]:[[666,235],[666,415],[60,415],[60,235]];
+      if(t.frontDriven){route(frontRoute,active?power:'#536e55',7);text(awd?'前へのシャフト（経路）':'変速機から前輪側のデフへ',365,453,20,'#a6bf96');}
+      // Driveline parts can keep rotating with no engine power after release.
+      line(150,235,442,235,c.lime,10);line(495,235,ff?666:1040,235,active?power:'#527259',10);
+      rect(115,90,288,211,'#294333bb','#6d8a6a',12);
+      const cylinders=D.cylinders(s.engineAngle*180/Math.PI);
+      for(const p of cylinders){const x=155+(p.number-1)*65,px=x+p.x*.5,py=235+p.y*.5,pin=235+p.pin*.5,crown=pin-13;
+        rect(x-23,109,46,91,'#1a2f25','#7d967b',3);rect(x-18,112,36,Math.max(0,crown-112),p.phase===2?'#e4a16788':p.phase===1?'#b1a0d15c':p.phase===0?'#76c8c35c':'#c4a18460',null,1);
+        line(px,py,x,pin,'#66816b',10);line(px,py,x,pin,'#c0cfbd',5);line(x,235,px,py,'#8ba282',12);circle(px,py,7,'#afc2a4','#e0e9d6');circle(x,235,8,'#2f4a35','#c1d6b3');
+        rect(x-19,crown,38,28,'#b7c9bd','#e0e9dc',3);line(x-18,crown+6,x+18,crown+6,'#496950',2);line(x-18,crown+11,x+18,crown+11,'#496950',2);
+        if(p.power>.1)arrow(x,116,x,Math.max(120,crown-4),'#f8bb7d',4);if(p.ignition){circle(x,111,12,'#ffe4a15c','#ffe4a1');line(x-6,108,x+5,116,'#ffe4a1',3);}text(p.number,x,75,25,p.phase===2?'#ffc487':'#b7cfa8');
+      }
+      line(150,235,423,235,'#c2d3ac',5);text('4つのピストン',260,38,25);text('1本のクランクシャフト',265,337,24,c.lime);text('エンジン断面の模式図',264,365,17,'#7e9b75');
+      const plate=s.closed?469:490;disc(445,s.engineAngle,c.lime);disc(plate,s.inputAngle,active?power:'#8aa07b');if(!s.closed){line(457,185,477,285,'#d6a27b',3);text('切れている',470,326,22,'#e0b28c');}else text(s.locked?'つながっている':'つなぎ始め',470,326,22,active?power:'#b7cda2');text('クラッチ',470,366,24);
+      rect(522,178,164,144,'#2b4637','#8ba181',15);line(531,235,574,235,'#95af89',7);line(620,235,678,235,'#95af89',7);line(537,283,661,283,'#76966b',7);
+      gear(550,235,16,16,s.inputAngle);gear(550,283,32,32,-s.inputAngle*.5);gear(644,283,120/7,20,-s.inputAngle*.5);gear(644,235,216/7,36,s.propellerAngle);text('変速機',602,366,24);text('1速に固定',602,392,18,'#879e7a');
+      if(t.frontDriven)diff(60,'前のデフ',s.wheelAngle,true);
+      if(!ff){const start=awd?791:697;rect(start,224,988-start,22,'#688268','#afc19f',5);for(let i=0;i<5;i++){const x=start+13+i*(968-start)/5;line(x,226+Math.sin(s.propellerAngle+i*.7)*7,x+20,244-Math.sin(s.propellerAngle+i*.7)*7,'#d4e0c2',3);}circle(start+7,235,17,'#2f4b36','#b1c799');circle(986,235,17,'#2f4b36','#b1c799');text('プロペラシャフト',863,366,24);diff(1062,'後ろのデフ',s.wheelAngle,false);}
+      else{text('後ろへ送るシャフトはない',866,245,22,'#829c78');}
+      if(awd){rect(701,192,80,86,'#38533c','#bfd293',15);gear(741,235,24,24,s.propellerAngle);text('前後に分ける',742,311,21,c.lime);}
+      if(active){
+        movingPower([[500,235],[ff?666:1020,235]],s,power,reverse);
+        if(t.frontDriven){movingPower(frontRoute,s,power,reverse);arrow(60,reverse?153:190,60,reverse?190:153,power);arrow(60,reverse?327:290,60,reverse?290:327,power);}
+        if(t.rearDriven){arrow(820,235,reverse?795:880,235,power);arrow(1062,reverse?153:190,1062,reverse?190:153,power);arrow(1062,reverse?327:290,1062,reverse?290:327,power);}
+      }else if(!s.closed){for(let i=0;i<4;i++){const u=D.wrap(s.time*.35+i/4,1);circle(130+u*305,235,5,c.lime);}}
+      wheel(60,85,s.wheelAngle,frontColor);wheel(60,395,s.wheelAngle,frontColor);wheel(1062,85,s.wheelAngle,rearColor);wheel(1062,395,s.wheelAngle,rearColor);
+      if(!t.frontDriven)text('前輪は転がる',160,470,20,'#92ad85');
+      if(selected&&hits[selected]){ctx.setLineDash([7,5]);const boxes=selected==='wheels'?(ff?[[8,24,120,440]]:awd?[[8,24,120,440],hits.wheels]:[hits.wheels]):selected==='differential'?(ff?[[12,179,96,114]]:awd?[[12,179,96,114],hits.differential]:[hits.differential]):selected==='propeller'&&ff?[]:[hits[selected]];for(const [x,y,ww,hh]of boxes)rect(x-7,y-7,ww+14,hh+14,null,'#f3e7a8',10);ctx.setLineDash([]);}
+    }
+    function hitTest(clientX,clientY){const b=canvas.getBoundingClientRect(),x=(clientX-b.left-transform.x)/transform.s,y=(clientY-b.top-transform.y)/transform.s;
+      if(x>=8&&x<=124&&(y>=24&&y<=145||y>=337&&y<=459))return 'wheels';
+      if(lastMode!=='fr'&&x>=12&&x<=108&&y>=179&&y<=293)return 'differential';
+      for(const key of ['clutch','transmission','transfer','propeller','differential','wheels','crank','engine']){if(key==='transfer'&&lastMode!=='4wd'||(key==='propeller'||key==='differential')&&lastMode==='ff')continue;const [xx,yy,w,h]=hits[key];if(x>=xx&&x<=xx+w&&y>=yy&&y<=yy+h)return key;}return null;}
+    return {draw,hitTest};
+  }
+  root.DriveView=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+/* Offline Web Audio effects. No recordings, downloads or network access.
+   Starts silent. Only an explicit user gesture enables sound. */
+(function(root){
+  'use strict';
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,Number.isFinite(+x)?+x:a));
+  function create(options={}){
+    let ctx=null,master=null,motorGain=null,motors=[],enabled=false,volume=.3,generation=0;
+    let exhaustFilter=null,intakeGain=null,noiseSource=null;
+    let lastDrive=[900,0,false,{}],lastEffect=-Infinity,voices=new Set();
+    const button=options.button,slider=options.volume;
+    function update(){if(button){button.textContent=enabled?'♪ 音 ON':'♪ 音 OFF';button.setAttribute('aria-pressed',String(enabled));button.setAttribute('aria-label',enabled?'効果音をOFFにする':'効果音をONにする');}if(slider)slider.value=String(Math.round(volume*100));}
+    function ensure(){if(ctx)return;const C=root.AudioContext||root.webkitAudioContext;if(!C)throw Error('音を使えないブラウザです。音なしで遊べます。');ctx=new C();master=ctx.createGain();master.gain.value=volume;master.connect(ctx.destination);}
+    function stopEffects(){for(const v of voices){try{v.stop();}catch{}try{v.disconnect();}catch{}}voices.clear();}
+    function quiet(){if(ctx&&motorGain){motorGain.gain.cancelScheduledValues(ctx.currentTime);motorGain.gain.setValueAtTime(0,ctx.currentTime);}stopEffects();if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});}
+    async function setEnabled(value){const request=++generation;if(!value){enabled=false;quiet();if(master)master.gain.setValueAtTime(0,ctx.currentTime);if(ctx&&ctx.state==='running')ctx.suspend().catch(()=>{});update();return false;}
+      try{ensure();await ctx.resume();if(request!==generation)return enabled;enabled=true;master.gain.setValueAtTime(volume,ctx.currentTime);update();drive(...lastDrive);effect('tap');return true;}
+      catch(e){enabled=false;quiet();update();if(options.onError)options.onError(e.message||'音を再生できません。音なしでも遊べます。');return false;}}
+    function setVolume(value){volume=clamp(value,0,1);if(master)master.gain.setTargetAtTime(enabled?volume:0,ctx.currentTime,.02);update();}
+    function tone(freq,duration,gain,offset=0,type='sine'){
+      if(!enabled||!ctx)return;const start=ctx.currentTime+offset,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(gain,start+.004);g.gain.exponentialRampToValueAtTime(.0001,start+duration);o.connect(g);g.connect(master);voices.add(o);o.onended=()=>{voices.delete(o);o.disconnect();g.disconnect();};o.start(start);o.stop(start+duration+.01);
+    }
+    function effect(name){if(!enabled||!ctx)return;if(ctx.state==='suspended')ctx.resume().catch(()=>{});const time=ctx.currentTime;if(name==='tap'&&time-lastEffect<.04)return;lastEffect=time;
+      if(name==='gear'){tone(160,.07,.07,0,'triangle');tone(85,.05,.035,.025,'sine');}
+      else if(name==='spark'){tone(1600,.025,.045,0,'triangle');tone(85,.13,.07,.01,'sine');}
+      else if(name==='sparkOnly'){tone(1600,.025,.045,0,'triangle');}
+      else if(name==='perfect'){tone(1500,.025,.035,0,'triangle');tone(85,.12,.06,.01);tone(988,.09,.035,.045);}
+      else if(/^combo[1-6]$/.test(name)){const notes=[330,392,440,494,587,659],index=+name.slice(-1)-1;tone(notes[index],.1,.04,0,'triangle');if(index>=3)tone(notes[index]*1.5,.11,.025,.035);}
+      else if(name==='valve'){tone(410,.035,.035,0,'triangle');}
+      else if(name==='win'){[392,494,587].forEach((n,i)=>tone(n,.19,.065,i*.12));}
+      else if(name==='discover'){tone(523,.12,.055);tone(659,.17,.055,.09);}
+      else if(name==='retry'){tone(240,.09,.035);}
+      else tone(620,.045,.04);
+    }
+    function drive(rpm,throttle,active,conditions={}){
+      lastDrive=[rpm,throttle,active,conditions];if(!enabled||!ctx)return;
+      if(!active){if(motorGain)motorGain.gain.setTargetAtTime(0,ctx.currentTime,.035);return;}
+      if(!motorGain){
+        motorGain=ctx.createGain();motorGain.gain.value=0;motorGain.connect(master);
+        exhaustFilter=ctx.createBiquadFilter();exhaustFilter.type='lowpass';exhaustFilter.frequency.value=700;if(exhaustFilter.Q)exhaustFilter.Q.value=.65;exhaustFilter.connect(motorGain);
+        let wave=null;
+        if(ctx.createPeriodicWave){const real=new Float32Array(49),imag=new Float32Array(49);for(let n=1;n<49;n++){const pulse=Math.sin(Math.PI*n*.15)/(Math.PI*n*.15);real[n]=pulse*Math.exp(-n/18);imag[n]=real[n]*.12;}wave=ctx.createPeriodicWave(real,imag);}
+        motors=[1,2].map(h=>{const o=ctx.createOscillator(),g=ctx.createGain();if(wave&&o.setPeriodicWave)o.setPeriodicWave(wave);else o.type='sawtooth';g.gain.value=h===1?.62:.10;o.connect(g);g.connect(exhaustFilter);o.start();return o;});
+        if(ctx.createBuffer&&ctx.createBufferSource){
+          const buffer=ctx.createBuffer(1,Math.round(ctx.sampleRate*2),ctx.sampleRate),data=buffer.getChannelData(0);let seed=71237;
+          for(let i=0;i<data.length;i++){seed=(1664525*seed+1013904223)>>>0;data[i]=(seed/4294967296*2-1);}
+          noiseSource=ctx.createBufferSource();noiseSource.buffer=buffer;noiseSource.loop=true;const band=ctx.createBiquadFilter();band.type='bandpass';band.frequency.value=1300;if(band.Q)band.Q.value=.6;intakeGain=ctx.createGain();intakeGain.gain.value=0;noiseSource.connect(band);band.connect(intakeGain);intakeGain.connect(motorGain);noiseSource.start();
+        }
+      }
+      if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+      // Four cylinders, one combustion per cylinder per two crank turns:
+      // 2 firing pulses per revolution = rpm / 30 Hz. Pitch follows rpm only.
+      const firing=clamp(rpm,700,7000)/30,gas=clamp(throttle,0,1),load=clamp(conditions.load??gas,0,1),cut=conditions.shifting?.32:1;
+      motors.forEach((o,i)=>o.frequency.setTargetAtTime(firing*(i+1),ctx.currentTime,conditions.shifting?.035:.065));
+      exhaustFilter.frequency.setTargetAtTime(430+gas*1800+load*1100,ctx.currentTime,.08);
+      motorGain.gain.setTargetAtTime((.055+.10*gas+.055*load)*cut,ctx.currentTime,.045);
+      if(intakeGain)intakeGain.gain.setTargetAtTime(.005+gas*.045+load*.025,ctx.currentTime,.07);
+    }
+    if(button)button.addEventListener('click',()=>setEnabled(!enabled));
+    if(slider)slider.addEventListener('input',()=>setVolume(+slider.value/100));
+    if(options.testButton)options.testButton.addEventListener('click',()=>{if(enabled)effect('gear');else setEnabled(true).then(on=>{if(on)effect('gear');});});
+    update();return Object.freeze({setEnabled,setVolume,effect,drive,quiet,isEnabled:()=>enabled,getVolume:()=>volume});
+  }
+  root.CarLabAudio=Object.freeze({create});
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const D=DriveLab,$=id=>document.getElementById(id),state=D.create(),canvas=$('driveLabCanvas'),view=DriveView.create(canvas);
+  const parts={
+    engine:['直列4気筒エンジン','燃やしたガスの力で、4つのピストンを動かす。'],
+    crank:['クランクシャフト','ピストンの上下の動きを、ひとつの回転にまとめる。'],
+    clutch:['クラッチ','エンジンと変速機の間で、力をつなぐ・切る。'],
+    transmission:['変速機','回る速さと回す力の組み合わせを変える。'],
+    propeller:['プロペラシャフト','車の前から後ろへ、回す力を運ぶ。'],
+    differential:['デファレンシャル（デフ）','力を左右へ分け、曲がるときの回転差を許す。'],
+    wheels:['駆動輪','エンジンの力で路面を押し、車を前へ進める。'],
+    transfer:['センターデフ（前後に分ける）','変速機から来た力を、前と後ろへ分ける。']
+  };
+  const partButtons=[...document.querySelectorAll('[data-drive-part]')],modeButtons=[...document.querySelectorAll('[data-drive-mode]')].filter(b=>b.tagName==='BUTTON');
+  const modeNames={ff:['FF','前の2輪','前のタイヤ'],fr:['FR','後ろの2輪','後ろのタイヤ'],'4wd':['4WD','4つのタイヤ','4つのタイヤ']};
+  let playing=true,selected='',pointer=null,raf=false,last=0,accumulator=0,lastPaint=-Infinity;
+  const sound=CarLabAudio.create({button:$('soundButton'),volume:$('volumeInput'),testButton:$('testSoundButton'),onError:message=>{$('motionStatus').textContent=message;}});
+  function schedule(){if(!raf){raf=true;requestAnimationFrame(frame);}}
+  function update(){
+    const t=D.telemetry(state),moving=t.speed>.03,slipping=state.closed&&!state.locked;
+    const [modeName,whichWheels,destination]=modeNames[t.driveMode];
+    $('driveShell').dataset.layoutMode=t.driveMode;modeButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.driveMode===t.driveMode)));
+    partButtons.find(b=>b.dataset.drivePart==='transfer').hidden=t.driveMode!=='4wd';
+    $('driveRpm').textContent=String(Math.round(t.engineRpm));$('driveThrottleValue').textContent=Math.round(state.throttle*100)+'%';
+    $('drivePlayButton').textContent=playing?'Ⅱ とめる':'▶ 動かす';$('drivePlayButton').setAttribute('aria-pressed',String(playing));
+    $('motionStatus').textContent=playing?'回転をゆっくり表示中':'一時停止中';
+    $('driveClutchButton').setAttribute('aria-pressed',String(state.closed));$('clutchState').textContent=state.closed?(slipping?'少しずつつないでいる':'つながっている'):'切れている';$('clutchAction').textContent=state.closed?'クラッチを切る':'クラッチをつなぐ';
+    $('powerState').dataset.direction=t.powerDirection;
+    let phenomenon,why;
+    if(!state.closed){
+      $('powerState').textContent='タイヤへ力は届いていない';
+      phenomenon=moving?'力は届かない。タイヤは勢いで回っている。':'エンジンだけ回り、タイヤは止まっている。';
+      why=moving?'クラッチが離れて力は切れた。タイヤはすぐには止まらない。':'クラッチが離れているため、力はそこで途切れる。';
+    }else if(t.powerDirection==='reverse'){
+      $('powerState').textContent='青：タイヤからエンジンへ';phenomenon='タイヤの勢いが、エンジンへ戻っている。';why='アクセルを戻すと、エンジンの抵抗で減速する。これがエンジンブレーキ。';
+    }else if(slipping){
+      $('powerState').textContent=modeName+'：少しずつ、'+whichWheels+'へ';phenomenon='半クラッチで、力を少しずつつないでいる。';why='回る速さがちがう2枚の板を、すべらせながら合わせる。';
+    }else{
+      $('powerState').textContent=modeName+'：'+whichWheels+'へ力を送る';phenomenon='光の経路が、'+destination+'までつながった。';why=t.driveMode==='ff'?'クラッチ → 変速機 → 前のデフが、前輪へ力をつなぐ。':t.driveMode==='4wd'?'センターデフが前後へ分け、2つのデフが左右へ分ける。':'クランク → クラッチ → 変速機 → シャフト → デフが、力をつなぐ。';
+    }
+    $('drivePhenomenon').textContent=phenomenon;$('driveWhy').textContent=why;
+    canvas.setAttribute('aria-label',modeName+'。'+whichWheels+'が駆動輪。'+phenomenon+' '+why);
+    sound.drive(t.engineRpm,state.throttle,playing,{load:Math.min(1,Math.abs(t.torque)/D.P.clutchCapacity),clutch:state.closed});
+  }
+  function paint(){view.draw(state,selected);update();}
+  function frame(t){raf=false;const dt=last?Math.min(.1,Math.max(0,(t-last)/1000)):0;last=t;
+    if(playing){accumulator+=dt;while(accumulator>=1/120){D.step(state,1/120);accumulator-=1/120;}}
+    if(t-lastPaint>=1000/30||!playing){paint();lastPaint=t;}if(playing)schedule();
+  }
+  function pause(){playing=false;last=0;accumulator=0;sound.quiet();paint();schedule();}
+  function partExplanation(key){
+    if(key==='wheels')return ['駆動輪（'+modeNames[state.driveMode][1]+'）',state.driveMode==='4wd'?'4つのタイヤに力を分け、路面を押して進む。':state.driveMode==='ff'?'前のタイヤが路面を押し、後ろのタイヤは車といっしょに転がる。':'後ろのタイヤが路面を押し、前のタイヤは車といっしょに転がる。'];
+    if(key==='propeller'&&state.driveMode==='ff')return ['FFでは長いプロペラシャフトは使わない','このFFモデルは、変速機から前輪側のデフへ力を伝える。'];
+    if(key==='propeller'&&state.driveMode==='4wd')return ['前後へのプロペラシャフト','センターデフから、前後のデフへ回す力を運ぶ。'];
+    if(key==='differential'&&state.driveMode==='4wd')return ['前と後ろのデフ','前後それぞれで、タイヤを回す力を左右へ分ける。'];
+    return parts[key];
+  }
+  function showPart(key){if(!parts[key])return;selected=key;const [name,role]=partExplanation(key);$('partName').textContent=name;$('partRole').textContent=role;$('partCard').hidden=false;partButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.drivePart===key)));sound.effect('tap');paint();schedule();}
+  $('drivePlayButton').addEventListener('click',()=>{if(playing){pause();return;}playing=true;last=0;update();schedule();});
+  $('driveThrottle').addEventListener('input',()=>{D.setThrottle(state,+$('driveThrottle').value/100);update();schedule();});
+  $('driveClutchButton').addEventListener('click',()=>{D.setClutch(state,!state.closed);sound.effect('gear');paint();schedule();});
+  modeButtons.forEach(b=>b.addEventListener('click',()=>{D.setDriveMode(state,b.dataset.driveMode);if(selected==='transfer'&&state.driveMode!=='4wd')$('closePartCard').click();else if(selected)showPart(selected);else sound.effect('tap');paint();schedule();}));
+  partButtons.forEach(b=>{b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>showPart(b.dataset.drivePart));});
+  $('closePartCard').addEventListener('click',()=>{selected='';$('partCard').hidden=true;partButtons.forEach(b=>b.setAttribute('aria-pressed','false'));paint();schedule();});
+  canvas.addEventListener('pointerdown',e=>{pointer={id:e.pointerId,x:e.clientX,y:e.clientY};});
+  canvas.addEventListener('pointerup',e=>{if(!pointer||pointer.id!==e.pointerId)return;const p=pointer;pointer=null;if(Math.hypot(e.clientX-p.x,e.clientY-p.y)>10)return;showPart(view.hitTest(e.clientX,e.clientY));});
+  canvas.addEventListener('pointercancel',()=>{pointer=null;});
+  $('helpButton').addEventListener('click',()=>{pause();if(!$('driveHelp').open)$('driveHelp').showModal();});$('closeDriveHelp').addEventListener('click',()=>$('driveHelp').close());
+  window.addEventListener('blur',pause);window.addEventListener('pagehide',pause);document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});window.addEventListener('resize',()=>{paint();schedule();});if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{paint();schedule();}).observe(canvas);
+  document.addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.altKey||e.metaKey||$('driveHelp').open||['INPUT','SELECT','BUTTON','A','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('drivePlayButton').click();}else if(e.code==='KeyC'){e.preventDefault();$('driveClutchButton').click();}});
+  paint();schedule();
+})();
+
+</script>
+</body></html>
